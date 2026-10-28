@@ -1506,17 +1506,64 @@ img {
 }
 
 /* ===== Crystal Page Extras ===== */
-.crystal-other-names {
-  font-size: var(--text-sm);
+.crystal-subtitle {
+  font-size: var(--text-lg);
   color: var(--color-text-muted);
   font-style: italic;
   margin: var(--space-1) 0 var(--space-3);
+  font-weight: 400;
 }
 
-.crystal-category {
+.crystal-breadcrumb-spacer {
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-8);
+}
+
+/* Info grid (Chakre, Zodii, Planete, Elemente) */
+.crystal-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-6);
+}
+
+.crystal-info-block dt {
   font-size: var(--text-xs);
-  color: var(--color-text-muted);
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.crystal-info-block dd {
+  margin: 0;
+}
+
+/* No title section */
+.crystal-section-no-title {
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Affirmation section */
+.crystal-affirmation-section {
+  background: linear-gradient(135deg, rgba(61,155,145,0.06) 0%, rgba(219,161,155,0.06) 100%);
+  border: 1px solid rgba(61,155,145,0.15);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+}
+
+.crystal-affirmation-section .crystal-affirmation-text {
+  font-size: var(--text-lg);
+}
+
+/* Prose for history */
+.crystal-prose {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+.crystal-prose p {
   margin-bottom: var(--space-3);
 }

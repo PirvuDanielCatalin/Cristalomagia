@@ -2,7 +2,6 @@
 // src/pages/cristale/[slug].astro - Crystal detail page
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import CrystalTabs from '../../components/crystal/CrystalTabs.astro';
 
 export async function getStaticPaths() {
   const crystals = await getCollection('crystals');
@@ -30,15 +29,6 @@ const ogImage = data.image || '/images/og-default.jpg';
 <BaseLayout title={pageTitle} description={pageDescription} canonical={canonical} ogImage={ogImage}>
   <div class="crystal-page">
     <div class="container">
-      <!-- Breadcrumb -->
-      <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Acasă</a>
-        <span class="sep" aria-hidden="true">/</span>
-        <a href="/cristale">Cristale</a>
-        <span class="sep" aria-hidden="true">/</span>
-        <span aria-current="page">{data.name}</span>
-      </nav>
-
       <!-- Navigation Arrows -->
       <div class="crystal-nav">
         {prevCrystal ? (
@@ -54,6 +44,15 @@ const ogImage = data.image || '/images/og-default.jpg';
           </a>
         ) : <span />}
       </div>
+
+      <!-- Breadcrumb (spaced below arrows) -->
+      <nav class="breadcrumb crystal-breadcrumb-spacer" aria-label="Breadcrumb">
+        <a href="/">Acasă</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <a href="/cristale">Cristale</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <span aria-current="page">{data.name}</span>
+      </nav>
 
       <!-- Main layout: 1/3 image left, 2/3 text right -->
       <div class="crystal-main">
@@ -74,44 +73,19 @@ const ogImage = data.image || '/images/og-default.jpg';
 
         <!-- Right: Content panel -->
         <div class="crystal-text-panel">
+          <!-- 1. Title -->
           <h1 class="crystal-title">{data.name}</h1>
+
+          <!-- 2. Other names (subtitle, slightly larger) -->
           {data.otherNames && data.otherNames.length > 0 && (
-            <p class="crystal-other-names">{data.otherNames.join(' / ')}</p>
+            <p class="crystal-subtitle">{data.otherNames.join(' / ')}</p>
           )}
-          {data.category && data.category.length > 0 && (
-            <p class="crystal-category">{data.category.join(' · ')}</p>
-          )}
+
+          <!-- 3. Description (smaller text) -->
           <p class="crystal-description">{data.description}</p>
 
           <div class="crystal-sections">
-            {/* Date astrologice */}
-            {(data.zodiac?.length || data.element?.length || data.planet) && (
-              <section class="crystal-section">
-                <h2 class="crystal-section-title">Date astrologice</h2>
-                <dl class="crystal-dl">
-                  {data.zodiac && data.zodiac.length > 0 && (
-                    <div class="crystal-dl-item">
-                      <dt>Zodiac</dt>
-                      <dd>{data.zodiac.join(', ')}</dd>
-                    </div>
-                  )}
-                  {data.element && data.element.length > 0 && (
-                    <div class="crystal-dl-item">
-                      <dt>Element</dt>
-                      <dd>{data.element.join(', ')}</dd>
-                    </div>
-                  )}
-                  {data.planet && (
-                    <div class="crystal-dl-item">
-                      <dt>Planetă</dt>
-                      <dd>{data.planet}</dd>
-                    </div>
-                  )}
-                </dl>
-              </section>
-            )}
-
-            {/* Proprietăți energetice */}
+            {/* 4. Proprietăți energetice */}
             {data.properties && data.properties.length > 0 && (
               <section class="crystal-section">
                 <h2 class="crystal-section-title">Proprietăți energetice</h2>
@@ -123,27 +97,95 @@ const ogImage = data.image || '/images/og-default.jpg';
               </section>
             )}
 
-            {/* Chakre asociate */}
-            {data.chakras && data.chakras.length > 0 && (
-              <section class="crystal-section">
-                <h2 class="crystal-section-title">Chakre asociate</h2>
-                <div class="crystal-tags">
-                  {data.chakras.map(ch => (
-                    <span key={ch} class="crystal-tag">{ch}</span>
-                  ))}
+            {/* 5. Chakre, Zodii, Planete, Elemente — fără titlu secțiune */}
+            {(data.chakras?.length || data.zodiac?.length || data.planet || data.element?.length) && (
+              <section class="crystal-section crystal-section-no-title">
+                <div class="crystal-info-grid">
+                  {data.chakras && data.chakras.length > 0 && (
+                    <div class="crystal-info-block">
+                      <dt>Chakre</dt>
+                      <dd>
+                        <div class="crystal-tags">
+                          {data.chakras.map(ch => (
+                            <span key={ch} class="crystal-tag">{ch}</span>
+                          ))}
+                        </div>
+                      </dd>
+                    </div>
+                  )}
+                  {data.zodiac && data.zodiac.length > 0 && (
+                    <div class="crystal-info-block">
+                      <dt>Zodii</dt>
+                      <dd>
+                        <div class="crystal-tags">
+                          {data.zodiac.map(z => (
+                            <span key={z} class="crystal-tag">{z}</span>
+                          ))}
+                        </div>
+                      </dd>
+                    </div>
+                  )}
+                  {data.planet && (
+                    <div class="crystal-info-block">
+                      <dt>Planetă</dt>
+                      <dd>{data.planet}</dd>
+                    </div>
+                  )}
+                  {data.element && data.element.length > 0 && (
+                    <div class="crystal-info-block">
+                      <dt>Elemente</dt>
+                      <dd>
+                        <div class="crystal-tags">
+                          {data.element.map(e => (
+                            <span key={e} class="crystal-tag">{e}</span>
+                          ))}
+                        </div>
+                      </dd>
+                    </div>
+                  )}
                 </div>
               </section>
             )}
 
-            {/* Afișare cheie */}
+            {/* 6. Afirmatie cheie — O SINGURĂ DATĂ */}
             {data.affirmation && (
-              <section class="crystal-section">
-                <h2 class="crystal-section-title">O afirmație cheie</h2>
+              <section class="crystal-section crystal-affirmation-section">
+                <h2 class="crystal-section-title">Afirmație cheie</h2>
                 <blockquote class="crystal-affirmation-text">"{data.affirmation}"</blockquote>
               </section>
             )}
 
-            {/* Proprietăți fizice */}
+            {/* 7. Istoric */}
+            {data.history && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Istoric</h2>
+                <div class="crystal-prose">{data.history}</div>
+              </section>
+            )}
+
+            {/* 8. Utilizari — stil bullet points verde ca Proprietăți energetice */}
+            {data.uses && data.uses.length > 0 && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Utilizări</h2>
+                <ul class="crystal-list">
+                  {data.uses.map(u => (
+                    <li key={u}>{u}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {/* 9. Îngrijire — stil bullet points verde ca Proprietăți energetice */}
+            {data.care && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Îngrijire</h2>
+                <ul class="crystal-list">
+                  <li>{data.care}</li>
+                </ul>
+              </section>
+            )}
+
+            {/* 10. Proprietăți fizice — rămâne ca acum */}
             <section class="crystal-section crystal-physical">
               <h2 class="crystal-section-title">Proprietăți fizice</h2>
               <dl class="crystal-dl">
@@ -185,10 +227,19 @@ const ogImage = data.image || '/images/og-default.jpg';
                 )}
               </dl>
             </section>
-          </div>
 
-          {/* Tabs: Istorie, Vindecare, Folosinte, Ingrijire, Combinatii */}
-          <CrystalTabs crystal={crystal} />
+            {/* Combinații — sub proprietăți fizice */}
+            {data.combinations && data.combinations.length > 0 && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Combinații recomandate</h2>
+                <ul class="crystal-list">
+                  {data.combinations.map(c => (
+                    <li key={c}>{c}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
+          </div>
         </div>
       </div>
     </div>
