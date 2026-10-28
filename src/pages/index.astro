@@ -1,15 +1,30 @@
 ---
 // index.astro - Homepage
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/home/Hero.astro';
-import FeaturedCrystals from '../components/home/FeaturedCrystals.astro';
-import CategoriesSection from '../components/home/CategoriesSection.astro';
-import IntroSection from '../components/home/IntroSection.astro';
 ---
 
-<BaseLayout title="Crystalica — Enciclopedia ta personală de cristale" description="Descoperă 52 de cristale unice cu descrieri detaliate: proprietăți energetice, istorie, chakre, zodiac, elemente, folosințe practice și combinații. Natural/Organic design.">
-  <Hero />
-  <IntroSection />
-  <FeaturedCrystals />
-  <CategoriesSection />
+<BaseLayout title="Crystalica — Enciclopedia ta personală de cristale" description="Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe practice pentru fiecare cristal.">
+  <!-- Minimal Hero -->
+  <section class="hero-minimal" aria-labelledby="hero-title">
+    <div class="container">
+      <div class="hero-inner">
+        <h1 id="hero-title" class="font-heading text-5xl lg:text-7xl font-medium tracking-tight leading-tight text-[var(--color-zinc-900)]">
+          Crystalica
+          <span class="block text-[var(--color-text-muted)] text-2xl lg:text-3xl mt-4 font-normal">
+            Enciclopedia cristalelor
+          </span>
+        </h1>
+        <p class="text-lg lg:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-2xl mt-6 mb-10">
+          Proprietăți energetice, istorii, chakre, zodiac și folosințe practice pentru fiecare cristal din colecția ta.
+        </p>
+        <a href="/cristale" class="btn btn-glow text-base px-8 py-3">
+          Explorează Cristalele
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
 </BaseLayout>

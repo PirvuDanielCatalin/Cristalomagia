@@ -1,8 +1,7 @@
 ---
-// CrystalLayout.astro - Layout for crystal detail pages
+// CrystalLayout.astro - Layout pentru pagini de cristal (Fragrantica-style)
 import BaseLayout from './BaseLayout.astro';
-import CrystalHeader from '../components/crystal/CrystalHeader.astro';
-import CrystalSidebar from '../components/crystal/CrystalSidebar.astro';
+import CrystalHero from '../components/crystal/CrystalHero.astro';
 import CrystalTabs from '../components/crystal/CrystalTabs.astro';
 import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
@@ -15,7 +14,6 @@ interface Props {
 const { crystal, allCrystals } = Astro.props;
 const { data } = crystal;
 
-// Find related crystals (same category, chakra, or element)
 const relatedCrystals = allCrystals
   .filter(c => c.id !== crystal.id)
   .map(c => ({
@@ -32,7 +30,6 @@ const relatedCrystals = allCrystals
   .slice(0, 4)
   .map(r => r.entry);
 
-// SEO
 const pageTitle = `${data.name} — Proprietăți, Istorie, Chakre, Zodiac & Folosințe`;
 const pageDescription = data.description.length > 155 ? data.description.slice(0, 152) + '...' : data.description;
 const canonical = `/cristale/${data.slug}`;
@@ -45,23 +42,44 @@ const ogImage = data.image || '/images/og-default.jpg';
   canonical={canonical}
   ogImage={ogImage}
 >
-  <article class="crystal-page">
-    <CrystalHeader crystal={crystal} />
+  <CrystalHero crystal={crystal} />
 
-    <div class="section">
-      <div class="container">
-        <div class="grid lg:grid-cols-4 gap-8 lg:gap-12">
-          <!-- Main Content -->
-          <div class="lg:col-span-3">
-            <CrystalTabs crystal={crystal} relatedCrystals={relatedCrystals} />
-          </div>
-
-          <!-- Sidebar -->
-          <aside class="lg:col-span-1">
-            <CrystalSidebar crystal={crystal} />
-          </aside>
+  <div class="crystal-content">
+    <div class="container">
+      <div class="content-grid">
+        <div class="content-main">
+          <CrystalTabs crystal={crystal} relatedCrystals={relatedCrystals} />
         </div>
       </div>
     </div>
-  </article>
+  </div>
+
+  <!-- Related crystals -->
+  {relatedCrystals.length > 0 && (
+    <section class="related-section" aria-labelledby="related-title">
+      <div class="container">
+        <h2 id="related-title" class="font-heading text-2xl font-medium mb-8 text-[var(--color-zinc-900)]">Cristale Asociate</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {relatedCrystals.map(crystal => (
+            <a href={`/cristale/${crystal.data.slug}`} class="related-card group">
+              <div class="related-img">
+                {crystal.data.image ? (
+                  <img src={crystal.data.image} alt="" loading="lazy" class="w-full h-full object-cover" />
+                ) : (
+                  <div class="w-full h-full bg-gradient-to-br from-[var(--color-crystal-teal)]/10 to-[var(--color-crystal-rose)]/10 flex items-center justify-center">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" class="text-[var(--color-crystal-teal)]/30">
+                      <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5"/>
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <div class="related-info">
+                <span class="related-name">{crystal.data.name}</span>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 </BaseLayout>

@@ -15,7 +15,7 @@ crystals.forEach(crystal => {
 const categories = Object.keys(categoryCounts).sort();
 ---
 
-<BaseLayout title="Toate Cristalele — Crystalica" description="Explorează toate cele 52 de cristale din colecția noastră. Filtrare după categorie, chakre, zodiac și elemente.">
+<BaseLayout title="Toate Cristalele — Crystalica" description="Explorează toate cristalele din colecția noastră. Filtrare după categorie, chakre, zodiac și elemente.">
   <section class="section">
     <div class="container">
       <header class="text-center mb-12 animate-fade-in">
@@ -23,7 +23,7 @@ const categories = Object.keys(categoryCounts).sort();
           Toate Cristalele
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          Descoperă {crystals.length} cristale unice, fiecare cu proprietățile sale energetice, istorie și folosințe practice.
+          Descoperă cristale unice, fiecare cu proprietățile sale energetice, istorie și folosințe practice.
         </p>
       </header>
 
@@ -92,11 +92,9 @@ const categories = Object.keys(categoryCounts).sort();
       btn.addEventListener('click', () => {
         const category = btn.getAttribute('data-category');
         
-        // Update active button
         filterBtns.forEach(b => b.classList.remove('active', 'btn-primary'));
         btn.classList.add('active', 'btn-primary');
         
-        // Filter cards
         cards.forEach(card => {
           const cardCategory = card.getAttribute('data-category');
           if (category === 'all' || cardCategory === category) {

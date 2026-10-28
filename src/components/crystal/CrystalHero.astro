@@ -1,0 +1,102 @@
+---
+// CrystalHero.astro - Hero section for crystal detail page (Fragrantica-style)
+interface Props {
+  crystal: import('astro:content').CollectionEntry<'crystals'>;
+}
+
+const { crystal } = Astro.props;
+const { data } = crystal;
+
+const categoryBadges = data.category.map(cat => ({
+  name: cat,
+  slug: cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')
+}));
+
+const colorSwatches = data.color.map(c => ({
+  name: c,
+  style: `background-color: var(--color-${c.toLowerCase().replace(' ', '-')}, #ccc);`
+}));
+---
+
+<header class="crystal-hero">
+  <div class="hero-image-wrapper">
+    {data.image ? (
+      <img src={data.image} alt={data.name} class="hero-image" loading="eager" />
+    ) : (
+      <div class="hero-image-placeholder">
+        <svg width="80" height="80" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    )}
+  </div>
+
+  <div class="hero-content">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Acasă</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <a href="/cristale">Cristale</a>
+      <span class="sep" aria-hidden="true">/</span>
+      <span aria-current="page">{data.name}</span>
+    </nav>
+
+    <!-- Category badges -->
+    <div class="hero-categories" role="list">
+      {categoryBadges.map(cat => (
+        <span class={`badge badge-${cat.slug}`} role="listitem">{cat.name}</span>
+      ))}
+    </div>
+
+    <!-- Title -->
+    <h1 class="hero-title">
+      {data.name}
+      {data.chemicalFormula && (
+        <span class="hero-formula">({data.chemicalFormula})</span>
+      )}
+    </h1>
+
+    <!-- Description -->
+    <p class="hero-description">{data.description}</p>
+
+    <!-- Quick specs -->
+    <div class="hero-specs" role="list" aria-label="Informații rapide">
+      {data.hardness && (
+        <div class="spec-item" role="listitem">
+          <span class="spec-label">Durețe</span>
+          <span class="spec-value">{data.hardness}/10 Mohs</span>
+        </div>
+      )}
+      {data.crystalSystem && (
+        <div class="spec-item" role="listitem">
+          <span class="spec-label">Sistem</span>
+          <span class="spec-value">{data.crystalSystem}</span>
+        </div>
+      )}
+      <div class="spec-item" role="listitem">
+        <span class="spec-label">Raritate</span>
+        <span class="spec-value">{data.rarity}</span>
+      </div>
+      {data.origin.length > 0 && (
+        <div class="spec-item" role="listitem">
+          <span class="spec-label">Origină</span>
+          <span class="spec-value">{data.origin.join(', ')}</span>
+        </div>
+      )}
+    </div>
+
+    <!-- Color palette -->
+    {data.color.length > 0 && (
+      <div class="hero-colors">
+        <span class="colors-label">Culori:</span>
+        <div class="color-swatches" role="list" aria-label="Paleta de culori">
+          {colorSwatches.map(c => (
+            <span key={c.name} class="color-swatch" style={c.style} role="listitem" aria-label={c.name}></span>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</header>

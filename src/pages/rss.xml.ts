@@ -7,7 +7,7 @@ export async function GET(context) {
   
   return rss({
     title: 'Crystalica — Enciclopedia Cristalelor',
-    description: 'Descoperă 52 de cristale unice cu descrieri detaliate: proprietăți energetice, istorie, chakre, zodiac, elemente, folosințe practice și combinații.',
+    description: 'Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe practice pentru fiecare cristal.',
     site: context.site,
     items: crystals.map(crystal => ({
       title: crystal.data.name,
