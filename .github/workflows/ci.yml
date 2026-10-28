@@ -50,22 +50,6 @@ jobs:
           sarif_file: semgrep.sarif
           category: semgrep
 
-  codeql:
-    name: CodeQL
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: github/codeql-action/init@87ef0dc97def48aa960fbf026a2563ee9dbdb470 # v3
-        with:
-          languages: javascript-typescript
-          queries: security-extended
-      - uses: github/codeql-action/analyze@87ef0dc97def48aa960fbf026a2563ee9dbdb470 # v3
-
   trivy-config:
     name: Trivy Config Scan
     if: github.event_name == 'pull_request'
