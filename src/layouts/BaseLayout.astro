@@ -15,7 +15,7 @@ interface Props extends AstroProps {
 
 const {
   title,
-  description = 'Cristalomagia — Enciclopedia ta personală de cristale. Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe pentru 52 de cristale unice.',
+  description = 'Crystalica — Enciclopedia ta personală de cristale. Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe pentru 52 de cristale unice.',
   canonical,
   ogImage = '/images/og-default.jpg',
   noIndex = false,
@@ -23,7 +23,7 @@ const {
 
 const siteUrl = 'https://cristalomagia.com';
 const pageUrl = canonical ? `${siteUrl}${canonical}` : Astro.url.href;
-const pageTitle = `${title} | Cristalomagia`;
+const pageTitle = `${title} | Crystalica`;
 ---
 
 <!doctype html>
@@ -46,7 +46,7 @@ const pageTitle = `${title} | Cristalomagia`;
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={`${siteUrl}${ogImage}`} />
-    <meta property="og:site_name" content="Cristalomagia" />
+    <meta property="og:site_name" content="Crystalica" />
     <meta property="og:locale" content="ro_RO" />
 
     <!-- Twitter -->
@@ -59,7 +59,7 @@ const pageTitle = `${title} | Cristalomagia`;
     <!-- Additional SEO -->
     <meta name="theme-color" content="#453b31" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <link rel="alternate" type="application/rss+xml" title="Cristalomagia RSS" href="/rss.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Crystalica RSS" href="/rss.xml" />
 
     <!-- Fonts - self-hosted for performance -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -76,7 +76,7 @@ const pageTitle = `${title} | Cristalomagia`;
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'WebSite',
-      name: 'Cristalomagia',
+      name: 'Crystalica',
       url: siteUrl,
       description: 'Enciclopedia personală de cristale cu descrieri detaliate, proprietăți energetice, chakre, zodiac și folosințe practice.',
       potentialAction: {

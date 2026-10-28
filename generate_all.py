@@ -50,7 +50,7 @@ origin: ["Brazilia", "Madagascar", "India"]
 rarity: "{rarity}"
 color: ["Natural", "Multicolor"]
 properties: ["Protecție", "Armonie", "Echilibru energetic", "Proprietăți unice"]
-description: "{name} este un cristal remarcabil din colecția Cristalomagia, cunoscut pentru vibrația sa armonioasă și beneficiile sale energetice profunde."
+description: "{name} este un cristal remarcabil din colecția Crystalica, cunoscut pentru vibrația sa armonioasă și beneficiile sale energetice profunde."
 history: "{name} are o tradiție bogată în practicile ancestrale de vindecare și înfrumusețare spirituală, fiind apreciat de generații."
 healing: "Oferă suport energetic pentru sistemul nervos, reduce stresul cotidian și restabilește starea de bine generală."
 uses: ["Meditație zilnică", "Purtat ca bijuterie sau amuletă", "Armonizarea spațiului de locuit"]

@@ -1,4 +1,4 @@
-# Cristalomagia — Date cristale
+# Crystalica — Date cristale
 
 ## Date din Google Sheets
 - Foaie: Foaie1

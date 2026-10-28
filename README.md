@@ -1,10 +1,10 @@
-# Cristalomagia
+# Crystalica
 
 Enciclopedia ta personală de cristale — un site static construit cu **Astro** și deployat pe **Cloudflare Pages**.
 
 ## Prezentare
 
-Cristalomagia prezintă 52 de cristale din colecția personală, fiecare cu descrieri detaliate în română: proprietăți energetice, istorie, chakre, semne zodiacale, elemente, folosințe practice și combinații recomandate.
+Crystalica prezintă 52 de cristale din colecția personală, fiecare cu descrieri detaliate în română: proprietăți energetice, istorie, chakre, semne zodiacale, elemente, folosințe practice și combinații recomandate.
 
 ### Funcționalități
 
@@ -48,7 +48,7 @@ Build-ul generează output-ul static în `dist/` compatibil cu Cloudflare Pages.
 ## Deploy pe Cloudflare Pages
 
 1. Conectează repository-ul GitHub la [Cloudflare Pages](https://dash.cloudflare.com/pages).
-2. Selectează repo-ul `Cristalomagia`.
+2. Selectează repo-ul `Crystalica`.
 3. Setări build:
    - **Framework preset**: Astro
    - **Build command**: `npm run build`
@@ -94,4 +94,4 @@ Proiectul este construit pentru a suporta creșteri viitoare:
 
 ## License
 
-© 2026 Cristalomagia. Toate drepturile rezervate.
+© 2026 Crystalica. Toate drepturile rezervate.

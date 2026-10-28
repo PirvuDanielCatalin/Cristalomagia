@@ -6,7 +6,7 @@ export async function GET(context) {
   const crystals = await getCollection('crystals');
   
   return rss({
-    title: 'Cristalomagia — Enciclopedia Cristalelor',
+    title: 'Crystalica — Enciclopedia Cristalelor',
     description: 'Descoperă 52 de cristale unice cu descrieri detaliate: proprietăți energetice, istorie, chakre, zodiac, elemente, folosințe practice și combinații.',
     site: context.site,
     items: crystals.map(crystal => ({

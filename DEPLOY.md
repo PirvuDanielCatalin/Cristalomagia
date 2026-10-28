@@ -1,4 +1,4 @@
-# Cristalomagia - Deployment Guide
+# Crystalica - Deployment Guide
 
 Acest document descrie comenzile necesare pentru dezvoltare locală, construirea site-ului și deploy pe Cloudflare Pages.
 

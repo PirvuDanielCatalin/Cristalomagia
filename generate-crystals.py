@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate MDX files for all 52 crystals in Cristalomagia
+Generate MDX files for all 52 crystals in Crystalica
 """
 
 crystals = [
