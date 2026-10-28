@@ -10,7 +10,7 @@ Acest document descrie comenzile necesare pentru dezvoltare locală, construirea
 npm run build
 ```
 
-Această comandă generează site-ul static în directorul `dist/`. Este comanda folosită automat de Cloudflare Pages când face push pe `main`.
+Această comandă generează site-ul static în directorul `dist/client/` (Astro + `@astrojs/cloudflare` adapter cu `output: 'static'`). Este comanda folosită automat de Cloudflare Pages când face push pe `main`.
 
 ### 2. Deploy (Publicare)
 
@@ -22,7 +22,7 @@ Nu este nevoie de comandă manuală de deploy. Proiectul este configurat pentru 
 Pentru deploy manual (opțional), poți folosi:
 ```bash
 # Prin Cloudflare CLI (wrangler)
-npx wrangler pages deploy dist
+npx wrangler pages deploy dist/client
 ```
 
 ### 3. Preview (Previzualizare)
@@ -51,8 +51,10 @@ Când configurezi repository-ul pe [Cloudflare Dashboard](https://dash.cloudflar
 
 - **Framework preset**: Astro
 - **Build command**: `npm run build`
-- **Build output directory**: `dist`
+- **Build output directory**: `dist/client`
 - **Root directory**: `/` ( rădăcina repository-ului )
+
+> **Important**: Astro cu adapterul `@astrojs/cloudflare` și `output: 'static'` generează output-ul în `dist/client/`, nu în `dist/`. Asigură-te că **Build output directory** e setat pe `dist/client` în dashboard.
 
 Site-ul va fi disponibil la:
 - **Preview URL**: `https://cristalomagia.pages.dev` (sau branch-specific)
@@ -92,8 +94,13 @@ Fișierul `crystal-data.json` conține datele complete pentru toate cele 52 de c
 
 ### Build eșuează
 - Verifică dacă ai rulat `npm install`
-- Asigură-te că ai Node.js >= 22.23.4
+- Asigură-te că ai Node.js >= 24.0.0
 - Run `npm run build` local pentru a vedea erorile
+
+### Pagina nu apare pe Cloudflare Pages (404)
+- Verifică în Cloudflare Dashboard → Pages → cristalomagia → Settings → Build configuration
+- **Build output directory** trebuie să fie `dist/client` (NU `dist`)
+- Restartează build-ul manual din dashboard
 
 ### Imaginile nu apar
 - Verifică dacă imaginile sunt în `public/images/crystals/`

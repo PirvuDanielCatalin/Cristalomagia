@@ -1,0 +1,6 @@
+# Cloudflare Pages config - pentru static site cu Astro
+# Acest fișier NU este necesar pentru Pages (configurarea se face în dashboard)
+# Pentru Pages static: Build output directory = "dist/client"
+
+# Dacă folosești wrangler pentru deploy manual:
+# npx wrangler pages deploy dist/client
