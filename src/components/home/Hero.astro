@@ -2,35 +2,34 @@
 // Hero.astro - Homepage hero section
 ---
 
-<section class="relative overflow-hidden py-20 lg:py-32" aria-labelledby="hero-title">
-  <!-- Background decorative elements -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-    <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-[var(--color-crystal-teal)]/10 rounded-full blur-3xl animate-pulse" style="animation-duration: 8s;"></div>
-    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[var(--color-crystal-rose)]/10 rounded-full blur-3xl animate-pulse" style="animation-duration: 10s; animation-delay: 2s;"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-[var(--color-crystal-golden)]/10 rounded-full blur-3xl animate-pulse" style="animation-duration: 12s; animation-delay: 4s;"></div>
-  </div>
-
-  <div class="container relative">
+<section class="section-lg section--tint" aria-labelledby="hero-title" style="padding-top: var(--space-24); padding-bottom: var(--space-24);">
+  <div class="container">
     <div class="max-w-3xl mx-auto text-center">
-      <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-[var(--color-earth-100)] border border-[var(--color-border)] rounded-full text-sm font-medium text-[var(--color-earth-700)] mb-6 animate-fade-in" style="animation-delay: 100ms;">
-        <span class="w-2 h-2 bg-[var(--color-crystal-teal)] rounded-full animate-pulse" aria-hidden="true"></span>
-        <span>52 de cristale documentate cu drag</span>
+      <!-- Eyebrow -->
+      <span class="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-[var(--color-border)] rounded-full text-sm font-medium text-[var(--color-text-muted)] mb-8 animate-fade-in shadow-sm" style="animation-delay: 100ms;">
+        <span class="w-2 h-2 bg-[var(--color-crystal-teal)] rounded-full" style="box-shadow: 0 0 8px rgba(61,155,145,0.5);"></span>
+        52 de cristale documentate cu drag
       </span>
 
-      <h1 id="hero-title" class="font-heading text-5xl lg:text-6xl font-medium tracking-tight leading-tight text-[var(--color-text)] mb-6 animate-slide-up" style="animation-delay: 200ms;">
+      <!-- Heading -->
+      <h1 id="hero-title" class="font-heading text-5xl lg:text-6xl xl:text-7xl font-medium tracking-tight leading-tight text-[var(--color-zinc-900)] mb-6 animate-slide-up" style="animation-delay: 200ms;">
         Cristalomagia
         <br />
-        <span class="text-[var(--color-crystal-teal)]">Enciclopedia cristalelor</span>
+        <span style="background: linear-gradient(135deg, var(--color-crystal-teal) 0%, var(--color-crystal-green) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+          Enciclopedia cristalelor
+        </span>
       </h1>
 
+      <!-- Description -->
       <p class="text-lg lg:text-xl text-[var(--color-text-muted)] leading-relaxed mb-10 max-w-2xl mx-auto animate-slide-up" style="animation-delay: 300ms;">
         Explorează proprietățile energetice, istoriile vechi, chakrele, semnele zodiacului și folosințele practice pentru fiecare cristal din colecția ta personală.
       </p>
 
+      <!-- CTA Buttons -->
       <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up" style="animation-delay: 400ms;">
-        <a href="/cristale" class="btn btn-primary text-base px-8 py-3">
+        <a href="/cristale" class="btn btn-glow text-base px-8 py-3">
           Explorează Cristalele
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -43,30 +42,25 @@
       <!-- Stats -->
       <div class="flex flex-wrap items-center justify-center gap-8 lg:gap-12 mt-16 animate-fade-in" style="animation-delay: 500ms;" role="list" aria-label="Statistici site">
         <div class="text-center" role="listitem">
-          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-crystal-teal)]">52</div>
-          <div class="text-sm text-[var(--color-text-muted)]">Cristale Unice</div>
+          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-zinc-900)]">52</div>
+          <div class="text-xs text-[var(--color-text-muted)] tracking-wide uppercase mt-1">Cristale Unice</div>
         </div>
+        <div class="w-px h-12 bg-[var(--color-border)] hidden sm:block" aria-hidden="true"></div>
         <div class="text-center" role="listitem">
-          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-crystal-rose)]">9</div>
-          <div class="text-sm text-[var(--color-text-muted)]">Categorii</div>
+          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-zinc-900)]">9</div>
+          <div class="text-xs text-[var(--color-text-muted)] tracking-wide uppercase mt-1">Categorii</div>
         </div>
+        <div class="w-px h-12 bg-[var(--color-border)] hidden sm:block" aria-hidden="true"></div>
         <div class="text-center" role="listitem">
-          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-crystal-golden)]">7</div>
-          <div class="text-sm text-[var(--color-text-muted)]">Chakre Principale</div>
+          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-zinc-900)]">7</div>
+          <div class="text-xs text-[var(--color-text-muted)] tracking-wide uppercase mt-1">Chakre Principale</div>
         </div>
+        <div class="w-px h-12 bg-[var(--color-border)] hidden sm:block" aria-hidden="true"></div>
         <div class="text-center" role="listitem">
-          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-crystal-green)]">12</div>
-          <div class="text-sm text-[var(--color-text-muted)]">Semne Zodiac</div>
+          <div class="font-heading text-3xl lg:text-4xl font-medium text-[var(--color-zinc-900)]">12</div>
+          <div class="text-xs text-[var(--color-text-muted)] tracking-wide uppercase mt-1">Semne Zodiac</div>
         </div>
       </div>
     </div>
   </div>
 </section>
-
-<style>
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.05); }
-  }
-  .animate-pulse { animation: pulse 3s ease-in-out infinite; }
-</style>

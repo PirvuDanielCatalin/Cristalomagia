@@ -32,10 +32,11 @@ const categoriesWithData = categories.map((cat, index) => ({
 }));
 ---
 
-<section class="section bg-[var(--color-bg-elevated)]" aria-labelledby="categories-title">
+<section class="section" aria-labelledby="categories-title">
   <div class="container">
+    <!-- Section Header -->
     <header class="text-center mb-12 animate-fade-in">
-      <h2 id="categories-title" class="font-heading text-3xl lg:text-4xl font-medium tracking-tight mb-4">
+      <h2 id="categories-title" class="font-heading text-3xl lg:text-4xl font-medium tracking-tight mb-4 text-[var(--color-zinc-900)]">
         Explorează pe Categorii
       </h2>
       <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
@@ -43,14 +44,15 @@ const categoriesWithData = categories.map((cat, index) => ({
       </p>
     </header>
 
+    <!-- Category Cards Grid -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
       {categoriesWithData.map((cat) => (
         <article class="card p-6 group animate-slide-up" style={`animation-delay: ${cat.animationDelay};`} role="listitem">
           <a href={`/categorii/${cat.slug}`} class="block h-full" aria-label={`Explorează categoria ${cat.name} — ${cat.count} cristale`}>
             <div class="flex items-start gap-4">
               <!-- Category Icon -->
-              <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--color-crystal-teal)] to-[var(--color-crystal-green)] flex items-center justify-center group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-crystal-teal)] to-[var(--color-crystal-green)] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                   {cat.icon === 'crystal' && (
                     <>
                       <path d="M12 2L20 7v10L12 22L4 17V7L12 2Z"/>
@@ -115,11 +117,11 @@ const categoriesWithData = categories.map((cat, index) => ({
 
               <div class="flex-1 min-w-0">
                 <div class="flex items-baseline gap-2 mb-1">
-                  <h3 class="font-heading text-lg font-medium">{cat.name}</h3>
+                  <h3 class="font-heading text-lg font-medium text-[var(--color-zinc-900)]">{cat.name}</h3>
                   <span class={cat.badgeClass} aria-label={`${cat.count} cristale`}>{cat.count}</span>
                 </div>
-                <p class="text-sm text-[var(--color-text-muted)] mb-3">{cat.desc}</p>
-                <div class="flex items-center gap-2 text-sm text-[var(--color-crystal-teal)] group-hover:gap-3 transition-gap">
+                <p class="text-sm text-[var(--color-text-muted)] mb-3 leading-relaxed">{cat.desc}</p>
+                <div class="flex items-center gap-2 text-sm font-medium text-[var(--color-crystal-teal)] group-hover:gap-3 transition-all duration-300">
                   <span>Explorează</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -133,10 +135,11 @@ const categoriesWithData = categories.map((cat, index) => ({
       ))}
     </div>
 
-    <div class="text-center mt-10 animate-fade-in">
-      <a href="/categorii" class="btn btn-secondary inline-flex items-center gap-2">
+    <!-- CTA -->
+    <div class="text-center mt-12 animate-fade-in">
+      <a href="/categorii" class="btn btn-secondary inline-flex items-center gap-2 px-8 py-3">
         Vezi Toate Categorii
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
