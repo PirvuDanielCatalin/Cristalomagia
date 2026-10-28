@@ -2,17 +2,12 @@
 // CrystalTabs.astro - Content tabs for crystal detail page
 interface Props {
   crystal: import('astro:content').CollectionEntry<'crystals'>;
-  relatedCrystals: import('astro:content').CollectionEntry<'crystals'>[];
 }
 
-const { crystal, relatedCrystals } = Astro.props;
+const { crystal } = Astro.props;
 const { data } = crystal;
 
-// Pre-compute related crystal links
-const relatedCrystalLinks = relatedCrystals.slice(0, 3).map(c => ({
-  slug: c.data.slug,
-  name: c.data.name
-}));
+
 ---
 
 <div class="space-y-8">
@@ -73,16 +68,7 @@ const relatedCrystalLinks = relatedCrystals.slice(0, 3).map(c => ({
           ))}
         </ul>
       )}
-      <div class="mt-8 p-4 bg-[var(--color-earth-100)] rounded-lg border border-[var(--color-border)]">
-        <h4 class="font-heading text-sm font-medium mb-2">Cristale Recomandate</h4>
-        <div class="flex flex-wrap gap-2">
-          {relatedCrystalLinks.map(c => (
-            <a href={`/cristale/${c.slug}`} class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-lg hover:border-[var(--color-crystal-teal)] hover:text-[var(--color-crystal-teal)] transition-colors" role="button">
-              {c.name}
-            </a>
-          ))}
-        </div>
-      </div>
+
     </section>
   </div>
 

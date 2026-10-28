@@ -1,18 +1,25 @@
 ---
-// src/pages/cristale/[slug].astro - Crystal detail page (1/3 image + 2/3 text)
+// src/pages/cristale/[slug].astro - Crystal detail page
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CrystalTabs from '../../components/crystal/CrystalTabs.astro';
 
 export async function getStaticPaths() {
   const crystals = await getCollection('crystals');
-  return crystals.map(crystal => ({
+  const sorted = [...crystals].sort((a, b) =>
+    a.data.name.localeCompare(b.data.name, 'ro')
+  );
+  return sorted.map((crystal, index) => ({
     params: { slug: crystal.data.slug },
-    props: { crystal },
+    props: { crystal, sortedCrystals: sorted, currentIndex: index },
   }));
 }
 
-const { crystal } = Astro.props;
+const { crystal, sortedCrystals, currentIndex } = Astro.props;
 const { data } = crystal;
+
+const prevCrystal = currentIndex > 0 ? sortedCrystals[currentIndex - 1] : null;
+const nextCrystal = currentIndex < sortedCrystals.length - 1 ? sortedCrystals[currentIndex + 1] : null;
 
 const pageTitle = `${data.name} — Crystalica`;
 const pageDescription = data.description.length > 155 ? data.description.slice(0, 152) + '...' : data.description;
@@ -31,6 +38,22 @@ const ogImage = data.image || '/images/og-default.jpg';
         <span class="sep" aria-hidden="true">/</span>
         <span aria-current="page">{data.name}</span>
       </nav>
+
+      <!-- Navigation Arrows -->
+      <div class="crystal-nav">
+        {prevCrystal ? (
+          <a href={`/cristale/${prevCrystal.data.slug}`} class="crystal-nav-btn crystal-nav-prev" aria-label="Cristalul anterior">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+            <span class="crystal-nav-label">{prevCrystal.data.name}</span>
+          </a>
+        ) : <span />}
+        {nextCrystal ? (
+          <a href={`/cristale/${nextCrystal.data.slug}`} class="crystal-nav-btn crystal-nav-next" aria-label="Cristalul următor">
+            <span class="crystal-nav-label">{nextCrystal.data.name}</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+          </a>
+        ) : <span />}
+      </div>
 
       <!-- Main layout: 1/3 image left, 2/3 text right -->
       <div class="crystal-main">
@@ -52,9 +75,42 @@ const ogImage = data.image || '/images/og-default.jpg';
         <!-- Right: Content panel -->
         <div class="crystal-text-panel">
           <h1 class="crystal-title">{data.name}</h1>
+          {data.otherNames && data.otherNames.length > 0 && (
+            <p class="crystal-other-names">{data.otherNames.join(' / ')}</p>
+          )}
+          {data.category && data.category.length > 0 && (
+            <p class="crystal-category">{data.category.join(' · ')}</p>
+          )}
           <p class="crystal-description">{data.description}</p>
 
           <div class="crystal-sections">
+            {/* Date astrologice */}
+            {(data.zodiac?.length || data.element?.length || data.planet) && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Date astrologice</h2>
+                <dl class="crystal-dl">
+                  {data.zodiac && data.zodiac.length > 0 && (
+                    <div class="crystal-dl-item">
+                      <dt>Zodiac</dt>
+                      <dd>{data.zodiac.join(', ')}</dd>
+                    </div>
+                  )}
+                  {data.element && data.element.length > 0 && (
+                    <div class="crystal-dl-item">
+                      <dt>Element</dt>
+                      <dd>{data.element.join(', ')}</dd>
+                    </div>
+                  )}
+                  {data.planet && (
+                    <div class="crystal-dl-item">
+                      <dt>Planetă</dt>
+                      <dd>{data.planet}</dd>
+                    </div>
+                  )}
+                </dl>
+              </section>
+            )}
+
             {/* Proprietăți energetice */}
             {data.properties && data.properties.length > 0 && (
               <section class="crystal-section">
@@ -67,22 +123,6 @@ const ogImage = data.image || '/images/og-default.jpg';
               </section>
             )}
 
-            {/* Proprietăți terapeutice */}
-            {data.healing && (
-              <section class="crystal-section">
-                <h2 class="crystal-section-title">Proprietăți terapeutice</h2>
-                <div set:html={data.healing} />
-              </section>
-            )}
-
-            {/* Afișare cheie */}
-            {data.affirmation && (
-              <section class="crystal-section">
-                <h2 class="crystal-section-title">O afirmație cheie</h2>
-                <blockquote class="crystal-affirmation-text">"{data.affirmation}"</blockquote>
-              </section>
-            )}
-
             {/* Chakre asociate */}
             {data.chakras && data.chakras.length > 0 && (
               <section class="crystal-section">
@@ -92,6 +132,14 @@ const ogImage = data.image || '/images/og-default.jpg';
                     <span key={ch} class="crystal-tag">{ch}</span>
                   ))}
                 </div>
+              </section>
+            )}
+
+            {/* Afișare cheie */}
+            {data.affirmation && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">O afirmație cheie</h2>
+                <blockquote class="crystal-affirmation-text">"{data.affirmation}"</blockquote>
               </section>
             )}
 
@@ -138,6 +186,9 @@ const ogImage = data.image || '/images/og-default.jpg';
               </dl>
             </section>
           </div>
+
+          {/* Tabs: Istorie, Vindecare, Folosinte, Ingrijire, Combinatii */}
+          <CrystalTabs crystal={crystal} />
         </div>
       </div>
     </div>
