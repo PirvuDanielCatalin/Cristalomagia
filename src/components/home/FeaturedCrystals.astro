@@ -9,6 +9,21 @@ const featuredCrystals = allCrystals
 
 const fallbackCrystals = allCrystals.slice(0, 6);
 const displayCrystals = featuredCrystals.length > 0 ? featuredCrystals : fallbackCrystals;
+
+// Pre-compute template values to avoid literal interpolation issues
+const crystalsWithData = displayCrystals.map((crystal, index) => ({
+  ...crystal,
+  animationDelay: `${index * 100}ms`,
+  categoryBadges: crystal.data.category.map(cat => ({
+    name: cat,
+    slug: cat.toLowerCase()
+      .replace('ă', 'a')
+      .replace('ș', 's')
+      .replace('ț', 't')
+      .replace('î', 'i')
+      .replace('â', 'a')
+  }))
+}));
 ---
 
 <section class="section" aria-labelledby="featured-title">
@@ -23,8 +38,8 @@ const displayCrystals = featuredCrystals.length > 0 ? featuredCrystals : fallbac
     </header>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-      {displayCrystals.map((crystal, index) => (
-        <article class="card group animate-slide-up" style="animation-delay: {index * 100}ms;" role="listitem">
+      {crystalsWithData.map((crystal) => (
+        <article class="card group animate-slide-up" style={`animation-delay: ${crystal.animationDelay};`} role="listitem">
           <a href={`/cristale/${crystal.slug}`} class="block" aria-label={`Vezi detalii despre ${crystal.data.name}`}>
             <!-- Crystal Image Placeholder -->
             <div class="aspect-square relative overflow-hidden bg-[var(--color-earth-100)]">
@@ -40,8 +55,8 @@ const displayCrystals = featuredCrystals.length > 0 ? featuredCrystals : fallbac
                 </div>
               )}
               <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                {crystal.data.category.map(cat => (
-                  <span class="badge badge-{cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}" aria-hidden="true">{cat}</span>
+                {crystal.categoryBadges.map(badge => (
+                  <span class={`badge badge-${badge.slug}`} aria-hidden="true">{badge.name}</span>
                 ))}
               </div>
             </div>

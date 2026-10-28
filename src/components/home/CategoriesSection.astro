@@ -23,6 +23,13 @@ const categories = [
   { slug: 'copacel', name: 'Copacel', icon: 'tree', count: categoryCounts['Copacel'] || 0, desc: 'Copaci de cristal pentru abundată și prosperitate' },
   { slug: 'colier', name: 'Coliere', icon: 'necklace', count: categoryCounts['Colier'] || 0, desc: 'Coliere statement cu combinații puternice' },
 ];
+
+// Pre-compute template values
+const categoriesWithData = categories.map((cat, index) => ({
+  ...cat,
+  animationDelay: `${index * 80}ms`,
+  badgeClass: `badge-${cat.slug}`
+}));
 ---
 
 <section class="section bg-[var(--color-bg-elevated)]" aria-labelledby="categories-title">
@@ -37,8 +44,8 @@ const categories = [
     </header>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-      {categories.map((cat, index) => (
-        <article class="card p-6 group animate-slide-up" style="animation-delay: {index * 80}ms;" role="listitem">
+      {categoriesWithData.map((cat) => (
+        <article class="card p-6 group animate-slide-up" style={`animation-delay: ${cat.animationDelay};`} role="listitem">
           <a href={`/categorii/${cat.slug}`} class="block h-full" aria-label={`Explorează categoria ${cat.name} — ${cat.count} cristale`}>
             <div class="flex items-start gap-4">
               <!-- Category Icon -->
@@ -109,7 +116,7 @@ const categories = [
               <div class="flex-1 min-w-0">
                 <div class="flex items-baseline gap-2 mb-1">
                   <h3 class="font-heading text-lg font-medium">{cat.name}</h3>
-                  <span class="badge badge-{cat.slug}" aria-label={`${cat.count} cristale`}>{cat.count}</span>
+                  <span class={cat.badgeClass} aria-label={`${cat.count} cristale`}>{cat.count}</span>
                 </div>
                 <p class="text-sm text-[var(--color-text-muted)] mb-3">{cat.desc}</p>
                 <div class="flex items-center gap-2 text-sm text-[var(--color-crystal-teal)] group-hover:gap-3 transition-gap">
