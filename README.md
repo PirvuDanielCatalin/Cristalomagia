@@ -52,7 +52,7 @@ Build-ul generează output-ul static în `dist/` compatibil cu Cloudflare Pages.
 3. Setări build:
    - **Framework preset**: Astro
    - **Build command**: `npm run build`
-   - **Build output directory**: `dist`
+   - **Build output directory**: `dist/client`
 4. Publică.
 
 Site-ul va fi disponibil la `https://cristalomagia.pages.dev` (sau domeniul custom configurat).
