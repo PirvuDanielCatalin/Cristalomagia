@@ -25,7 +25,10 @@ crystals.forEach(crystal => {
 });
 
 const categories = Object.entries(categoryCounts)
-  .map(([name, count]) => ({ name, count }))
+  .map(([name, count]) => {
+    const slug = name.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a');
+    return { name, count, slug };
+  })
   .sort((a, b) => a.name.localeCompare(b.name));
 ---
 
@@ -42,11 +45,9 @@ const categories = Object.entries(categoryCounts)
       </header>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-        {categories.map((cat, index) => {
-          const slug = cat.name.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a');
-          return (
-            <article class="card p-6 group animate-slide-up" style="animation-delay: {index * 100}ms;" role="listitem">
-              <a href={`/categorii/${slug}`} class="block" aria-label={`Explorează categoria ${cat.name}`}>
+        {categories.map((cat, index) => (
+            <article class="card p-6 group animate-slide-up" style={`animation-delay: ${index * 100}ms;`} role="listitem">
+              <a href={`/categorii/${cat.slug}`} class="block" aria-label={`Explorează categoria ${cat.name}`}>
                 <div class="flex items-start justify-between mb-4">
                   <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-crystal-teal)] to-[var(--color-crystal-green)] flex items-center justify-center group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -55,7 +56,7 @@ const categories = Object.entries(categoryCounts)
                       <path d="M4 12H20"/>
                     </svg>
                   </div>
-                  <span class="badge badge-{slug}" aria-label={`${cat.count} cristale`}>{cat.count}</span>
+                  <span class={`badge badge-${cat.slug}`} aria-label={`${cat.count} cristale`}>{cat.count}</span>
                 </div>
                 <h2 class="font-heading text-xl font-medium mb-2 group-hover:text-[var(--color-crystal-teal)] transition-colors">
                   {cat.name}
@@ -72,8 +73,7 @@ const categories = Object.entries(categoryCounts)
                 </div>
               </a>
             </article>
-          );
-        })}
+          ))}
       </div>
     </div>
   </section>

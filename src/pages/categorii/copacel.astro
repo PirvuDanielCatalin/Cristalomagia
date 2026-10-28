@@ -5,6 +5,15 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const crystals = await getCollection('crystals');
 const categoryCrystals = crystals.filter(c => c.data.category.some(cat => cat.toLowerCase() === 'copacel'));
+
+// Pre-compute category badges for each crystal
+const crystalsWithBadges = categoryCrystals.map(crystal => ({
+  ...crystal,
+  categoryBadges: crystal.data.category.map(cat => ({
+    name: cat,
+    class: `badge badge-${cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}`
+  }))
+}));
 ---
 
 <BaseLayout title="Copacel — Cristalomagia">
@@ -28,8 +37,8 @@ const categoryCrystals = crystals.filter(c => c.data.category.some(cat => cat.to
       </header>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-        {categoryCrystals.map((crystal, index) => (
-          <article class="card group animate-slide-up" style="animation-delay: {index * 50}ms;" role="listitem">
+        {crystalsWithBadges.map((crystal, index) => (
+          <article class="card group animate-slide-up" style={`animation-delay: ${index * 50}ms;`} role="listitem">
             <a href={`/cristale/${crystal.data.slug}`} class="block" aria-label={`Vezi detalii despre ${crystal.data.name}`}>
               <div class="aspect-square relative overflow-hidden bg-[var(--color-earth-100)]">
                 {crystal.data.image ? (
@@ -44,8 +53,8 @@ const categoryCrystals = crystals.filter(c => c.data.category.some(cat => cat.to
                   </div>
                 )}
                 <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                  {crystal.data.category.map(cat => (
-                    <span class="badge badge-{cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}" aria-hidden="true">{cat}</span>
+                  {crystal.categoryBadges.map(badge => (
+                    <span class={badge.class} aria-hidden="true">{badge.name}</span>
                   ))}
                 </div>
               </div>

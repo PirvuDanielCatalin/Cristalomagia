@@ -4,47 +4,49 @@
 :root {
   /* Earth tones - warm, grounded, natural */
   --color-earth-50: #faf8f5;
-  --color-earth-100: #f3efe8;
-  --color-earth-200: #e6e0d5;
-  --color-earth-300: #d4cab8;
+  --color-earth-100: #f5f0e8;
+  --color-earth-200: #e8e0d5;
+  --color-earth-300: #d4c8b5;
   --color-earth-400: #b8a890;
   --color-earth-500: #9d8b70;
   --color-earth-600: #82725a;
   --color-earth-700: #6b5c48;
   --color-earth-800: #564a3c;
   --color-earth-900: #453b31;
-  --color-earth-950: #251f17;
+  --color-earth-950: #2d2419;
 
-  /* Crystal accent tones - subtle, luminous */
-  --color-crystal-amethyst: #9b7bd9;
-  --color-crystal-rose: #e8b4c8;
-  --color-crystal-golden: #d4a54a;
-  --color-crystal-teal: #4db6ac;
+  /* Crystal accent tones - refined, luminous */
+  --color-crystal-amethyst: #8b6fcf;
+  --color-crystal-rose: #e8a0b4;
+  --color-crystal-golden: #c9a227;
+  --color-crystal-teal: #3d9b91;
+  --color-crystal-teal-light: #52b5ad;
   --color-crystal-clear: #f0f4f8;
   --color-crystal-smoky: #8b7d6b;
-  --color-crystal-green: #7cb342;
-  --color-crystal-blue: #5c9bd1;
-  --color-crystal-red: #c62828;
+  --color-crystal-green: #6a9b3a;
+  --color-crystal-blue: #4a8cc4;
+  --color-crystal-red: #b52020;
 
   /* Semantic colors */
   --color-text: var(--color-earth-900);
   --color-text-muted: var(--color-earth-600);
   --color-text-light: var(--color-earth-400);
   --color-bg: var(--color-earth-50);
-  --color-bg-elevated: #ffffff;
-  --color-bg-card: #ffffff;
+  --color-bg-elevated: #fefdfb;
+  --color-bg-card: #fefdfb;
   --color-border: var(--color-earth-200);
   --color-border-strong: var(--color-earth-300);
   --color-focus: var(--color-crystal-teal);
-  --color-focus-ring: rgba(77, 182, 172, 0.4);
+  --color-focus-ring: rgba(61, 155, 145, 0.35);
 
-  /* Shadow system - layered like mineral strata */
-  --shadow-xs: 0 1px 2px rgba(37, 31, 23, 0.04);
-  --shadow-sm: 0 2px 4px rgba(37, 31, 23, 0.06);
-  --shadow-md: 0 4px 12px rgba(37, 31, 23, 0.08);
-  --shadow-lg: 0 8px 24px rgba(37, 31, 23, 0.1);
-  --shadow-xl: 0 16px 48px rgba(37, 31, 23, 0.12);
+  /* Shadow system - layered like mineral strata, more refined */
+  --shadow-xs: 0 1px 2px rgba(37, 31, 23, 0.04), 0 1px 3px rgba(37, 31, 23, 0.03);
+  --shadow-sm: 0 2px 4px rgba(37, 31, 23, 0.06), 0 2px 6px rgba(37, 31, 23, 0.04);
+  --shadow-md: 0 4px 12px rgba(37, 31, 23, 0.08), 0 4px 16px rgba(37, 31, 23, 0.05);
+  --shadow-lg: 0 8px 24px rgba(37, 31, 23, 0.1), 0 8px 32px rgba(37, 31, 23, 0.06);
+  --shadow-xl: 0 16px 48px rgba(37, 31, 23, 0.12), 0 16px 64px rgba(37, 31, 23, 0.08);
   --shadow-inner: inset 0 2px 4px rgba(37, 31, 23, 0.04);
+  --shadow-glow: 0 0 40px rgba(61, 155, 145, 0.15);
 
   /* Organic border radius - not perfectly round, like natural stones */
   --radius-sm: 0.375rem 0.5rem 0.375rem 0.5rem;

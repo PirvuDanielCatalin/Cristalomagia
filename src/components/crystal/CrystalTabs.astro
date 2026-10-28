@@ -7,6 +7,12 @@ interface Props {
 
 const { crystal, relatedCrystals } = Astro.props;
 const { data } = crystal;
+
+// Pre-compute related crystal links
+const relatedCrystalLinks = relatedCrystals.slice(0, 3).map(c => ({
+  slug: c.data.slug,
+  name: c.data.name
+}));
 ---
 
 <div class="space-y-8">
@@ -70,9 +76,9 @@ const { data } = crystal;
       <div class="mt-8 p-4 bg-[var(--color-earth-100)] rounded-lg border border-[var(--color-border)]">
         <h4 class="font-heading text-sm font-medium mb-2">Cristale Recomandate</h4>
         <div class="flex flex-wrap gap-2">
-          {relatedCrystals.slice(0, 3).map(c => (
+          {relatedCrystalLinks.map(c => (
             <a href={`/cristale/${c.slug}`} class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-lg hover:border-[var(--color-crystal-teal)] hover:text-[var(--color-crystal-teal)] transition-colors" role="button">
-              {c.data.name}
+              {c.name}
             </a>
           ))}
         </div>
@@ -128,31 +134,45 @@ const { data } = crystal;
 
 <style>
   .tab-btn {
-    @apply relative;
+    position: relative;
   }
   .tab-btn::after {
     content: '';
-    @apply absolute bottom-0 left-0 right-0 h-0.5 bg-transparent transition-colors;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background-color var(--transition-base);
   }
   .tab-btn.active::after {
-    @apply bg-[var(--color-crystal-teal)];
+    background: var(--color-crystal-teal);
   }
   .tab-panel {
-    @apply animate-fade-in;
+    animation: fade-in var(--transition-base) ease-out forwards;
   }
   .prose {
-    @apply text-[var(--color-text)];
+    color: var(--color-text);
   }
   .prose p {
-    @apply mb-4 leading-relaxed;
+    margin-bottom: var(--space-4);
+    line-height: var(--leading-relaxed);
   }
   .prose h3 {
-    @apply font-heading text-xl font-medium mt-8 mb-4;
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    margin-top: var(--space-8);
+    margin-bottom: var(--space-4);
   }
   .prose ul {
-    @apply list-disc list-inside space-y-2;
+    list-style: disc;
+    list-style-position: inside;
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-2);
   }
   .prose strong {
-    @apply font-medium;
+    font-weight: 500;
   }
 </style>

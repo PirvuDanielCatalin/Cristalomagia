@@ -7,6 +7,18 @@ interface Props {
 const { crystal } = Astro.props;
 const { data } = crystal;
 const primaryCategory = data.category[0] || 'Cristale';
+
+// Pre-compute category badge classes for template
+const categoryBadges = data.category.map(cat => ({
+  name: cat,
+  class: `badge badge-${cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}`
+}));
+
+// Pre-compute color palette styles
+const colorPalette = data.color.map(c => ({
+  name: c,
+  style: `background-color: var(--color-${c.toLowerCase().replace(' ', '-')}, #ccc);`
+}));
 ---
 
 <header class="relative overflow-hidden bg-[var(--color-bg-elevated)] border-b border-[var(--color-border)]">
@@ -28,8 +40,8 @@ const primaryCategory = data.category[0] || 'Cristale';
 
       <!-- Category badges -->
       <div class="flex flex-wrap gap-2 mb-6" role="list" aria-label="Categorii">
-        {data.category.map(cat => (
-          <span class="badge badge-{cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}" role="listitem">{cat}</span>
+        {categoryBadges.map(cat => (
+          <span class={cat.class} role="listitem">{cat.name}</span>
         ))}
       </div>
 
@@ -73,8 +85,8 @@ const primaryCategory = data.category[0] || 'Cristale';
       <div class="flex items-center gap-3 text-sm text-[var(--color-text-muted)]">
         <span class="font-medium">Culori:</span>
         <div class="flex gap-1.5" role="list" aria-label="Paleta de culori">
-          {data.color.map(c => (
-            <span key={c} class="w-6 h-6 rounded-lg border border-[var(--color-border)] flex-shrink-0" style="background-color: var(--color-{c.toLowerCase().replace(' ', '-')}, #ccc);" role="listitem" aria-label={c}></span>
+          {colorPalette.map(c => (
+            <span key={c.name} class="w-6 h-6 rounded-lg border border-[var(--color-border)] flex-shrink-0" style={c.style} role="listitem" aria-label={c.name}></span>
           ))}
         </div>
       </div>
