@@ -16,9 +16,8 @@ permissions:
   deployments: write
 
 env:
-  NODE_VERSION: '22'
+  NODE_VERSION: '22.23.4'
   NPM_CONFIG_CACHE: .npm-cache
-  # Project name as configured in Cloudflare Pages dashboard
   CF_PAGES_PROJECT: ${{ vars.CF_PAGES_PROJECT_NAME || 'cristalomagia' }}
 
 jobs:
@@ -40,10 +39,10 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline
 
-      - name: Lint (optional)
+      - name: Build site
         run: npm run build
 
-      - name: Upload dist to Cloudflare Pages
+      - name: Deploy to Cloudflare Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: cloudflare/wrangler-action@v3
         with:
