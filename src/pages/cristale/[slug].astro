@@ -1,17 +1,142 @@
 ---
-// src/pages/cristale/[slug].astro - Crystal detail page
-import { getCollection, getEntryBySlug } from 'astro:content';
-import CrystalLayout from '../../layouts/CrystalLayout.astro';
+// src/pages/cristale/[slug].astro - Crystal detail page (1/3 image + 2/3 text)
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
 
 export async function getStaticPaths() {
   const crystals = await getCollection('crystals');
   return crystals.map(crystal => ({
     params: { slug: crystal.data.slug },
-    props: { crystal, allCrystals: crystals },
+    props: { crystal },
   }));
 }
 
-const { crystal, allCrystals } = Astro.props;
+const { crystal } = Astro.props;
+const { data } = crystal;
+
+const pageTitle = `${data.name} — Crystalica`;
+const pageDescription = data.description.length > 155 ? data.description.slice(0, 152) + '...' : data.description;
+const canonical = `/cristale/${data.slug}`;
+const ogImage = data.image || '/images/og-default.jpg';
 ---
 
-<CrystalLayout crystal={crystal} allCrystals={allCrystals} />
+<BaseLayout title={pageTitle} description={pageDescription} canonical={canonical} ogImage={ogImage}>
+  <div class="crystal-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Acasă</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <a href="/cristale">Cristale</a>
+        <span class="sep" aria-hidden="true">/</span>
+        <span aria-current="page">{data.name}</span>
+      </nav>
+
+      <!-- Main layout: 1/3 image left, 2/3 text right -->
+      <div class="crystal-main">
+        <!-- Left: Image panel -->
+        <div class="crystal-image-panel">
+          {data.image ? (
+            <img src={data.image} alt={data.name} class="crystal-image" loading="eager" />
+          ) : (
+            <div class="crystal-image-placeholder">
+              <svg width="64" height="64" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+          )}
+        </div>
+
+        <!-- Right: Content panel -->
+        <div class="crystal-text-panel">
+          <h1 class="crystal-title">{data.name}</h1>
+          {data.chemicalFormula && (
+            <p class="crystal-formula">{data.chemicalFormula}</p>
+          )}
+          <p class="crystal-description">{data.description}</p>
+
+          <div class="crystal-sections">
+            {/* Proprietăți energetice */}
+            {data.properties && data.properties.length > 0 && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Proprietăți energetice</h2>
+                <ul class="crystal-list">
+                  {data.properties.map(p => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
+
+            {/* Proprietăți terapeutice */}
+            {data.healing && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Proprietăți terapeutice</h2>
+                <div set:html={data.healing} />
+              </section>
+            )}
+
+            {/* Afișare cheie */}
+            {data.affirmation && (
+              <section class="crystal-section crystal-affirmation">
+                <h2 class="crystal-section-title">O afirmație cheie</h2>
+                <blockquote class="crystal-affirmation-text">"{data.affirmation}"</blockquote>
+              </section>
+            )}
+
+            {/* Chakre asociate */}
+            {data.chakras && data.chakras.length > 0 && (
+              <section class="crystal-section">
+                <h2 class="crystal-section-title">Chakre asociate</h2>
+                <div class="crystal-tags">
+                  {data.chakras.map(ch => (
+                    <span key={ch} class="crystal-tag">{ch}</span>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Proprietăți fizice */}
+            <section class="crystal-section crystal-physical">
+              <h2 class="crystal-section-title">Proprietăți fizice</h2>
+              <dl class="crystal-dl">
+                {data.chemicalFormula && (
+                  <div class="crystal-dl-item">
+                    <dt>Formula chimică</dt>
+                    <dd>{data.chemicalFormula}</dd>
+                  </div>
+                )}
+                {data.hardness && (
+                  <div class="crystal-dl-item">
+                    <dt>Duritate</dt>
+                    <dd>{data.hardness} / 10 Mohs</dd>
+                  </div>
+                )}
+                {data.rarity && (
+                  <div class="crystal-dl-item">
+                    <dt>Raritate</dt>
+                    <dd>{data.rarity}</dd>
+                  </div>
+                )}
+                {data.origin && data.origin.length > 0 && (
+                  <div class="crystal-dl-item">
+                    <dt>Origină</dt>
+                    <dd>{data.origin.join(', ')}</dd>
+                  </div>
+                )}
+                {data.crystalSystem && (
+                  <div class="crystal-dl-item">
+                    <dt>Sistem cristalin</dt>
+                    <dd>{data.crystalSystem}</dd>
+                  </div>
+                )}
+              </dl>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

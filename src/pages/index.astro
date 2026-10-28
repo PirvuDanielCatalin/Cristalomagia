@@ -1,6 +1,12 @@
 ---
 // index.astro - Homepage
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const crystals = await getCollection('crystals');
+const featured = crystals.filter(c => c.data.featured);
+const todayIndex = new Date().getDay() % featured.length;
+const crystalOfTheDay = featured[todayIndex];
 ---
 
 <BaseLayout title="Crystalica — Enciclopedia ta personală de cristale" description="Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe practice pentru fiecare cristal.">
@@ -14,7 +20,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
             Enciclopedia cristalelor
           </span>
         </h1>
-        <p class="text-lg lg:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-2xl mt-6 mb-10">
+        <p class="text-lg lg:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-2xl mx-auto mt-6 mb-10">
           Proprietăți energetice, istorii, chakre, zodiac și folosințe practice pentru fiecare cristal din colecția ta.
         </p>
         <a href="/cristale" class="btn btn-glow text-base px-8 py-3">
@@ -27,4 +33,40 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </div>
     </div>
   </section>
+
+  <!-- Crystal of the Day -->
+  {crystalOfTheDay && (
+    <section class="crystal-day-section" aria-labelledby="day-title">
+      <div class="container">
+        <div class="crystal-day-inner">
+          <span class="crystal-day-label">Cristalul Zilei</span>
+          <div class="crystal-day-card">
+            <a href={`/cristale/${crystalOfTheDay.data.slug}`} class="crystal-day-link">
+              <div class="crystal-day-image">
+                {crystalOfTheDay.data.image ? (
+                  <img src={crystalOfTheDay.data.image} alt={crystalOfTheDay.data.name} loading="lazy" />
+                ) : (
+                  <div class="crystal-day-placeholder">
+                    <svg width="48" height="48" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                      <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                )}
+              </div>
+              <div class="crystal-day-info">
+                <h2 id="day-title" class="crystal-day-name">{crystalOfTheDay.data.name}</h2>
+                {crystalOfTheDay.data.chemicalFormula && (
+                  <span class="crystal-day-formula">{crystalOfTheDay.data.chemicalFormula}</span>
+                )}
+                <p class="crystal-day-desc">{crystalOfTheDay.data.description}</p>
+                <span class="crystal-day-cta">Vezi detalii →</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
 </BaseLayout>

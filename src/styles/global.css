@@ -642,7 +642,7 @@ img {
 }
 
 @media (min-width: 768px) {
-  .footer-grid { grid-template-columns: 2fr 1fr 1fr 1fr; }
+  .footer-grid { grid-template-columns: 2fr 1fr 1fr; }
 }
 
 .footer-brand {
@@ -1019,4 +1019,425 @@ img {
   font-size: var(--text-sm);
   font-weight: 600;
   color: var(--color-zinc-900);
+}
+
+/* ===== Crystal of the Day ===== */
+.crystal-day-section {
+  padding: var(--space-16) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.crystal-day-inner {
+  max-width: 900px;
+}
+
+.crystal-day-label {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-crystal-teal);
+  margin-bottom: var(--space-4);
+}
+
+.crystal-day-card {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.crystal-day-link {
+  display: grid;
+  grid-template-columns: 1fr;
+  text-decoration: none;
+  color: inherit;
+}
+
+@media (min-width: 768px) {
+  .crystal-day-link {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+.crystal-day-image {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--color-earth-100);
+}
+
+@media (min-width: 768px) {
+  .crystal-day-image {
+    aspect-ratio: auto;
+    min-height: 300px;
+  }
+}
+
+.crystal-day-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.crystal-day-link:hover .crystal-day-image img {
+  transform: scale(1.05);
+}
+
+.crystal-day-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-crystal-teal);
+  opacity: 0.4;
+  background: linear-gradient(135deg, var(--color-earth-100) 0%, rgba(61,155,145,0.05) 100%);
+}
+
+.crystal-day-info {
+  padding: var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.crystal-day-name {
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-zinc-900);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.crystal-day-formula {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-family: var(--font-mono, monospace);
+}
+
+.crystal-day-desc {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.crystal-day-cta {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-crystal-teal);
+  display: inline-block;
+  margin-top: var(--space-2);
+}
+
+/* ===== A-Z Navigation ===== */
+.az-nav {
+  position: sticky;
+  top: 65px;
+  z-index: var(--z-sticky);
+  background: var(--color-bg);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+  margin: 0 calc(-1 * var(--space-6));
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .az-nav { margin: 0 calc(-1 * var(--space-8)); padding-left: var(--space-8); padding-right: var(--space-8); }
+}
+
+@media (min-width: 1024px) {
+  .az-nav { margin: 0 calc(-1 * var(--space-10)); padding-left: var(--space-10); padding-right: var(--space-10); }
+}
+
+.az-nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  justify-content: center;
+}
+
+.az-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  transition: all var(--transition-fast);
+}
+
+.az-letter:hover {
+  color: var(--color-crystal-teal);
+  border-color: var(--color-crystal-teal);
+  background: rgba(61, 155, 145, 0.05);
+}
+
+.az-group {
+  margin-bottom: var(--space-12);
+}
+
+.az-group-letter {
+  font-family: var(--font-heading);
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  color: var(--color-zinc-200);
+  line-height: 1;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-3);
+  border-bottom: 2px solid var(--color-zinc-200);
+}
+
+.az-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-4);
+}
+
+.az-card {
+  text-decoration: none;
+  color: inherit;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.az-card:hover {
+  border-color: var(--color-crystal-teal);
+  box-shadow: var(--shadow-md), var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.az-card-img {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--color-earth-100);
+}
+
+.az-card-img-inner {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.az-card:hover .az-card-img-inner {
+  transform: scale(1.05);
+}
+
+.az-card-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-crystal-teal);
+  opacity: 0.3;
+  background: linear-gradient(135deg, var(--color-earth-100) 0%, rgba(61,155,145,0.05) 100%);
+}
+
+.az-card-body {
+  padding: var(--space-3) var(--space-4);
+}
+
+.az-card-name {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-zinc-900);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===== Crystal Detail Page ===== */
+.crystal-page {
+  padding: var(--space-12) 0 var(--space-20);
+}
+
+.crystal-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-10);
+  margin-top: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+  .crystal-main {
+    grid-template-columns: 1fr 2fr;
+    gap: var(--space-12);
+    align-items: start;
+  }
+}
+
+.crystal-image-panel {
+  position: sticky;
+  top: 80px;
+}
+
+.crystal-image {
+  width: 100%;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.crystal-image-placeholder {
+  aspect-ratio: 1;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-earth-100) 0%, rgba(61,155,145,0.05) 100%);
+  color: var(--color-crystal-teal);
+  opacity: 0.4;
+}
+
+.crystal-text-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.crystal-title {
+  font-family: var(--font-heading);
+  font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-zinc-900);
+  letter-spacing: -0.02em;
+}
+
+.crystal-formula {
+  font-family: var(--font-mono, monospace);
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.crystal-description {
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  margin: 0;
+}
+
+.crystal-section {
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.crystal-section:first-of-type {
+  padding-top: 0;
+  border-top: none;
+}
+
+.crystal-section-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-zinc-900);
+  margin-bottom: var(--space-4);
+}
+
+.crystal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.crystal-list li {
+  position: relative;
+  padding-left: var(--space-5);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+}
+
+.crystal-list li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  color: var(--color-crystal-teal);
+  font-size: 0.5rem;
+  top: 0.5em;
+}
+
+.crystal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.crystal-tag {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-sm);
+  background: var(--color-zinc-50);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-zinc-700);
+}
+
+.crystal-affirmation {
+  background: linear-gradient(135deg, rgba(61,155,145,0.05) 0%, rgba(232,160,180,0.05) 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.crystal-affirmation blockquote {
+  font-family: var(--font-accent, Georgia, serif);
+  font-style: italic;
+  font-size: var(--text-lg);
+  line-height: var(--leading-relaxed);
+  color: var(--color-zinc-700);
+  margin: 0;
+  padding: var(--space-2) 0;
+}
+
+.crystal-dl {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+@media (min-width: 640px) {
+  .crystal-dl {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.crystal-dl-item dt {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
+}
+
+.crystal-dl-item dd {
+  font-size: var(--text-base);
+  color: var(--color-zinc-900);
+  margin: 0;
 }

@@ -1,109 +1,73 @@
 ---
-// src/pages/cristale/index.astro - All crystals listing page
+// src/pages/cristale/index.astro - All crystals listing page with A-Z navigation
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const crystals = await getCollection('crystals');
+const sorted = [...crystals].sort((a, b) => a.data.name.localeCompare(b.data.name, 'ro'));
 
-const categoryCounts: Record<string, number> = {};
-crystals.forEach(crystal => {
-  crystal.data.category.forEach(cat => {
-    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
-  });
+// Build A-Z groups
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+const groups: Record<string, typeof sorted> = {};
+letters.forEach(letter => {
+  groups[letter] = sorted.filter(c => c.data.name.toUpperCase().startsWith(letter));
 });
-
-const categories = Object.keys(categoryCounts).sort();
+const lettersWithContent = letters.filter(l => groups[l].length > 0);
 ---
 
-<BaseLayout title="Toate Cristalele — Crystalica" description="Explorează toate cristalele din colecția noastră. Filtrare după categorie, chakre, zodiac și elemente.">
+<BaseLayout title="Toate Cristalele — Crystalica" description="Explorează toate cristalele din colecția noastră, organizate alfabetic.">
   <section class="section">
     <div class="container">
-      <header class="text-center mb-12 animate-fade-in">
+      <header class="text-center mb-10 animate-fade-in">
         <h1 class="font-heading text-4xl lg:text-5xl font-medium tracking-tight mb-4">
           Toate Cristalele
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          Descoperă cristale unice, fiecare cu proprietățile sale energetice, istorie și folosințe practice.
+          {sorted.length} cristale, organizate alfabetic.
         </p>
       </header>
 
-      <!-- Category Filter -->
-      <div class="mb-8 flex flex-wrap gap-2 justify-center" role="group" aria-label="Filtru după categorie">
-        <button class="filter-btn active" data-category="all">Toate</button>
-        {categories.map(cat => (
-          <button class="filter-btn" data-category={cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}>
-            {cat}
-          </button>
-        ))}
-      </div>
+      <!-- A-Z Navigation -->
+      <nav class="az-nav mb-10" aria-label="Navigare alfabetică">
+        <div class="az-nav-inner">
+          {lettersWithContent.map(letter => (
+            <a href={`#group-${letter}`} class="az-letter">{letter}</a>
+          ))}
+        </div>
+      </nav>
 
-      <!-- Crystal Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
-        {crystals.map((crystal, index) => (
-          <article class="card group animate-slide-up" style="animation-delay: {index * 50}ms;" role="listitem" data-category={crystal.data.category[0]?.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}>
-            <a href={`/cristale/${crystal.data.slug}`} class="block" aria-label={`Vezi detalii despre ${crystal.data.name}`}>
-              <!-- Crystal Image Placeholder -->
-              <div class="aspect-square relative overflow-hidden bg-[var(--color-earth-100)]">
-                {crystal.data.image ? (
-                  <img src={crystal.data.image} alt="" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-                ) : (
-                  <div class="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[var(--color-crystal-teal)]/10 to-[var(--color-crystal-rose)]/10">
-                    <svg width="48" height="48" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-[var(--color-crystal-teal)]/30" aria-hidden="true">
-                      <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                      <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                      <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+      <!-- Crystal Groups -->
+      {lettersWithContent.map(letter => {
+        const group = groups[letter];
+        if (group.length === 0) return null;
+        return (
+          <div key={letter} id={`group-${letter}`} class="az-group mb-12 scroll-mt-24">
+            <h2 class="az-group-letter">{letter}</h2>
+            <div class="az-grid">
+              {group.map(crystal => (
+                <a href={`/cristale/${crystal.data.slug}`} class="az-card" aria-label={`${crystal.data.name} — ${crystal.data.chemicalFormula || ''}`}>
+                  <div class="az-card-img">
+                    {crystal.data.image ? (
+                      <img src={crystal.data.image} alt="" loading="lazy" class="az-card-img-inner" />
+                    ) : (
+                      <div class="az-card-placeholder">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                          <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                          <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                          <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      </div>
+                    )}
                   </div>
-                )}
-                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                  {crystal.data.category.slice(0, 1).map(cat => (
-                    <span class="badge badge-{cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}" aria-hidden="true">{cat}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div class="p-5">
-                <h3 class="font-heading text-lg font-medium mb-2 group-hover:text-[var(--color-crystal-teal)] transition-colors">
-                  {crystal.data.name}
-                </h3>
-                <p class="text-sm text-[var(--color-text-muted)] mb-3 line-clamp-2">
-                  {crystal.data.description}
-                </p>
-                <div class="flex flex-wrap gap-1.5" aria-label={`Proprietăți: ${crystal.data.properties.slice(0, 2).join(', ')}`}>
-                  {crystal.data.properties.slice(0, 2).map(prop => (
-                    <span class="text-xs px-2 py-1 bg-[var(--color-earth-100)] text-[var(--color-earth-700)] rounded-full border border-[var(--color-border)]">
-                      {prop}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </a>
-          </article>
-        ))}
-      </div>
+                  <div class="az-card-body">
+                    <span class="az-card-name">{crystal.data.name}</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })}
     </div>
   </section>
-
-  <script>
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('[role="listitem"]');
-    
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const category = btn.getAttribute('data-category');
-        
-        filterBtns.forEach(b => b.classList.remove('active', 'btn-primary'));
-        btn.classList.add('active', 'btn-primary');
-        
-        cards.forEach(card => {
-          const cardCategory = card.getAttribute('data-category');
-          if (category === 'all' || cardCategory === category) {
-            card.style.display = 'block';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      });
-    });
-  </script>
 </BaseLayout>
