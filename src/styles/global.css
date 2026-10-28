@@ -1031,14 +1031,32 @@ img {
   max-width: 900px;
 }
 
+.crystal-day-inner-wide {
+  max-width: 1200px;
+}
+
 .crystal-day-label {
-  display: inline-block;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-crystal-teal);
-  margin-bottom: var(--space-4);
+  display: block;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-zinc-900);
+  margin-bottom: var(--space-8);
+  position: relative;
+  padding-bottom: var(--space-4);
+}
+
+.crystal-day-label::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 3px;
+  background: var(--color-crystal-teal);
+  border-radius: var(--radius-full);
 }
 
 .crystal-day-card {
@@ -1340,7 +1358,7 @@ img {
 }
 
 .crystal-section {
-  padding-top: var(--space-6);
+  padding-top: var(--space-8);
   border-top: 1px solid var(--color-border);
 }
 
@@ -1399,13 +1417,7 @@ img {
   color: var(--color-zinc-700);
 }
 
-.crystal-affirmation {
-  background: linear-gradient(135deg, rgba(61,155,145,0.05) 0%, rgba(232,160,180,0.05) 100%);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-}
-
-.crystal-affirmation blockquote {
+.crystal-affirmation-text {
   font-family: var(--font-accent, Georgia, serif);
   font-style: italic;
   font-size: var(--text-lg);

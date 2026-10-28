@@ -52,9 +52,6 @@ const ogImage = data.image || '/images/og-default.jpg';
         <!-- Right: Content panel -->
         <div class="crystal-text-panel">
           <h1 class="crystal-title">{data.name}</h1>
-          {data.chemicalFormula && (
-            <p class="crystal-formula">{data.chemicalFormula}</p>
-          )}
           <p class="crystal-description">{data.description}</p>
 
           <div class="crystal-sections">
@@ -80,7 +77,7 @@ const ogImage = data.image || '/images/og-default.jpg';
 
             {/* Afișare cheie */}
             {data.affirmation && (
-              <section class="crystal-section crystal-affirmation">
+              <section class="crystal-section">
                 <h2 class="crystal-section-title">O afirmație cheie</h2>
                 <blockquote class="crystal-affirmation-text">"{data.affirmation}"</blockquote>
               </section>
@@ -106,6 +103,12 @@ const ogImage = data.image || '/images/og-default.jpg';
                   <div class="crystal-dl-item">
                     <dt>Formula chimică</dt>
                     <dd>{data.chemicalFormula}</dd>
+                  </div>
+                )}
+                {data.color && data.color.length > 0 && (
+                  <div class="crystal-dl-item">
+                    <dt>Culoare</dt>
+                    <dd>{data.color.join(', ')}</dd>
                   </div>
                 )}
                 {data.hardness && (

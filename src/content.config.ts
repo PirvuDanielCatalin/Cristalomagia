@@ -16,6 +16,7 @@ const crystalSchema = z.object({
   rarity: z.enum(['Comun', 'Rar', 'Foarte rar', 'Unic']),
   color: z.array(z.string()),
   properties: z.array(z.string()),
+  otherNames: z.array(z.string()).optional(),
   description: z.string(),
   history: z.string(),
   healing: z.string(),

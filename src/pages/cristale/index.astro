@@ -23,23 +23,22 @@ const lettersWithContent = letters.filter(l => groups[l].length > 0);
           Toate Cristalele
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          {sorted.length} cristale, organizate alfabetic.
+          Explorează toate cristalele noastre, organizate alfabetic de la A la Z.
         </p>
       </header>
 
       <!-- A-Z Navigation -->
       <nav class="az-nav mb-10" aria-label="Navigare alfabetică">
         <div class="az-nav-inner">
-          {lettersWithContent.map(letter => (
+          {letters.map(letter => (
             <a href={`#group-${letter}`} class="az-letter">{letter}</a>
           ))}
         </div>
       </nav>
 
       <!-- Crystal Groups -->
-      {lettersWithContent.map(letter => {
+      {letters.map(letter => {
         const group = groups[letter];
-        if (group.length === 0) return null;
         return (
           <div key={letter} id={`group-${letter}`} class="az-group mb-12 scroll-mt-24">
             <h2 class="az-group-letter">{letter}</h2>

@@ -4,9 +4,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const crystals = await getCollection('crystals');
-const featured = crystals.filter(c => c.data.featured);
-const todayIndex = new Date().getDay() % featured.length;
-const crystalOfTheDay = featured[todayIndex];
+// Pick a random crystal for the day (at build time)
+const randomIndex = Math.floor(Math.random() * crystals.length);
+const crystalOfTheDay = crystals[randomIndex];
 ---
 
 <BaseLayout title="Crystalica — Enciclopedia ta personală de cristale" description="Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe practice pentru fiecare cristal.">
@@ -38,8 +38,8 @@ const crystalOfTheDay = featured[todayIndex];
   {crystalOfTheDay && (
     <section class="crystal-day-section" aria-labelledby="day-title">
       <div class="container">
-        <div class="crystal-day-inner">
-          <span class="crystal-day-label">Cristalul Zilei</span>
+        <div class="crystal-day-inner crystal-day-inner-wide">
+          <h2 class="crystal-day-label text-center">Cristalul Zilei</h2>
           <div class="crystal-day-card">
             <a href={`/cristale/${crystalOfTheDay.data.slug}`} class="crystal-day-link">
               <div class="crystal-day-image">
@@ -57,9 +57,6 @@ const crystalOfTheDay = featured[todayIndex];
               </div>
               <div class="crystal-day-info">
                 <h2 id="day-title" class="crystal-day-name">{crystalOfTheDay.data.name}</h2>
-                {crystalOfTheDay.data.chemicalFormula && (
-                  <span class="crystal-day-formula">{crystalOfTheDay.data.chemicalFormula}</span>
-                )}
                 <p class="crystal-day-desc">{crystalOfTheDay.data.description}</p>
                 <span class="crystal-day-cta">Vezi detalii →</span>
               </div>
