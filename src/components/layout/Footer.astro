@@ -1,0 +1,81 @@
+---
+// Footer.astro - Site footer
+---
+
+<footer class="bg-[var(--color-earth-900)] text-[var(--color-earth-100)] border-t border-[var(--color-earth-800)]" role="contentinfo">
+  <div class="container py-12 lg:py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <!-- Brand -->
+      <div class="lg:col-span-1">
+        <a href="/" class="flex items-center gap-2 mb-4" aria-label="Cristalomagia - Acasă">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="text-[var(--color-crystal-teal)]">
+            <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="font-heading text-xl font-medium">Cristalomagia</span>
+        </a>
+        <p class="text-[var(--color-earth-400)] text-sm leading-relaxed max-w-xs">
+          Enciclopedia ta personală de cristale. Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe practice pentru fiecare cristal.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <nav aria-label="Navigare site">
+        <h3 class="font-heading text-lg font-medium mb-4">Explorează</h3>
+        <ul class="space-y-2" role="list">
+          <li><a href="/cristale" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Toate Cristalele</a></li>
+          <li><a href="/categorii" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Categorii</a></li>
+          <li><a href="/cautare" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Caută Cristale</a></li>
+          <li><a href="/despre" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Despre Proiect</a></li>
+        </ul>
+      </nav>
+
+      <!-- Categories -->
+      <nav aria-label="Categorii de produse">
+        <h3 class="font-heading text-lg font-medium mb-4">Categorii</h3>
+        <ul class="space-y-2" role="list">
+          <li><a href="/categorii/cristale" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Cristale</a></li>
+          <li><a href="/categorii/pendule" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Pendule</a></li>
+          <li><a href="/categorii/bratari" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Brățari</a></li>
+          <li><a href="/categorii/pandantive" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Pandanțive</a></li>
+          <li><a href="/categorii/obelisc" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Obelisci</a></li>
+          <li><a href="/categorii/piramide" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Piramide</a></li>
+          <li><a href="/categorii/ingerasi" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Îngerași</a></li>
+          <li><a href="/categorii/copacel" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Copacel</a></li>
+          <li><a href="/categorii/colier" class="text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">Coliere</a></li>
+        </ul>
+      </nav>
+
+      <!-- Connect -->
+      <div>
+        <h3 class="font-heading text-lg font-medium mb-4">Conectează-te</h3>
+        <ul class="space-y-2" role="list">
+          <li><a href="/rss.xml" class="flex items-center gap-2 text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 11a9 9 0 0 1 9 9"/><path d="M4 4a16 16 0 0 1 16 16"/><circle cx="5" cy="19" r="1"/></svg>
+            Feed RSS
+          </a></li>
+          <li><a href="mailto:contact@cristalomagia.com" class="flex items-center gap-2 text-[var(--color-earth-300)] hover:text-[var(--color-crystal-teal)] transition-colors text-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Contact
+          </a></li>
+        </ul>
+        <p class="mt-6 text-xs text-[var(--color-earth-500)]">
+          Construită cu <span class="text-[var(--color-crystal-rose)]">♥</span> folosind Astro + Cloudflare Pages
+        </p>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="mt-10 pt-8 border-t border-[var(--color-earth-800)] flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-[var(--color-earth-500)]">
+        &copy; {new Date().getFullYear()} Cristalomagia. Toate drepturile rezervate.
+      </p>
+      <div class="flex items-center gap-6 text-xs text-[var(--color-earth-500)]">
+        <a href="/confidentialitate" class="hover:text-[var(--color-crystal-teal)] transition-colors">Confidențialitate</a>
+        <a href="/termeni" class="hover:text-[var(--color-crystal-teal)] transition-colors">Termeni</a>
+        <a href="/cookies" class="hover:text-[var(--color-crystal-teal)] transition-colors">Cookie-uri</a>
+      </div>
+    </div>
+  </div>
+</footer>

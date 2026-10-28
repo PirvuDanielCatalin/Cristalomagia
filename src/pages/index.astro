@@ -1,0 +1,15 @@
+---
+// index.astro - Homepage
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import FeaturedCrystals from '../components/home/FeaturedCrystals.astro';
+import CategoriesSection from '../components/home/CategoriesSection.astro';
+import IntroSection from '../components/home/IntroSection.astro';
+---
+
+<BaseLayout title="Cristalomagia — Enciclopedia ta personală de cristale" description="Descoperă 52 de cristale unice cu descrieri detaliate: proprietăți energetice, istorie, chakre, zodiac, elemente, folosințe practice și combinații. Natural/Organic design.">
+  <Hero />
+  <IntroSection />
+  <FeaturedCrystals />
+  <CategoriesSection />
+</BaseLayout>

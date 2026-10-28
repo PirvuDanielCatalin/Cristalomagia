@@ -1,0 +1,80 @@
+---
+// src/pages/categorii/index.astro - Categories listing page
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const crystals = await getCollection('crystals');
+
+const categoryCounts: Record<string, number> = {};
+const categoryDescriptions: Record<string, string> = {
+  'Cristale': 'Cristale brute, tumbled, puncte și forme naturale pentru meditație și decor',
+  'Pendule': 'Pendule pentru radiestezie, ghidare intuitivă și divinare',
+  'Brățari': 'Brățari energetice pentru purtat zilnic, combinații armonioase',
+  'Pandanțive': 'Pandanțive și medalionuri cu cristale pentru protecție și stil',
+  'Obelisc': 'Obelisci pentru amplificare și direcționare energie pozitivă',
+  'Piramide': 'Piramide pentru meditație, harmonizare spațiu și vindecare',
+  'Îngerași': 'Figurine îngerași pentru protecție, ghidare și blândețe',
+  'Copacel': 'Copaci de cristal pentru abundată, prosperitate și creștere',
+  'Colier': 'Coliere statement cu combinații puternice de cristale',
+};
+
+crystals.forEach(crystal => {
+  crystal.data.category.forEach(cat => {
+    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+  });
+});
+
+const categories = Object.entries(categoryCounts)
+  .map(([name, count]) => ({ name, count }))
+  .sort((a, b) => a.name.localeCompare(b.name));
+---
+
+<BaseLayout title="Categorii de Cristale — Cristalomagia" description="Explorează cele 9 categorii de cristale: Cristale brute, Pendule, Brățari, Pandanțive, Obelisc, Piramide, Îngerași, Copacel și Coliere.">
+  <section class="section">
+    <div class="container">
+      <header class="text-center mb-12 animate-fade-in">
+        <h1 class="font-heading text-4xl lg:text-5xl font-medium tracking-tight mb-4">
+          Categorii de Cristale
+        </h1>
+        <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
+          Fiecare categorie răspunde unor nevoi energetice diferite. Alege ce resonă cu tine.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
+        {categories.map((cat, index) => {
+          const slug = cat.name.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a');
+          return (
+            <article class="card p-6 group animate-slide-up" style="animation-delay: {index * 100}ms;" role="listitem">
+              <a href={`/categorii/${slug}`} class="block" aria-label={`Explorează categoria ${cat.name}`}>
+                <div class="flex items-start justify-between mb-4">
+                  <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[var(--color-crystal-teal)] to-[var(--color-crystal-green)] flex items-center justify-center group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 2L20 7v10L12 22L4 17V7L12 2Z"/>
+                      <path d="M12 7V17"/>
+                      <path d="M4 12H20"/>
+                    </svg>
+                  </div>
+                  <span class="badge badge-{slug}" aria-label={`${cat.count} cristale`}>{cat.count}</span>
+                </div>
+                <h2 class="font-heading text-xl font-medium mb-2 group-hover:text-[var(--color-crystal-teal)] transition-colors">
+                  {cat.name}
+                </h2>
+                <p class="text-sm text-[var(--color-text-muted)] mb-4">
+                  {categoryDescriptions[cat.name] || 'Explorează această categorie de cristale.'}
+                </p>
+                <div class="flex items-center gap-2 text-sm text-[var(--color-crystal-teal)] group-hover:gap-3 transition-all">
+                  <span>Explorează</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+              </a>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

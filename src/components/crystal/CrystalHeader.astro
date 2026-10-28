@@ -1,0 +1,83 @@
+---
+// CrystalHeader.astro - Hero header for crystal detail page
+interface Props {
+  crystal: import('astro:content').CollectionEntry<'crystals'>;
+}
+
+const { crystal } = Astro.props;
+const { data } = crystal;
+const primaryCategory = data.category[0] || 'Cristale';
+---
+
+<header class="relative overflow-hidden bg-[var(--color-bg-elevated)] border-b border-[var(--color-border)]">
+  <!-- Background decorative -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-r from-[var(--color-crystal-teal)]/5 via-transparent to-[var(--color-crystal-rose)]/5 rounded-full blur-3xl" aria-hidden="true"></div>
+  </div>
+
+  <div class="container relative py-12 lg:py-16">
+    <div class="max-w-5xl mx-auto">
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-sm text-[var(--color-text-muted)] mb-8" aria-label="Breadcrumb">
+        <a href="/" class="hover:text-[var(--color-text)] transition-colors">Acasă</a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <a href="/cristale" class="hover:text-[var(--color-text)] transition-colors">Cristale</a>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <span class="text-[var(--color-text)] font-medium" aria-current="page">{data.name}</span>
+      </nav>
+
+      <!-- Category badges -->
+      <div class="flex flex-wrap gap-2 mb-6" role="list" aria-label="Categorii">
+        {data.category.map(cat => (
+          <span class="badge badge-{cat.toLowerCase().replace('ă','a').replace('ș','s').replace('ț','t').replace('î','i').replace('â','a')}" role="listitem">{cat}</span>
+        ))}
+      </div>
+
+      <!-- Title & Description -->
+      <h1 class="font-heading text-4xl lg:text-5xl font-medium tracking-tight mb-4 animate-fade-in">
+        {data.name}
+        {data.chemicalFormula && (
+          <span class="text-[var(--color-text-muted)] font-body font-normal text-xl lg:text-2xl ml-3">({data.chemicalFormula})</span>
+        )}
+      </h1>
+
+      <p class="text-lg lg:text-xl text-[var(--color-text-muted)] leading-relaxed max-w-3xl mb-8 animate-slide-up" style="animation-delay: 100ms;">
+        {data.description}
+      </p>
+
+      <!-- Quick meta tags -->
+      <div class="flex flex-wrap gap-3 animate-slide-up" style="animation-delay: 200ms;" role="list" aria-label="Informații rapide">
+        {data.hardness && (
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-earth-100)] rounded-lg border border-[var(--color-border)]" role="listitem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-text-muted)]" aria-hidden="true"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"></polygon><line x1="12" y1="22" x2="12" y2="15.5"></line><polyline points="22 8.5 12 15.5 2 8.5"></polyline></svg>
+            <span class="text-sm font-medium">Dureță: {data.hardness}/10 (Mohs)</span>
+          </div>
+        )}
+        {data.crystalSystem && (
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-earth-100)] rounded-lg border border-[var(--color-border)]" role="listitem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-text-muted)]" aria-hidden="true"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span class="text-sm font-medium">Sistem: {data.crystalSystem}</span>
+          </div>
+        )}
+        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[var(--color-earth-100)] rounded-lg border border-[var(--color-border)]" role="listitem">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-text-muted)]" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10Z"></path></svg>
+          <span class="text-sm font-medium">Raritate: {data.rarity}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Color palette indicator -->
+  {data.color.length > 0 && (
+    <div class="container pb-8">
+      <div class="flex items-center gap-3 text-sm text-[var(--color-text-muted)]">
+        <span class="font-medium">Culori:</span>
+        <div class="flex gap-1.5" role="list" aria-label="Paleta de culori">
+          {data.color.map(c => (
+            <span key={c} class="w-6 h-6 rounded-lg border border-[var(--color-border)] flex-shrink-0" style="background-color: var(--color-{c.toLowerCase().replace(' ', '-')}, #ccc);" role="listitem" aria-label={c}></span>
+          ))}
+        </div>
+      </div>
+    </div>
+  )}
+</header>

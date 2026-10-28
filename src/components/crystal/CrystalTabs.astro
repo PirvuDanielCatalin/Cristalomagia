@@ -1,0 +1,158 @@
+---
+// CrystalTabs.astro - Content tabs for crystal detail page
+interface Props {
+  crystal: import('astro:content').CollectionEntry<'crystals'>;
+  relatedCrystals: import('astro:content').CollectionEntry<'crystals'>[];
+}
+
+const { crystal, relatedCrystals } = Astro.props;
+const { data } = crystal;
+---
+
+<div class="space-y-8">
+  <!-- Tabs Navigation -->
+  <nav class="flex flex-wrap gap-2 border-b border-[var(--color-border)] mb-6" aria-label="Taburi cristal" role="tablist">
+    <button role="tab" aria-selected="true" aria-controls="panel-istorie" class="tab-btn active px-4 py-2 text-sm font-medium text-[var(--color-crystal-teal)] border-b-2 border-[var(--color-crystal-teal)]">Istorie</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-vindecare" class="tab-btn px-4 py-2 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Vindecare</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-folosinte" class="tab-btn px-4 py-2 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Folosințe</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-ingrijire" class="tab-btn px-4 py-2 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Îngrijire</button>
+    <button role="tab" aria-selected="false" aria-controls="panel-combinatii" class="tab-btn px-4 py-2 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Combinații</button>
+  </nav>
+
+  <!-- Tab Panels -->
+  <div class="tab-panels">
+    <!-- Istorie -->
+    <section role="tabpanel" id="panel-istorie" aria-labelledby="tab-istorie" class="tab-panel active prose prose-[var(--color-text)] max-w-none">
+      {data.history && <div set:html={data.history} />}
+    </section>
+
+    <!-- Vindecare -->
+    <section role="tabpanel" id="panel-vindecare" aria-labelledby="tab-vindecare" class="tab-panel prose prose-[var(--color-text)] max-w-none hidden">
+      {data.healing && <div set:html={data.healing} />}
+    </section>
+
+    <!-- Folosințe -->
+    <section role="tabpanel" id="panel-folosinte" aria-labelledby="tab-folosinte" class="tab-panel prose prose-[var(--color-text)] max-w-none hidden">
+      {data.uses.length > 0 && (
+        <ul class="space-y-3" role="list">
+          {data.uses.map(use => (
+            <li class="flex items-start gap-3" role="listitem">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-crystal-golden)] flex-shrink-0 mt-0.5" aria-hidden="true">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+              <span>{use}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    <!-- Îngrijire -->
+    <section role="tabpanel" id="panel-ingrijire" aria-labelledby="tab-ingrijire" class="tab-panel prose prose-[var(--color-text)] max-w-none hidden">
+      {data.care && <div set:html={data.care} />}
+    </section>
+
+    <!-- Combinații -->
+    <section role="tabpanel" id="panel-combinatii" aria-labelledby="tab-combinatii" class="tab-panel prose prose-[var(--color-text)] max-w-none hidden">
+      {data.combinations.length > 0 && (
+        <ul class="space-y-3" role="list">
+          {data.combinations.map(combo => (
+            <li class="flex items-start gap-3" role="listitem">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-crystal-rose)] flex-shrink-0 mt-0.5" aria-hidden="true">
+                <path d="M12 2L22 12L12 22L2 12L12 2Z"></path>
+                <path d="M12 6L18 12L12 18L6 12L12 6Z"></path>
+              </svg>
+              <span>{combo}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      <div class="mt-8 p-4 bg-[var(--color-earth-100)] rounded-lg border border-[var(--color-border)]">
+        <h4 class="font-heading text-sm font-medium mb-2">Cristale Recomandate</h4>
+        <div class="flex flex-wrap gap-2">
+          {relatedCrystals.slice(0, 3).map(c => (
+            <a href={`/cristale/${c.slug}`} class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm bg-[var(--color-bg-elevated)] border border-[var(--color-border)] rounded-lg hover:border-[var(--color-crystal-teal)] hover:text-[var(--color-crystal-teal)] transition-colors" role="button">
+              {c.data.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Afirmație -->
+  {data.affirmation && (
+    <div class="mt-10 p-6 bg-gradient-to-br from-[var(--color-crystal-teal)]/10 to-[var(--color-crystal-rose)]/10 border border-[var(--color-crystal-teal)]/20 rounded-xl">
+      <h3 class="font-heading text-lg font-medium mb-3 flex items-center gap-2">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[var(--color-crystal-golden)]" aria-hidden="true">
+          <path d="M12 2L22 12L12 22L2 12L12 2Z"></path>
+        </svg>
+        Afirmație
+      </h3>
+      <blockquote class="font-accent italic text-base text-[var(--color-text)] leading-relaxed">
+        "{data.affirmation}"
+      </blockquote>
+    </div>
+  )}
+</div>
+
+<script>
+  // Tab switching logic
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+  
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('aria-controls');
+      
+      // Update buttons
+      tabBtns.forEach(b => {
+        b.classList.remove('active', 'text-[var(--color-crystal-teal)]', 'border-b-2', 'border-[var(--color-crystal-teal)]');
+        b.classList.add('text-[var(--color-text-muted)]');
+        b.setAttribute('aria-selected', 'false');
+      });
+      btn.classList.add('active', 'text-[var(--color-crystal-teal)]', 'border-b-2', 'border-[var(--color-crystal-teal)]');
+      btn.classList.remove('text-[var(--color-text-muted)]');
+      btn.setAttribute('aria-selected', 'true');
+      
+      // Update panels
+      tabPanels.forEach(panel => {
+        panel.classList.add('hidden');
+        if (panel.id === target) {
+          panel.classList.remove('hidden');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .tab-btn {
+    @apply relative;
+  }
+  .tab-btn::after {
+    content: '';
+    @apply absolute bottom-0 left-0 right-0 h-0.5 bg-transparent transition-colors;
+  }
+  .tab-btn.active::after {
+    @apply bg-[var(--color-crystal-teal)];
+  }
+  .tab-panel {
+    @apply animate-fade-in;
+  }
+  .prose {
+    @apply text-[var(--color-text)];
+  }
+  .prose p {
+    @apply mb-4 leading-relaxed;
+  }
+  .prose h3 {
+    @apply font-heading text-xl font-medium mt-8 mb-4;
+  }
+  .prose ul {
+    @apply list-disc list-inside space-y-2;
+  }
+  .prose strong {
+    @apply font-medium;
+  }
+</style>

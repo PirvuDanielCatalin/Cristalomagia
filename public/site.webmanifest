@@ -1,0 +1,16 @@
+{
+  "name": "Cristalomagia",
+  "short_name": "Cristalomagia",
+  "description": "Enciclopedia ta personală de cristale",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf8f5",
+  "theme_color": "#4db6ac",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

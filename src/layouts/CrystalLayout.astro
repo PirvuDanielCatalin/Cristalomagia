@@ -1,0 +1,67 @@
+---
+// CrystalLayout.astro - Layout for crystal detail pages
+import BaseLayout from './BaseLayout.astro';
+import CrystalHeader from '../components/crystal/CrystalHeader.astro';
+import CrystalSidebar from '../components/crystal/CrystalSidebar.astro';
+import CrystalTabs from '../components/crystal/CrystalTabs.astro';
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  crystal: CollectionEntry<'crystals'>;
+  allCrystals: CollectionEntry<'crystals'>[];
+}
+
+const { crystal, allCrystals } = Astro.props;
+const { data } = crystal;
+
+// Find related crystals (same category, chakra, or element)
+const relatedCrystals = allCrystals
+  .filter(c => c.id !== crystal.id)
+  .map(c => ({
+    entry: c,
+    score: (
+      (c.data.category.some(cat => data.category.includes(cat)) ? 3 : 0) +
+      (c.data.chakras.some(ch => data.chakras.includes(ch)) ? 2 : 0) +
+      (c.data.element.some(el => data.element.includes(el)) ? 2 : 0) +
+      (c.data.zodiac.some(z => data.zodiac.includes(z)) ? 1 : 0)
+    )
+  }))
+  .filter(r => r.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, 4)
+  .map(r => r.entry);
+
+// SEO
+const pageTitle = `${data.name} — Proprietăți, Istorie, Chakre, Zodiac & Folosințe`;
+const pageDescription = data.description.length > 155 ? data.description.slice(0, 152) + '...' : data.description;
+const canonical = `/cristale/${data.slug}`;
+const ogImage = data.image || '/images/og-default.jpg';
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  canonical={canonical}
+  ogImage={ogImage}
+>
+  <article class="crystal-page">
+    <CrystalHeader crystal={crystal} />
+
+    <div class="section">
+      <div class="container">
+        <div class="grid lg:grid-cols-4 gap-8 lg:gap-12">
+          <!-- Main Content -->
+          <div class="lg:col-span-3">
+            <CrystalTabs crystal={crystal} relatedCrystals={relatedCrystals} />
+          </div>
+
+          <!-- Sidebar -->
+          <aside class="lg:col-span-1">
+            <CrystalSidebar crystal={crystal} />
+          </aside>
+        </div>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

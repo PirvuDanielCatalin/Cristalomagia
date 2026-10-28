@@ -1,0 +1,17 @@
+---
+// src/pages/cristale/[slug].astro - Crystal detail page
+import { getCollection, getEntryBySlug } from 'astro:content';
+import CrystalLayout from '../../layouts/CrystalLayout.astro';
+
+export async function getStaticPaths() {
+  const crystals = await getCollection('crystals');
+  return crystals.map(crystal => ({
+    params: { slug: crystal.data.slug },
+    props: { crystal, allCrystals: crystals },
+  }));
+}
+
+const { crystal, allCrystals } = Astro.props;
+---
+
+<CrystalLayout crystal={crystal} allCrystals={allCrystals} />

@@ -1,0 +1,139 @@
+---
+// CategoriesSection.astro - Categories overview on homepage
+import { getCollection } from 'astro:content';
+
+const allCrystals = await getCollection('crystals');
+
+// Count crystals per category
+const categoryCounts: Record<string, number> = {};
+allCrystals.forEach(crystal => {
+  crystal.data.category.forEach(cat => {
+    categoryCounts[cat] = (categoryCounts[cat] || 0) + 1;
+  });
+});
+
+const categories = [
+  { slug: 'cristale', name: 'Cristale', icon: 'crystal', count: categoryCounts['Cristale'] || 0, desc: 'Cristale brute, tumbled, puncte și forme naturale' },
+  { slug: 'pendule', name: 'Pendule', icon: 'pendulum', count: categoryCounts['Pendule'] || 0, desc: 'Pendule pentru radiestezie și ghidare intuitivă' },
+  { slug: 'bratari', name: 'Brățari', icon: 'bracelet', count: categoryCounts['Brățari'] || 0, desc: 'Brățari energetice pentru purtat zilnic' },
+  { slug: 'pandantive', name: 'Pandanțive', icon: 'pendant', count: categoryCounts['Pandanțive'] || 0, desc: 'Pandanțive și medalionuri cu cristale' },
+  { slug: 'obelisc', name: 'Obelisci', icon: 'obelisk', count: categoryCounts['Obelisc'] || 0, desc: 'Obelisci pentru amplificare și direcționare energie' },
+  { slug: 'piramide', name: 'Piramide', icon: 'pyramid', count: categoryCounts['Piramide'] || 0, desc: 'Piramide pentru meditație și harmonizare spațiu' },
+  { slug: 'ingerasi', name: 'Îngerași', icon: 'angel', count: categoryCounts['Îngerași'] || 0, desc: 'Figurine îngerași pentru protecție și ghidare' },
+  { slug: 'copacel', name: 'Copacel', icon: 'tree', count: categoryCounts['Copacel'] || 0, desc: 'Copaci de cristal pentru abundată și prosperitate' },
+  { slug: 'colier', name: 'Coliere', icon: 'necklace', count: categoryCounts['Colier'] || 0, desc: 'Coliere statement cu combinații puternice' },
+];
+---
+
+<section class="section bg-[var(--color-bg-elevated)]" aria-labelledby="categories-title">
+  <div class="container">
+    <header class="text-center mb-12 animate-fade-in">
+      <h2 id="categories-title" class="font-heading text-3xl lg:text-4xl font-medium tracking-tight mb-4">
+        Explorează pe Categorii
+      </h2>
+      <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
+        Fiecare categorie răspunde unor nevoi energetice diferite. Alege ce resonă cu tine astăzi.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" role="list">
+      {categories.map((cat, index) => (
+        <article class="card p-6 group animate-slide-up" style="animation-delay: {index * 80}ms;" role="listitem">
+          <a href={`/categorii/${cat.slug}`} class="block h-full" aria-label={`Explorează categoria ${cat.name} — ${cat.count} cristale`}>
+            <div class="flex items-start gap-4">
+              <!-- Category Icon -->
+              <div class="flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br from-[var(--color-crystal-teal)] to-[var(--color-crystal-green)] flex items-center justify-center group-hover:scale-110 transition-transform duration-300" aria-hidden="true">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  {cat.icon === 'crystal' && (
+                    <>
+                      <path d="M12 2L20 7v10L12 22L4 17V7L12 2Z"/>
+                      <path d="M12 7V17"/>
+                      <path d="M4 12H20"/>
+                    </>
+                  )}
+                  {cat.icon === 'pendulum' && (
+                    <>
+                      <circle cx="12" cy="5" r="3"/>
+                      <line x1="12" y1="8" x2="12" y2="20"/>
+                    </>
+                  )}
+                  {cat.icon === 'bracelet' && (
+                    <>
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Z"/>
+                      <path d="M12 6C15.31 6 18 8.69 18 12S15.31 18 12 18 6 15.31 6 12 8.69 6 12 6Z"/>
+                    </>
+                  )}
+                  {cat.icon === 'pendant' && (
+                    <>
+                      <path d="M12 2L20 7v10L12 22L4 17V7L12 2Z"/>
+                      <circle cx="12" cy="12" r="4"/>
+                    </>
+                  )}
+                  {cat.icon === 'obelisk' && (
+                    <>
+                      <path d="M12 2L22 12L12 22L2 12L12 2Z"/>
+                      <line x1="12" y1="6" x2="12" y2="18"/>
+                    </>
+                  )}
+                  {cat.icon === 'pyramid' && (
+                    <>
+                      <path d="M12 2L2 22h20L12 2Z"/>
+                      <path d="M12 2v20"/>
+                    </>
+                  )}
+                  {cat.icon === 'angel' && (
+                    <>
+                      <circle cx="12" cy="5" r="3"/>
+                      <path d="M19 21V13a2 2 0 0 0-4 0v8"/>
+                      <path d="M5 21V13a2 2 0 0 1 4 0v8"/>
+                    </>
+                  )}
+                  {cat.icon === 'tree' && (
+                    <>
+                      <path d="M12 20v-8"/>
+                      <path d="M8 16c0-2.21 1.79-4 4-4s4 1.79 4 4"/>
+                      <path d="M12 4v4"/>
+                      <path d="M4 20h16"/>
+                    </>
+                  )}
+                  {cat.icon === 'necklace' && (
+                    <>
+                      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2Z"/>
+                      <path d="M12 6C15.3 6 18 8.7 18 12S15.3 18 12 18 6 15.3 6 12 8.7 6 12 6Z"/>
+                      <circle cx="12" cy="16" r="2"/>
+                    </>
+                  )}
+                </svg>
+              </div>
+
+              <div class="flex-1 min-w-0">
+                <div class="flex items-baseline gap-2 mb-1">
+                  <h3 class="font-heading text-lg font-medium">{cat.name}</h3>
+                  <span class="badge badge-{cat.slug}" aria-label={`${cat.count} cristale`}>{cat.count}</span>
+                </div>
+                <p class="text-sm text-[var(--color-text-muted)] mb-3">{cat.desc}</p>
+                <div class="flex items-center gap-2 text-sm text-[var(--color-crystal-teal)] group-hover:gap-3 transition-gap">
+                  <span>Explorează</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+        </article>
+      ))}
+    </div>
+
+    <div class="text-center mt-10 animate-fade-in">
+      <a href="/categorii" class="btn btn-secondary inline-flex items-center gap-2">
+        Vezi Toate Categorii
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

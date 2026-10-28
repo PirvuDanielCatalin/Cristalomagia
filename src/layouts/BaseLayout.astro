@@ -1,0 +1,97 @@
+---
+// BaseLayout.astro - Root layout for all pages
+import '../styles/global.css';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import { type AstroProps } from 'astro';
+
+interface Props extends AstroProps {
+  title: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description = 'Cristalomagia — Enciclopedia ta personală de cristale. Descoperă proprietățile energetice, istorii, chakre, zodiac și folosințe pentru 52 de cristale unice.',
+  canonical,
+  ogImage = '/images/og-default.jpg',
+  noIndex = false,
+} = Astro.props;
+
+const siteUrl = 'https://cristalomagia.com';
+const pageUrl = canonical ? `${siteUrl}${canonical}` : Astro.url.href;
+const pageTitle = `${title} | Cristalomagia`;
+---
+
+<!doctype html>
+<html lang="ro" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={pageUrl} />
+    <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow'} />
+
+    <!-- Primary Meta Tags -->
+    <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={pageUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={`${siteUrl}${ogImage}`} />
+    <meta property="og:site_name" content="Cristalomagia" />
+    <meta property="og:locale" content="ro_RO" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={pageUrl} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={`${siteUrl}${ogImage}`} />
+
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#453b31" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Cristalomagia RSS" href="/rss.xml" />
+
+    <!-- Fonts - self-hosted for performance -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600;700&display=swap" /></noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Cristalomagia',
+      url: siteUrl,
+      description: 'Enciclopedia personală de cristale cu descrieri detaliate, proprietăți energetice, chakre, zodiac și folosințe practice.',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { '@type': 'EntryPoint', urlTemplate: `${siteUrl}/cautare?q={search_term_string}` },
+        'query-input': 'required name=search_term_string'
+      }
+    })} />
+  </head>
+  <body class="flex flex-col min-h-screen">
+    <a href="#main-content" class="skip-link">Sare la conținutul principal</a>
+    <Header />
+    <main id="main-content" class="flex-grow" role="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

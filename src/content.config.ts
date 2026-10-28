@@ -1,0 +1,35 @@
+import { z, defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+
+const crystalSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  category: z.array(z.string()),
+  chemicalFormula: z.string().optional(),
+  hardness: z.number().min(1).max(10).optional(),
+  crystalSystem: z.string().optional(),
+  chakras: z.array(z.string()),
+  zodiac: z.array(z.string()),
+  element: z.array(z.string()),
+  planet: z.string().optional(),
+  origin: z.array(z.string()),
+  rarity: z.enum(['Comun', 'Rar', 'Foarte rar', 'Unic']),
+  color: z.array(z.string()),
+  properties: z.array(z.string()),
+  description: z.string(),
+  history: z.string(),
+  healing: z.string(),
+  uses: z.array(z.string()),
+  care: z.string(),
+  combinations: z.array(z.string()),
+  affirmation: z.string().optional(),
+  image: z.string().optional(),
+  featured: z.boolean().default(false),
+});
+
+const crystals = defineCollection({
+  loader: glob({ base: './src/content/crystals', pattern: '**/*.{mdx,md}' }),
+  schema: crystalSchema,
+});
+
+export const collections = { crystals };
