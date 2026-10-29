@@ -4,9 +4,9 @@ import { glob } from 'astro/loaders';
 const crystalSchema = z.object({
   name: z.string(),
   slug: z.string(),
-  chemicalFormula: z.string().optional(),
-  hardness: z.number().min(1).max(10).optional(),
-  crystalSystem: z.string().optional(),
+  chemicalFormula: z.string(),
+  hardness: z.number().min(1).max(10),
+  crystalSystem: z.string(),
   chakras: z.array(z.string()),
   zodiac: z.array(z.string()),
   element: z.array(z.string()),
@@ -22,7 +22,7 @@ const crystalSchema = z.object({
   uses: z.array(z.string()),
   care: z.string(),
   combinations: z.array(z.string()),
-  affirmation: z.string().optional(),
+  affirmation: z.string(),
   image: z.string().optional(),
 });
 
