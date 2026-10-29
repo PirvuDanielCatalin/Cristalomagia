@@ -206,29 +206,36 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
 </style>
 
 <script>
-  const container = document.currentScript?.closest('.search-container');
+  // Find container by querying for data-crystals attribute
+  const container = document.querySelector('[data-crystals]');
   if (!container) {
     console.error('SearchBar: container not found');
   }
   
   let crystalData = [];
   try {
-    crystalData = JSON.parse(container!.dataset.crystals || '[]');
+    crystalData = JSON.parse(container?.dataset.crystals || '[]');
   } catch (e) {
     console.error('SearchBar: invalid crystal data', e);
   }
   
-  const input = container!.querySelector('.search-field') as HTMLInputElement;
-  const results = container!.querySelector('.search-results') as HTMLElement;
-  const resultsInner = container!.querySelector('.search-results-inner') as HTMLElement;
-  const clearBtn = container!.querySelector('.search-clear') as HTMLElement;
+  const input = container?.querySelector('.search-field');
+  const results = container?.querySelector('.search-results');
+  const resultsInner = container?.querySelector('.search-results-inner');
+  const clearBtn = container?.querySelector('.search-clear');
+
+  if (!input || !results || !resultsInner || !clearBtn) {
+    console.error('SearchBar: missing elements');
+  }
 
   let activeIndex = -1;
 
   function renderResults(items) {
+    if (!resultsInner) return;
+    
     if (items.length === 0) {
       resultsInner.innerHTML = '<div class="search-no-results">Niciun cristal găsit</div>';
-      results.hidden = false;
+      if (results) results.hidden = false;
       return;
     }
 
@@ -251,14 +258,14 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
       </a>
     `).join('');
 
-    results.hidden = false;
+    if (results) results.hidden = false;
   }
 
   function filterResults(query) {
     const q = query.toLowerCase().trim();
     if (!q) {
-      results.hidden = true;
-      clearBtn.hidden = true;
+      if (results) results.hidden = true;
+      if (clearBtn) clearBtn.hidden = true;
       return;
     }
 
@@ -268,7 +275,7 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
     );
 
     renderResults(filtered);
-    clearBtn.hidden = query.length === 0;
+    if (clearBtn) clearBtn.hidden = query.length === 0;
     activeIndex = -1;
   }
 
@@ -276,7 +283,7 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
     filterResults(e.target.value);
   });
 
-  clearBtn.addEventListener('click', () => {
+  clearBtn?.addEventListener('click', () => {
     input.value = '';
     filterResults('');
     input.focus();
@@ -284,6 +291,8 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
 
   // Keyboard navigation
   input.addEventListener('keydown', (e) => {
+    if (!resultsInner || !results) return;
+    
     const items = resultsInner.querySelectorAll('.search-result-item');
     
     if (e.key === 'ArrowDown') {
@@ -302,7 +311,7 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
       items[activeIndex]?.scrollIntoView({ block: 'nearest' });
     } else if (e.key === 'Enter' && activeIndex >= 0) {
       e.preventDefault();
-      items[activeIndex].dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      items[activeIndex]?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     } else if (e.key === 'Escape') {
       results.hidden = true;
       input.blur();
@@ -311,7 +320,7 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
 
   // Close on outside click
   document.addEventListener('click', (e) => {
-    if (!container.contains(e.target)) {
+    if (container && !container.contains(e.target) && results) {
       results.hidden = true;
     }
   });
