@@ -21,6 +21,7 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
     formula: c.data.chemicalFormula || '',
     image: c.data.image || '',
   })))}
+  data-variant={variant}
 >
   <div class="search-input-wrapper">
     <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -121,21 +122,19 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
-    z-index: var(--z-dropdown);
+    z-index: 9999;
     max-height: 400px;
     overflow-y: auto;
   }
   
   .search-header .search-results {
-    left: auto;
     right: 0;
-    min-width: 320px;
+    left: auto;
+    min-width: 280px;
   }
   
   .search-result-item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
+    display: block;
     padding: var(--space-3) var(--space-4);
     text-decoration: none;
     color: var(--color-text);
@@ -152,46 +151,10 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
     background: rgba(61, 155, 145, 0.05);
   }
   
-  .search-result-img {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
-    object-fit: cover;
-    background: var(--color-earth-100);
-    flex-shrink: 0;
-  }
-  
-  .search-result-placeholder {
-    width: 40px;
-    height: 40px;
-    border-radius: var(--radius-md);
-    background: linear-gradient(135deg, var(--color-earth-100) 0%, rgba(61,155,145,0.05) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-crystal-teal);
-    opacity: 0.4;
-    flex-shrink: 0;
-  }
-  
-  .search-result-info {
-    flex: 1;
-    min-width: 0;
-  }
-  
   .search-result-name {
     font-weight: 600;
     font-size: var(--text-sm);
     color: var(--color-zinc-900);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .search-result-formula {
-    font-size: var(--text-xs);
-    color: var(--color-text-muted);
-    font-family: var(--font-mono, monospace);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -206,7 +169,6 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
 </style>
 
 <script>
-  // Find container by querying for data-crystals attribute
   const container = document.querySelector('[data-crystals]');
   if (!container) {
     console.error('SearchBar: container not found');
@@ -219,6 +181,7 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
     console.error('SearchBar: invalid crystal data', e);
   }
   
+  const variant = container?.dataset.variant || 'header';
   const input = container?.querySelector('.search-field');
   const results = container?.querySelector('.search-results');
   const resultsInner = container?.querySelector('.search-results-inner');
@@ -230,7 +193,8 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
 
   let activeIndex = -1;
 
-  function renderResults(items) {
+  // Header variant: show dropdown with names only
+  function renderDropdown(items) {
     if (!resultsInner) return;
     
     if (items.length === 0) {
@@ -241,57 +205,80 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
 
     resultsInner.innerHTML = items.map((item, i) => `
       <a href="/cristale/${item.slug}" class="search-result-item" data-index="${i}">
-        ${item.image 
-          ? `<img src="${item.image}" alt="" class="search-result-img" loading="lazy" />`
-          : `<div class="search-result-placeholder">
-               <svg width="20" height="20" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                 <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                 <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                 <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-               </svg>
-             </div>`
-        }
-        <div class="search-result-info">
-          <div class="search-result-name">${item.name}</div>
-          ${item.formula ? `<div class="search-result-formula">${item.formula}</div>` : ''}
-        </div>
+        <span class="search-result-name">${item.name}</span>
       </a>
     `).join('');
 
     if (results) results.hidden = false;
   }
 
-  function filterResults(query) {
+  // Page variant: filter crystal cards
+  function filterCards(query) {
     const q = query.toLowerCase().trim();
+    const cards = document.querySelectorAll('.az-card');
+    let visibleCount = 0;
+    
+    cards.forEach(card => {
+      const name = card.getAttribute('aria-label') || '';
+      const matches = !q || name.toLowerCase().includes(q);
+      card.closest('.az-group')?.classList.toggle('hidden', false);
+      card.style.display = matches ? '' : 'none';
+      if (matches) visibleCount++;
+    });
+
+    // Hide empty groups
+    document.querySelectorAll('.az-group').forEach(group => {
+      const hasVisible = group.querySelectorAll('.az-card:not([style*="display: none"])').length > 0;
+      group.style.display = hasVisible ? '' : 'none';
+    });
+
+    // Update count text
+    const countEl = document.querySelector('.section header p');
+    if (countEl) {
+      countEl.textContent = q ? `${visibleCount} cristale găsite` : `${crystalData.length} cristale, organizate alfabetic.`;
+    }
+  }
+
+  function handleInput(value) {
+    const q = value.toLowerCase().trim();
+    
     if (!q) {
       if (results) results.hidden = true;
       if (clearBtn) clearBtn.hidden = true;
+      if (variant === 'page') {
+        filterCards('');
+      }
       return;
     }
 
-    const filtered = crystalData.filter(c => 
-      c.name.toLowerCase().includes(q) || 
-      c.formula.toLowerCase().includes(q)
-    );
-
-    renderResults(filtered);
-    if (clearBtn) clearBtn.hidden = query.length === 0;
+    if (variant === 'page') {
+      if (results) results.hidden = true;
+      filterCards(value);
+    } else {
+      const filtered = crystalData.filter(c => 
+        c.name.toLowerCase().includes(q) || 
+        c.formula.toLowerCase().includes(q)
+      );
+      renderDropdown(filtered);
+    }
+    
+    if (clearBtn) clearBtn.hidden = value.length === 0;
     activeIndex = -1;
   }
 
   input.addEventListener('input', (e) => {
-    filterResults(e.target.value);
+    handleInput(e.target.value);
   });
 
   clearBtn?.addEventListener('click', () => {
     input.value = '';
-    filterResults('');
+    handleInput('');
     input.focus();
   });
 
-  // Keyboard navigation
+  // Keyboard navigation (dropdown only)
   input.addEventListener('keydown', (e) => {
-    if (!resultsInner || !results) return;
+    if (variant === 'page' || !resultsInner || !results) return;
     
     const items = resultsInner.querySelectorAll('.search-result-item');
     
