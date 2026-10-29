@@ -1,0 +1,1040 @@
+Găsit 287 fișiere .mdx în /home/daniel/Workdir/PersonalGithub/Cristalomagia/src/content/crystals
+🔍 MODE: dry-run (doar 1 test)
+
+[1/287] Procesez: actinolit (Actinolit)...
+  === Output preview ===
+---
+name: Actinolit
+slug: actinolit
+chemicalFormula: "Ca₂(Mg,Fe)₅Si₈O₂₂(OH)₂"
+hardness: 5.0
+crystalSystem: Monoclinic
+chakras:
+  - Chakra Plexului Solar
+  - Chakra Frunții
+zodiac:
+  - Berbec
+  - Taur
+  - Gemeni
+  - Rac
+  - Leu
+  - Scorpion
+  - Capricorn
+element:
+  - Foc
+  - Apă
+  - Aer
+origin:
+  - Italia
+  - Sua
+  - Canada
+  - Rusia
+rarity: Comun
+color:
+  - Verde
+  - Pal
+  - Închis
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Actinolitul are formula chimică Ca₂(Mg,Fe)₅Si₈O₂₂(OH)₂. Durata sa pe scara Mohs este între 5 și 6. Sistem cristalin este monoclinic. Culoarea sa variază de la verde pal la verde închis. Este considerat o piatră rară și este asociat cu chakrele, zodiacul european și chinezesc, și cu anotimpurile primăvară și toamnă. Proprietățile sale includ ajutorul la calmarea emoțiilor și regenerarea interioară. Originile sale includ Italia, SUA, Canada, Rusia, și Noua Zeelandă."
+history: "Actinolit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Actinolit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Actinolit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Actinolit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[2/287] Procesez: acvamarin (Acvamarin)...
+  === Output preview ===
+---
+name: Acvamarin
+slug: acvamarin
+chemicalFormula: "Be₃Al₂Si₆O₁₈"
+hardness: 7.5
+crystalSystem: Hexagonal
+chakras:
+zodiac:
+  - Rac
+element:
+  - Apă
+origin:
+rarity: Comun
+color:
+  - Albastru
+  - Deschis
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Acvamarinul are formula chimică Be₃Al₂Si₆O₁₈, duritatea de 7,5-8 pe scara Mohs, și cristalizează în sistemul hexagonal. Culoarea sa variază de la albastru deschis până la verzui deschis, în funcție de conținutul în titan sau fier. Nu este radioactiv și nu are magnetism. Se găsește în roci precum pegmatitele, granitul și gnaisurile, și poate fi întâlnit în sedimentele râurilor. Nu există informații despre chakre, zodii, element, și proprietățile suplimentare în sursele furnizate."
+history: "Acvamarin a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Acvamarin susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Acvamarin cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Acvamarin."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[3/287] Procesez: adamit (Adamit)...
+  === Output preview ===
+---
+name: Adamit
+slug: adamit
+chemicalFormula: "Zn2AsO4OH"
+hardness: 3.5
+crystalSystem: Ortorombic
+chakras:
+zodiac:
+element:
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Adamitul este un arsenat hidroxid de zinc natural cu formula chimică Zn2AsO4OH. Este un mineral cu duritate de 3,5 pe scara Mohs, care cristalizează în sistem ortorombic. Nu sunt furnizate informații despre culoare, raritate, origini, chakre, zodii, element sau proprietăți suplimentare în sursele furnizate."
+history: "Adamit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Adamit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Adamit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Adamit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[4/287] Procesez: aerinit (Aerinit)...
+  === Output preview ===
+---
+name: Aerinit
+slug: aerinit
+hardness: 6.0
+crystalSystem: Trigonal
+chakras:
+  - Chakra Plexului Solar
+  - Chakra Frunții
+zodiac:
+element:
+  - Aer
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Informații despre cristalul Aerinit în limba română: Aerinitul cristalizează în sistemul trigonal și apare în formele de mase vâscoase și zgârieturi. Este un mineral transparent și fragil. Compoziția chimică este complexă și include carbonat și silicat. Nu sunt furnizate informații despre duritate, culoare, raritate, origini, chakre, zodii, element sau proprietăți specifice în sursele furnizate. Axinitul, deși nu este exact același mineral, este menționat în surse ca având o duritate de 6.0–7.5, fiind de culoare violet și maro, și susținând chakrele radacina și al treilea ochi."
+history: "Aerinit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Aerinit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Aerinit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Aerinit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[5/287] Procesez: afghanit (Afghanit)...
+  === Output preview ===
+---
+name: Afghanit
+slug: afghanit
+chemicalFormula: "Ca₂Al₃(SiO₄)(Si₂O₇)O(OH)"
+hardness: 6.0
+crystalSystem: Hexagonal
+chakras:
+  - Chakra Rădăcină
+  - Chakra Inimii
+zodiac:
+element:
+  - Aer
+origin:
+  - India
+rarity: Comun
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: Ca₂Al₃(SiO₄)(Si₂O₇)O(OH). Duritate: 6 – 7 Mohs. Sistem cristalin: Ortrombic. Culoare: nu este specificată în surse. Raritate: nu este specificată în surse. Origini: Tanzania, Kenya, India. Chakra: Chakra inimii (4). Element: Pămnt. Proprietăți: Transformare, regenerare, creștere personală, vitalitate, claritate în schimbare. Zodii și alte atribute specifice nu sunt menționate în surse."
+history: "Afghanit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Afghanit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Afghanit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Afghanit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[6/287] Procesez: agat-carneolizat (Agat Carneolizat)...
+  === Output preview ===
+---
+name: Agat Carneolizat
+slug: agat-carneolizat
+chemicalFormula: "SiO2"
+hardness: 6.5
+crystalSystem: Trigonal
+chakras:
+  - Chakra Sacrală
+zodiac:
+  - Berbec
+  - Taur
+  - Gemeni
+  - Rac
+  - Scorpion
+  - Capricorn
+element:
+  - Foc
+origin:
+  - India
+  - Brazilia
+  - Africa
+rarity: Comun
+color:
+  - Albastru
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO2. Duritate: 6,5-7. Sistem de cristalizare: trigonal. Culoare: toate culorile în afara de albastru de cobalt; apare totdeauna cu dungi. Raritate: nu este specificată în surse. Origini: STATELE UNITE ALE AMERICII, INDIA, MAROC, REPUBLICA CEHE, BRAZILIA, AFRICA. Chakre: toate chakrele. Zodii: Gemeni, Rac, Fecioara, Balanta, Taur, Scorpion, Berbec, Sagetator, Capricorn, Varsator, Pesti. Element: Foc. Proprietăți: stabilitate, sprijin, susținere, reduce stresul, depresia, frica, resentimentele, regretele, furia, esecul, gelozia, vinovăția, atrage dragostea, conferă frumusețe..."
+history: "Agat Carneolizat a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Agat Carneolizat susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Agat Carneolizat cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Agat Carneolizat."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[7/287] Procesez: agat-indian (Agat Indian)...
+  === Output preview ===
+---
+name: Agat Indian
+slug: agat-indian
+chemicalFormula: "SiO2"
+hardness: 6.5
+crystalSystem: Trigonal
+chakras:
+  - Chakra Frunții
+zodiac:
+  - Berbec
+  - Taur
+  - Gemeni
+  - Rac
+  - Fecioară
+  - Scorpion
+  - Săgetător
+  - Capricorn
+  - Vărsător
+  - Pești
+element:
+  - Foc
+origin:
+  - India
+  - Brazilia
+  - Africa
+rarity: Comun
+color:
+  - Transparent
+  - Alb
+  - Albastru
+  - Verde
+  - Roz
+  - Maro
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO2. Duritate: 6,5-7 (din 10). Sistem cristalin: trigonal. Culoare: transparent sau alb laptos, cenusiu, albastru, verde, roz, maro, de multe ori colorat artificial. Raritate: semipretios. Origini: Statele Unite ale Americii, India, Maroc, Republica Cehă, Brazilia, Africa. Chakre: toate chakrele. Zodii: Gemeni, Rac, Fecioară, Balanta, Taur, Scorpion, Berbec, Sagetator, Capricorn, Vărsator, Pești. Element: nu este specificat. Proprietăți: stabilitate, sprijin, susținere, armonizarea forțelor negative și pozitive, suport în atingerea scopurilor, reducerea stresului și a nega..."
+history: "Agat Indian a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Agat Indian susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Agat Indian cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Agat Indian."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[8/287] Procesez: agat-muschi (Agat Muschi)...
+  === Output preview ===
+---
+name: Agat Muschi
+slug: agat-muschi
+chemicalFormula: "SiO2"
+hardness: 6.5
+crystalSystem: Trigonal
+chakras:
+zodiac:
+  - Rac
+element:
+origin:
+rarity: Rar
+color:
+  - Albastru
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO2. Duritate: 6,5-7. Sistem de cristalizare: trigonal. Culoare: toate culorile în afara de albastru de cobalt; apare totdeauna cu dungi. Raritate, chakre, zodii, element, și proprietăți specifice nu sunt menționate în surse. Origini: nu sunt menționate în surse."
+history: "Agat Muschi a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Agat Muschi susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Agat Muschi cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Agat Muschi."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[9/287] Procesez: agat (Agat)...
+  === Output preview ===
+---
+name: Agat
+slug: agat
+chemicalFormula: "SiO2"
+hardness: 6.5
+crystalSystem: Trigonal
+chakras:
+zodiac:
+  - Berbec
+  - Taur
+  - Gemeni
+  - Rac
+  - Scorpion
+  - Capricorn
+element:
+origin:
+  - India
+  - Brazilia
+  - Africa
+rarity: Rar
+color:
+  - Albastru
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO2. Duritate: 6,5-7. Sistem cristalin: trigonal. Culoare: toate culorile în afara albastru de cobalt, cu dungi. Raritate: nu este specificată în surse. Origini: STATELE UNITE ALE AMERICII, INDIA, MAROC, REPUBLICA CEHE, BRAZILIA, AFRICA. Chakre: toate chakrele. Zodii: Gemeni, Rac, Fecioara, Balanta, Taur, Scorpion, Berbec, Sagetator, Capricorn, Varsator, Pesci. Element: nu este specificat în surse. Proprietăți: stabilitate, sprijin, susținere."
+history: "Agat a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Agat susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Agat cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Agat."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[10/287] Procesez: albit (Albit)...
+  === Output preview ===
+---
+name: Albit
+slug: albit
+chemicalFormula: "NaAlSi3O8"
+hardness: 3.0
+crystalSystem: Trigonal
+chakras:
+  - Chakra Rădăcină
+  - Chakra Frunții
+  - Chakra Coroanei
+zodiac:
+  - Taur
+  - Rac
+  - Capricorn
+  - Vărsător
+  - Pești
+element:
+  - Foc
+  - Apă
+  - Aer
+origin:
+rarity: Rar
+color:
+  - Alb
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Albitul este un feldspat plagioclaz cu formula chimică NaAlSi3O8. Este un tectosilicat, iar culoarea sa este de obicei alb-pură. Nu sunt informații despre duritate, sistem cristalin, raritate, origini, chakre, zodii, element sau proprietăți în sursele furnizate."
+history: "Albit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Albit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Albit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Albit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[11/287] Procesez: alexandrit (Alexandrit)...
+  === Output preview ===
+---
+name: Alexandrit
+slug: alexandrit
+chemicalFormula: "BeAl₂O₄"
+hardness: 8.5
+chakras:
+zodiac:
+element:
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Alexandritul este o varietate de crisoberil cu formula chimică BeAl₂O₄, descoperit pentru prima dată în Munții Ural din Rusia în 1830. Are o duritate de 8,5 pe scara Mohs. Originea sa nu este specificată în surse, dar este menționat că culoarea sa este determinată de condițiile de iluminare. Raritate, chakre, zodii, element și alte proprietăți specifice nu sunt menționate în sursele furnizate."
+history: "Alexandrit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Alexandrit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Alexandrit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Alexandrit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[12/287] Procesez: amazonit (Amazonit)...
+  === Output preview ===
+---
+name: Amazonit
+slug: amazonit
+hardness: 6.0
+crystalSystem: Triclinic
+chakras:
+  - Chakra Inimii
+  - Chakra Gâtului
+  - Chakra Frunții
+zodiac:
+  - Rac
+element:
+origin:
+  - Brazilia
+  - Rusia
+  - Canada
+  - India
+  - Austria
+rarity: Comun
+color:
+  - Albastru
+  - Verde
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Sursele menționează că Amazonitul are formula chimică (Na,K)[AlSi3O8], duritatea de 6-6,5 pe scara Mohs, și este triclinic în sistemul său cristalin. Culoarea sa variază între albastru și verde. Originile sale includ Brazilia, Statele Unite, Rusia, Canada, India, Mozambic, Namibia și Austria. Este asociat cu chakrele inimii și gâtului și este recomandat pentru echilibrul și adevărul interior. Nu este legat de anumite zodii sau nativi, dar poate fi considerat pentru cei care caută fluiditate și optimism în viață."
+history: "Amazonit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Amazonit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Amazonit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Amazonit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[13/287] Procesez: ametist-cactus (Ametist Cactus)...
+  === Output preview ===
+---
+name: Ametist Cactus
+slug: ametist-cactus
+chemicalFormula: "SiO₂+(Al,Fe,Ca,Mg,Li,Na)"
+hardness: 7.0
+crystalSystem: Trigonal
+chakras:
+  - Chakra Frunții
+  - Chakra Coroanei
+zodiac:
+  - Gemeni
+  - Rac
+  - Vărsător
+  - Pești
+element:
+origin:
+rarity: Rar
+color:
+  - Mov
+  - Deschis
+  - Violet
+  - Intens
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO₂+(Al, Fe, Ca, Mg, Li, Na) sau SiO₂. Duritate: 7 pe scara Mohs. Sistem cristalin: trigonal. Culoare: violetă, de la lavandă și mov deschis pnă la violet intens. Raritate: este probabil cea mai exploatată piatră semiprețioasă de pe planetă. Origini: nu sunt specificate în surse. Chakre: cel de-al treilea ochi și coroanei. Zodii: Pești, gemeni, vărsător. Element: nu este specificat în surse. Proprietăți: încurajează generarea de idei noi, calmează trăirile puternice precum furia, mnia, frica și anxietatea, stimulează sistemul imunitar."
+history: "Ametist Cactus a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Ametist Cactus susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Ametist Cactus cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Ametist Cactus."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[14/287] Procesez: ametist-roz (Ametist Roz)...
+  === Output preview ===
+---
+name: Ametist Roz
+slug: ametist-roz
+chemicalFormula: "SiO₂+(Al,Fe,Ca,Mg,Li,Na)"
+hardness: 7.0
+crystalSystem: Trigonal
+chakras:
+  - Chakra Frunții
+  - Chakra Coroanei
+zodiac:
+  - Gemeni
+  - Rac
+  - Vărsător
+  - Pești
+element:
+  - Apă
+origin:
+rarity: Rar
+color:
+  - Mov
+  - Deschis
+  - Violet
+  - Intens
+  - Roz
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO₂+(Al, Fe, Ca, Mg, Li, Na) și SiO₂. Duritate: 7 pe scara Mohs. Sistem de cristalizare: trigonal. Culoare: violetă, parțial incolor și pătat tulbure, lavandă și mov deschis pnă la violet intens, și nuanțe delicate și pastelate de roz. Raritate: variază, cu ametistul roz fiind o varietate rară și exotică. Origini: descoperit recent în Patagonia, Argentina (2017). Chakra: cel de-al treilea ochi și chakra coroanei. Zodii: Pești, gemeni, vărsător. Element: nu este specificat în surse. Proprietăți: încurajează generarea de idei noi, calmează trăirile puternice precum furia, mn..."
+history: "Ametist Roz a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Ametist Roz susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Ametist Roz cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Ametist Roz."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[15/287] Procesez: ametist-vera-cruz (Ametist Vera Cruz)...
+  === Output preview ===
+---
+name: Ametist Vera Cruz
+slug: ametist-vera-cruz
+chemicalFormula: "SiO₂+(Al,Fe,Ca,Mg,Li,Na)"
+hardness: 7.0
+crystalSystem: Trigonal
+chakras:
+  - Chakra Frunții
+  - Chakra Coroanei
+zodiac:
+  - Gemeni
+  - Rac
+  - Vărsător
+  - Pești
+element:
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO₂+(Al, Fe, Ca, Mg, Li, Na) și SiO₂. Duritate: 7 pe scara Mohs. Sistem cristalin: trigonal. Culoare: violetă, parțial incolor și pătat tulbure. Raritate: nuanța „Deep Russian” este extrem de rară. Origini: nu sunt specificate în surse. Chakre: cel de-al treilea ochi și coroana. Zodii: Pești, gemeni, vărsător. Element: nu este specificat în surse. Proprietăți: încurajează generarea de idei noi, calmează trăirile puternice, stimulează sistemul imunitar."
+history: "Ametist Vera Cruz a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Ametist Vera Cruz susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Ametist Vera Cruz cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Ametist Vera Cruz."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[16/287] Procesez: ametist (Ametist)...
+  === Output preview ===
+---
+name: Ametist
+slug: ametist
+chemicalFormula: "SiO₂+(Al,Fe,Ca,Mg,Li,Na)duritate7"
+hardness: 7.0
+crystalSystem: Trigonal
+chakras:
+  - Chakra Frunții
+  - Chakra Coroanei
+zodiac:
+  - Gemeni
+  - Rac
+  - Vărsător
+  - Pești
+element:
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO₂+(Al, Fe, Ca, Mg, Li, Na); duritate: 7 pe scara Mohs; sistem cristalin: trigonal; culoare: violetă, parțial incolor și pătat tulbure; raritate: nu este menționată în surse; origini: nu este menționată în surse; chakre: cel de-al treilea ochi și coroana; zodii: Pești, gemeni, vărsător; element: nu este menționat în surse; proprietăți: protectie, purificare, spiritualitate, pace, intuiție, încurajează generarea de idei noi, calmează trăirile puternice precum furia, mnia, frica și anxietatea, stimulează sistemul imunitar."
+history: "Ametist a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Ametist susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Ametist cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Ametist."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[17/287] Procesez: ametrin (Ametrin)...
+  === Output preview ===
+---
+name: Ametrin
+slug: ametrin
+chemicalFormula: "SiO2(dioxid"
+hardness: 7.0
+crystalSystem: Trigonal
+chakras:
+zodiac:
+  - Rac
+element:
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: SiO2 (dioxid de siliciu). Sistem cristalin: trigonal. Duritate: 7 pe scara Mohs. Culoare: violet. Raritate: nu este specificată în surse. Origini: nu este specificată în surse. Chakre: nu este specificată în surse. Zodii: nu este specificată în surse. Element: nu este specificată în surse. Proprietăți: echilibrează energia mentală, ajută la luarea deciziilor și la găsirea soluțiilor optime în situații dificile, susține sistemul nervos și imunitar."
+history: "Ametrin a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Ametrin susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Ametrin cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Ametrin."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[18/287] Procesez: anapait (Anapait)...
+  === Output preview ===
+---
+name: Anapait
+slug: anapait
+chemicalFormula: "Ca5(F,Cl,OH)(PO4)3"
+hardness: 5.0
+crystalSystem: Hexagonal
+chakras:
+  - Chakra Frunții
+zodiac:
+  - Rac
+element:
+origin:
+rarity: Rar
+color:
+  - Alb
+  - Verde
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: Ca5(F,Cl,OH)|(PO4)3; sistem cristalin: hexagonal; culoare: cristal incolor, alb, verde, brun; duritate: 5; raritatea și alte informații specifice despre chakre, zodii, element, și proprietăți nu sunt menționate în sursele furnizate."
+history: "Anapait a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Anapait susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Anapait cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Anapait."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[19/287] Procesez: anatase (Anatase)...
+  === Output preview ===
+---
+name: Anatase
+slug: anatase
+hardness: 30.0
+chakras:
+  - Chakra Plexului Solar
+  - Chakra Inimii
+  - Chakra Frunții
+zodiac:
+  - Berbec
+  - Taur
+  - Gemeni
+  - Rac
+element:
+  - Foc
+  - Apă
+  - Aer
+origin:
+rarity: Comun
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Informații despre cristalul Anatase: Anatase este asociat cu chakră inimii (Anahata) într-o temă simbolică de iubire, compasiune, armonie și acceptare. Nu sunt furnizate informații despre formula chimică, duritate, sistem cristalin, culoare, raritate, origini, chakre, zodii, element sau proprietăți specifice în sursele furnizate."
+history: "Anatase a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Anatase susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Anatase cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Anatase."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[20/287] Procesez: ancestralit (Ancestralit)...
+  === Output preview ===
+---
+name: Ancestralit
+slug: ancestralit
+hardness: 5.0
+crystalSystem: Monoclinic
+chakras:
+  - Chakra Sacrală
+  - Chakra Plexului Solar
+  - Chakra Frunții
+zodiac:
+element:
+origin:
+  - Canada
+rarity: Rar
+color:
+  - Maro
+  - Galben
+  - Rosu
+  - Verde
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Informații despre cristalul Ancestralit în limba română: Compoziția chimică este Na(CaNa)(Mg, Fe++)5Si8O222, duritatea este 5 – 6 (din 10), sistemul cristalin este monoclinic, culoarea poate fi maro, galben, rosu, verde, raritatea nu este specificată, originile includ PAKISTAN, CANADA, SUEDIA, MYANMAR, STATELE UNITE ALE AMERICII, chakrele asociate sunt chackra sacrala (2), plexul solar (3), gat (5), zodiile, elementul și proprietățile specifice nu sunt menționate în surse."
+history: "Ancestralit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Ancestralit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Ancestralit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Ancestralit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[21/287] Procesez: angelit (Angelit)...
+  === Output preview ===
+---
+name: Angelit
+slug: angelit
+chemicalFormula: "CaSO4"
+hardness: 3.0
+crystalSystem: Ortorombic
+chakras:
+  - Chakra Inimii
+  - Chakra Frunții
+  - Chakra Coroanei
+zodiac:
+  - Berbec
+  - Taur
+  - Gemeni
+  - Rac
+  - Leu
+  - Scorpion
+  - Capricorn
+element:
+origin:
+  - Germania
+rarity: Comun
+color:
+  - Albastru
+  - Alb
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Angelitul are formula chimică CaSO4, duritate de 3-3,5 pe scara Mohs, sistem cristalin ortorombic-dipyramidal, și este de culoare albastru cu alb, uneori cu reflexe rosiatice. Este găsit în Marea Britanie, Egipt, Polonia, Germania, Mexic, Peru și Libia. Este asociat cu chakrele gatului (5), al treilea ochi (6) și coroana (7). Nu este menționată raritatea, semnele zodiacale, elementul sau alte proprietăți în detaliu în surse."
+history: "Angelit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Angelit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Angelit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Angelit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[22/287] Procesez: apatit (Apatit)...
+  === Output preview ===
+---
+name: Apatit
+slug: apatit
+chemicalFormula: "Ca5(F,Cl,OH)(PO4)3"
+hardness: 4.5
+crystalSystem: Hexagonal
+chakras:
+  - Chakra Plexului Solar
+  - Chakra Inimii
+  - Chakra Frunții
+  - Chakra Coroanei
+zodiac:
+  - Gemeni
+  - Rac
+  - Vărsător
+element:
+planet: GUVERNATOARE
+origin:
+  - Rusia
+rarity: Comun
+color:
+  - Verde
+  - Alb
+  - Galben
+  - Albastru
+  - Violet
+  - Maro
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Formula chimică: Ca5(F,Cl,OH)|(PO4)3. Sistem cristalin: hexagonal. Duritate: 4,5 – 5,5 (din 10). Culoare: variază de la verde, alb, galben, albastru, violet, purpuriu, maro-roscat. Raritate: mineral abundent. Origini: STATELE UNITE, MEXIC, NORVEGIA, RUSIA. Chakre: plexul solar (3), inima (4), gat (5), al treilea ochi (6), chackra coroana (7). Elemente: nu este specificat în surse. Proprietăți: vindeca mintea și spiritul, contribuind la dezvoltarea spiritului interior, deschide chackra gatului, susține aflarea adevărului profund, îndepartează supararea și apatia."
+history: "Apatit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Apatit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Apatit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Apatit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[23/287] Procesez: apofilit (Apofilit)...
+  === Output preview ===
+---
+name: Apofilit
+slug: apofilit
+chakras:
+  - Chakra Frunții
+zodiac:
+element:
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Apofilitul este un mineral din familia silicatilor hidratati de potasiu si calciu, cu formula chimică (K,Na)Ca4Si8O20(OH,F)·8H2O. Nu sunt furnizate informații despre duritatea, sistemul cristalin, culoarea, raritatea, originile, chakrele, zodiile, elementul sau proprietățile specifice ale cristalului Apofilit în sursele furnizate. Apofilitul stimulează chakra a treia și cea a coronei, activează mintea superioară și îmbunătățește abilitățile psihice. Nu sunt furnizate informații despre elementul și proprietățile specifice ale cristalului în sursele furnizate."
+history: "Apofilit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Apofilit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Apofilit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Apofilit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---
+
+  === End preview ===
+
+[24/287] Procesez: aragonit (Aragonit)...
+  === Output preview ===
+---
+name: Aragonit
+slug: aragonit
+chemicalFormula: "CaCO3"
+hardness: 3.5
+crystalSystem: Ortorombic
+chakras:
+zodiac:
+  - Rac
+element:
+origin:
+rarity: Rar
+color:
+properties:
+  - Echilibru
+  - Protecție
+  - Vindecare
+  - Armonizare
+description: "Aragonitul are formula chimică CaCO3. Se cristalizează în sistemul ortorombic și duritatea sa pe scara lui Mohs variază între 3,5 - 4,5. Culoarea sa poate fi albă, cenușie, galbenă, roșie, violetă sau albastră. Nu există informații despre raritate, chakre, zodii, element sau proprietăți specifice în sursele furnizate."
+history: "Aragonit a fost utilizat din timpuri străvechi în scopuri decorative și ritualice."
+healing: "Aragonit susține echilibrul energetic și ajută la eliberarea tensiunilor emoționale."
+care: "Curăță Aragonit cu apă călduță și săpun delicat. Evită expunerea prelungită la soare."
+affirmation: "Sunt centrat și în armonie cu energia din Aragonit."
+uses:
+  - Meditație
+  - Vindecare energetică
+  - Colecționare
+combinations:
+  - Cuarț de stâncă
+  - Turmalină neagră
+image: ""
+---

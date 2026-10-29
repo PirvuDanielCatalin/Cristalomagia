@@ -4,7 +4,6 @@ import { glob } from 'astro/loaders';
 const crystalSchema = z.object({
   name: z.string(),
   slug: z.string(),
-  category: z.array(z.string()),
   chemicalFormula: z.string().optional(),
   hardness: z.number().min(1).max(10).optional(),
   crystalSystem: z.string().optional(),
@@ -25,7 +24,6 @@ const crystalSchema = z.object({
   combinations: z.array(z.string()),
   affirmation: z.string().optional(),
   image: z.string().optional(),
-  featured: z.boolean().default(false),
 });
 
 const crystals = defineCollection({
