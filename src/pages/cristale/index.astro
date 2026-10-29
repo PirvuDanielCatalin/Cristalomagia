@@ -2,6 +2,7 @@
 // src/pages/cristale/index.astro - All crystals listing page with A-Z navigation
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import SearchBar from '../../components/SearchBar.astro';
 
 const crystals = await getCollection('crystals');
 const sorted = [...crystals].sort((a, b) => a.data.name.localeCompare(b.data.name, 'ro'));
@@ -23,9 +24,12 @@ const lettersWithContent = letters.filter(l => groups[l].length > 0);
           Toate Cristalele
         </h1>
         <p class="text-lg text-[var(--color-text-muted)] max-w-2xl mx-auto">
-          Explorează toate cristalele noastre, organizate alfabetic de la A la Z.
+          {sorted.length} cristale, organizate alfabetic.
         </p>
       </header>
+
+      <!-- Search Bar -->
+      <SearchBar variant="page" />
 
       <!-- A-Z Navigation -->
       <nav class="az-nav mb-10" aria-label="Navigare alfabetică">

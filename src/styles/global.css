@@ -1203,6 +1203,8 @@ img {
 
 .az-group {
   margin-bottom: var(--space-12);
+  scroll-margin-top: 140px;
+  padding-top: var(--space-4);
 }
 
 .az-group-letter {
