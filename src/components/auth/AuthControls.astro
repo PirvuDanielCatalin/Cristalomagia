@@ -7,6 +7,14 @@ const { variant = 'desktop' } = Astro.props;
 ---
 
 <div class:list={['auth-controls', `auth-controls-${variant}`]} data-auth-controls data-variant={variant}>
+  <!-- Loading spinner – hidden while Clerk initializes -->
+  <div class="auth-loading" data-auth-loading hidden>
+    <svg class="auth-loading-spinner" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2.5"
+              stroke-dasharray="31.4 31.4" stroke-linecap="round"/>
+    </svg>
+  </div>
+
   <div class="auth-guest" data-auth-guest hidden>
     <button type="button" class="auth-btn auth-btn-ghost" data-auth-sign-in>
       Conectare
@@ -31,6 +39,7 @@ const { variant = 'desktop' } = Astro.props;
       return;
     }
 
+    const loading = root.querySelector<HTMLElement>('[data-auth-loading]');
     const guest = root.querySelector<HTMLElement>('[data-auth-guest]');
     const userBox = root.querySelector<HTMLElement>('[data-auth-user]');
     const avatar = root.querySelector<HTMLDivElement>('[data-auth-avatar]');
@@ -56,16 +65,27 @@ const { variant = 'desktop' } = Astro.props;
       }
     };
 
-    root.querySelector<HTMLButtonElement>('[data-auth-sign-in]')?.addEventListener('click', () => {
-      void clerk.openSignIn();
+    // Wait for Clerk to finish loading before enabling buttons or showing UI
+    void clerkReady.then(() => {
+      if (loading) loading.hidden = true;
+      render();
+    }).catch(() => {
+      // Initialization failed – hide everything
+      if (loading) loading.hidden = true;
+      root.hidden = true;
     });
 
-    root.querySelector<HTMLButtonElement>('[data-auth-sign-up]')?.addEventListener('click', () => {
-      void clerk.openSignUp();
+    root.querySelector<HTMLButtonElement>('[data-auth-sign-in]')?.addEventListener('click', async () => {
+      await clerkReady;
+      if (clerk) void clerk.openSignIn();
+    });
+
+    root.querySelector<HTMLButtonElement>('[data-auth-sign-up]')?.addEventListener('click', async () => {
+      await clerkReady;
+      if (clerk) void clerk.openSignUp();
     });
 
     clerk.addListener(render);
-    void clerkReady.then(render);
   }
 
   document.querySelectorAll<HTMLElement>('[data-auth-controls]').forEach(initAuthControls);

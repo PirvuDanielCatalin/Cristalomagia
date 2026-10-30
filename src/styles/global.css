@@ -1725,6 +1725,30 @@ img {
   }
 }
 
+/* Clerk loading spinner */
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.auth-loading[hidden] {
+  display: none;
+}
+
+.auth-loading-spinner {
+  width: 18px;
+  height: 18px;
+  color: var(--color-crystal-teal);
+  animation: auth-spin 0.9s linear infinite;
+}
+
+@keyframes auth-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ===== Crystal collections (cards) ===== */
 .az-card-shell {
   position: relative;
