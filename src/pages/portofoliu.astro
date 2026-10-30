@@ -176,11 +176,6 @@ const crystalIndex = sorted.map((crystal) => ({
            </svg>
          </div>`;
 
-    const formula =
-      item.formula && item.formula !== '-'
-        ? `<span class="portfolio-item-formula">${escapeHtml(item.formula)}</span>`
-        : '';
-
     const moveButton =
       state === 'w'
         ? `<button type="button" class="portfolio-action portfolio-action-move" data-portfolio-move="${escapeHtml(item.slug)}">Mută în portofoliu</button>`
@@ -191,7 +186,6 @@ const crystalIndex = sorted.map((crystal) => ({
         <div class="portfolio-item-img">${image}</div>
         <div class="portfolio-item-body">
           <span class="portfolio-item-name">${escapeHtml(item.name)}</span>
-          ${formula}
         </div>
       </a>
       <div class="portfolio-item-actions">
