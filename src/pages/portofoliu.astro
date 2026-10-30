@@ -67,15 +67,69 @@ const crystalIndex = sorted.map((crystal) => ({
 </BaseLayout>
 
 <script>
-  import {
-    clerk,
-    clerkReady,
-    getClerkStatus,
-    openSignIn,
-    readCollections,
-    saveCollections,
-  } from '../scripts/clerk';
-  import type { CollectionsMap } from '../scripts/clerk';
+    // Portfolio page using window.__crystalicaClerk directly (not ES imports which may be null)
+    type CollectionState = 'p' | 'w';
+    type CollectionsMap = Record<string, CollectionState>;
+
+    function waitForClerkReady(timeout = 15000): Promise<any> {
+      return new Promise((resolve, reject) => {
+        const start = Date.now();
+        const check = () => {
+          const clerk = window.__crystalicaClerk;
+          if (clerk && window.__crystalicaClerkStatus === 'ready') {
+            resolve(clerk);
+          } else if (Date.now() - start > timeout) {
+            reject(new Error('Clerk did not load within timeout'));
+          } else {
+            setTimeout(check, 100);
+          }
+        };
+        check();
+      });
+    }
+
+    function readCollections(user: unknown): CollectionsMap {
+      const metadata = (user as { unsafeMetadata?: Record<string, unknown> } | null | undefined)?.unsafeMetadata;
+      const raw = metadata?.collections;
+      const collections: CollectionsMap = {};
+
+      if (typeof raw === 'string') {
+        for (const entry of raw.split(',')) {
+          const separator = entry.lastIndexOf(':');
+          if (separator <= 0) continue;
+          const slug = entry.slice(0, separator);
+          const state = entry.slice(separator + 1);
+          if (slug && (state === 'p' || state === 'w')) {
+            collections[slug] = state;
+          }
+        }
+        return collections;
+      }
+
+      if (raw && typeof raw === 'object') {
+        for (const [slug, value] of Object.entries(raw as Record<string, unknown>)) {
+          if (value === 'p' || value === 'w') {
+            collections[slug] = value;
+          }
+        }
+      }
+
+      return collections;
+    }
+
+    async function saveCollections(user: any, collections: CollectionsMap): Promise<void> {
+      const unsafeMetadata = {
+        ...(user.unsafeMetadata ?? {}),
+        collections: Object.entries(collections)
+          .map(([slug, state]) => `${slug}:${state}`)
+          .join(','),
+      };
+
+      await user.update({ unsafeMetadata });
+      document.dispatchEvent(
+        new CustomEvent<CollectionsMap>('crystalica:collections', { detail: collections }),
+      );
+    }
 
   interface CrystalIndexItem {
     name: string;
@@ -148,6 +202,8 @@ const crystalIndex = sorted.map((crystal) => ({
   }
 
   function render() {
+    const clerk = window.__crystalicaClerk;
+    
     if (!clerk) {
       if (loading) loading.textContent = 'Autentificarea nu este configurată.';
       return;
@@ -179,10 +235,12 @@ const crystalIndex = sorted.map((crystal) => ({
   }
 
   function syncFromUser() {
+    const clerk = window.__crystalicaClerk;
     collections = readCollections(clerk?.user);
   }
 
   document.addEventListener('click', async (event) => {
+    const clerk = window.__crystalicaClerk;
     const button = (event.target as Element | null)?.closest<HTMLElement>(
       '[data-portfolio-move], [data-portfolio-remove]',
     );
@@ -222,8 +280,10 @@ const crystalIndex = sorted.map((crystal) => ({
   const signInButton = document.querySelector<HTMLButtonElement>('[data-portfolio-sign-in]');
 
   signInButton?.addEventListener('click', () => {
+    const clerk = window.__crystalicaClerk;
+    if (!clerk) return;
     signInButton.disabled = true;
-    void openSignIn().finally(() => {
+    clerk.openSignIn().finally(() => {
       signInButton.disabled = false;
     });
   });
@@ -237,14 +297,20 @@ const crystalIndex = sorted.map((crystal) => ({
   });
 
   async function init() {
+    // Wait for Clerk to be available from CDN before proceeding
+    await waitForClerkReady();
+    
+    const clerk = window.__crystalicaClerk;
+    
     if (!clerk) {
       if (loading) loading.textContent = 'Autentificarea nu este configurată.';
       return;
     }
 
-    await clerkReady;
+    await waitForClerkReady();
 
-    if (getClerkStatus() !== 'ready') {
+    const status = window.__crystalicaClerkStatus;
+    if (status !== 'ready') {
       if (loading) loading.hidden = true;
       if (errorBox) {
         errorBox.hidden = false;

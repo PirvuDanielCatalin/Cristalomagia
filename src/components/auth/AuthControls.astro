@@ -25,8 +25,9 @@ const { variant = 'desktop' } = Astro.props;
   </div>
 
   <div class="auth-user" data-auth-user hidden>
-    <a href="/portofoliu" class="auth-portfolio-link">Portofoliul meu</a>
-    <div class="auth-avatar" data-auth-avatar></div>
+    <span class="auth-user-name" data-auth-user-name></span>
+    <a href="/portofoliu" class="auth-portfolio-link" data-auth-portfolio-link>Portofoliul meu</a>
+    <button type="button" class="auth-btn auth-btn-ghost auth-btn-logout" data-auth-logout>Deconectare</button>
   </div>
 </div>
 
@@ -52,6 +53,9 @@ const { variant = 'desktop' } = Astro.props;
     const loading = root.querySelector<HTMLElement>('[data-auth-loading]');
     const guest = root.querySelector<HTMLElement>('[data-auth-guest]');
     const userBox = root.querySelector<HTMLElement>('[data-auth-user]');
+    const userName = root.querySelector<HTMLElement>('[data-auth-user-name]');
+    const portfolioLink = root.querySelector<HTMLAnchorElement>('[data-auth-portfolio-link]');
+    const logoutBtn = root.querySelector<HTMLButtonElement>('[data-auth-logout]');
     const avatar = root.querySelector<HTMLDivElement>('[data-auth-avatar]');
     let mountedUserId: string | null = null;
 
@@ -61,20 +65,29 @@ const { variant = 'desktop' } = Astro.props;
 
       const user = clerk.user;
       const signedIn = Boolean(user);
+      const variant = root.dataset.variant;
 
       if (guest) guest.hidden = signedIn;
       if (userBox) userBox.hidden = !signedIn;
 
-      if (signedIn && avatar && user) {
-        if (mountedUserId !== user.id) {
-          avatar.replaceChildren();
-          clerk.mountUserButton(avatar);
-          mountedUserId = user.id;
+      if (signedIn && user) {
+        // Show username on desktop, hide portfolio link on mobile
+        if (userName) {
+          userName.textContent = user.fullName || user.firstName || user.emailAddresses?.[0]?.emailAddress?.split('@')[0] || 'Utilizator';
         }
-      } else if (!signedIn && avatar && mountedUserId) {
-        clerk.unmountUserButton(avatar);
-        avatar.replaceChildren();
-        mountedUserId = null;
+        if (portfolioLink) {
+          // Show portfolio link only on desktop (expanded navbar), hide on mobile
+          portfolioLink.style.display = variant === 'mobile' ? 'none' : '';
+        }
+        if (logoutBtn) {
+          logoutBtn.style.display = variant === 'mobile' ? 'none' : '';
+        }
+        
+        // Don't mount user button, just show name
+        if (mountedUserId && avatar) {
+          avatar.replaceChildren();
+          mountedUserId = null;
+        }
       }
     };
 
@@ -135,6 +148,20 @@ const { variant = 'desktop' } = Astro.props;
 
     bindOpener('[data-auth-sign-in]', 'signIn');
     bindOpener('[data-auth-sign-up]', 'signUp');
+
+    // Bind logout button
+    const logoutBtnLocal = root.querySelector<HTMLButtonElement>('[data-auth-logout]');
+    if (logoutBtnLocal) {
+      logoutBtnLocal.addEventListener('click', () => {
+        const clerk = window.__crystalicaClerk;
+        if (clerk && clerk.user) {
+          showBusy(logoutBtnLocal, true);
+          clerk.signOut()
+            .catch((err: any) => console.error('[Crystalica] Logout failed:', err))
+            .finally(() => showBusy(logoutBtnLocal, false));
+        }
+      });
+    }
 
     // Listen for Clerk updates
     waitForClerk().then(() => {

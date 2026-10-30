@@ -80,6 +80,7 @@
   }
 
   function render() {
+    const clerk = window.__crystalicaClerk;
     const root = document.documentElement;
 
     if (!clerk) {
@@ -100,10 +101,12 @@
   }
 
   function syncFromUser() {
+    const clerk = window.__crystalicaClerk;
     collections = readCollections(clerk?.user);
   }
 
   async function handleAction(button: HTMLButtonElement) {
+    const clerk = window.__crystalicaClerk;
     const panel = button.closest<HTMLElement>('[data-collection-actions]');
     const slug = panel?.dataset.slug;
     const next = button.dataset.next as CollectionState | 'none' | undefined;
@@ -162,14 +165,32 @@
   });
 
   async function init() {
+    // Wait for Clerk to be available from CDN before proceeding
+    await new Promise<void>((resolve) => {
+      const check = () => {
+        if (window.__crystalicaClerk) resolve();
+        else setTimeout(check, 100);
+      };
+      check();
+    });
+    
+    const clerk = window.__crystalicaClerk;
+    
     if (!clerk) {
       document.documentElement.dataset.auth = 'disabled';
       return;
     }
 
-    await clerkReady;
+    // Wait for Clerk to be ready
+    await new Promise<void>((resolve) => {
+      const check = () => {
+        if (window.__crystalicaClerkStatus === 'ready') resolve();
+        else setTimeout(check, 100);
+      };
+      check();
+    });
 
-    if (getClerkStatus() !== 'ready') {
+    if (window.__crystalicaClerkStatus !== 'ready') {
       document.documentElement.dataset.auth = 'disabled';
       return;
     }

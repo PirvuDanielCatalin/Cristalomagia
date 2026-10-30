@@ -1323,6 +1323,12 @@ img {
   top: 80px;
 }
 
+@media (max-width: 1023px) {
+  .crystal-image-panel {
+    position: static;
+  }
+}
+
 .crystal-image {
   width: 100%;
   border-radius: var(--radius-xl);
