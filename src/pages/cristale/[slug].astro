@@ -2,6 +2,7 @@
 // src/pages/cristale/[slug].astro - Crystal detail page
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CrystalActions from '../../components/collections/CrystalActions.astro';
 
 export async function getStaticPaths() {
   const crystals = await getCollection('crystals');
@@ -69,6 +70,7 @@ const ogImage = data.image || '/images/og-default.jpg';
               </svg>
             </div>
           )}
+          <CrystalActions slug={data.slug} variant="detail" />
         </div>
 
         <!-- Right: Content panel -->

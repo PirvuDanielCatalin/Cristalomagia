@@ -1,0 +1,186 @@
+---
+// Client-side controller for crystal collections.
+// Rendered once in BaseLayout; handles every card and detail action panel on the page.
+---
+<script>
+  import {
+    clerk,
+    clerkReady,
+    readCollections,
+    saveCollections,
+  } from '../../scripts/clerk';
+  import type { CollectionsMap, CollectionState } from '../../scripts/clerk';
+
+  let collections: CollectionsMap = {};
+  let signedIn = false;
+
+  function updatePanel(panel: HTMLElement) {
+    const slug = panel.dataset.slug || '';
+    const state = collections[slug] as CollectionState | undefined;
+    const isDetail = panel.dataset.variant === 'detail';
+
+    const portfolioBtn = panel.querySelector<HTMLButtonElement>(
+      '[data-collection-action][data-next="p"]',
+    );
+    const wishlistBtn = panel.querySelector<HTMLButtonElement>(
+      '[data-collection-action][data-next="w"]',
+    );
+    const removeBtn = panel.querySelector<HTMLButtonElement>(
+      '[data-collection-action][data-next="none"]',
+    );
+
+    const portfolioLabel = panel.querySelector<HTMLElement>('[data-label-p]');
+    const wishlistLabel = panel.querySelector<HTMLElement>('[data-label-w]');
+    const removeLabel = panel.querySelector<HTMLElement>('[data-label-remove]');
+    const status = panel.querySelector<HTMLElement>('[data-collection-status]');
+    const error = panel.querySelector<HTMLElement>('[data-collection-error]');
+
+    panel.hidden = !signedIn;
+    if (!signedIn) return;
+
+    if (portfolioBtn) portfolioBtn.hidden = state === 'p';
+    if (wishlistBtn) wishlistBtn.hidden = state === 'w';
+    if (removeBtn) removeBtn.hidden = !state;
+
+    if (portfolioLabel) {
+      portfolioLabel.textContent =
+        state === 'w'
+          ? 'Mută în portofoliu'
+          : isDetail
+            ? 'Adaugă în portofoliu'
+            : 'Portofoliu';
+    }
+
+    if (wishlistLabel) {
+      wishlistLabel.textContent = isDetail ? 'Adaugă la wishlist' : 'Wishlist';
+    }
+
+    if (removeLabel) {
+      removeLabel.textContent =
+        state === 'p'
+          ? 'Elimină din portofoliu'
+          : state === 'w'
+            ? 'Elimină din wishlist'
+            : 'Elimină';
+    }
+
+    if (status) {
+      status.hidden = !isDetail;
+      status.dataset.state = state ?? 'none';
+      status.textContent =
+        state === 'p'
+          ? 'În portofoliu'
+          : state === 'w'
+            ? 'În lista de dorințe'
+            : 'Nu este în colecțiile tale';
+    }
+
+    if (error) error.hidden = true;
+  }
+
+  function render() {
+    const root = document.documentElement;
+
+    if (!clerk) {
+      root.dataset.auth = 'disabled';
+      return;
+    }
+
+    signedIn = Boolean(clerk.user);
+    root.dataset.auth = signedIn ? 'in' : 'out';
+
+    document.querySelectorAll<HTMLElement>('[data-crystal-card]').forEach((card) => {
+      const state = collections[card.dataset.slug || ''];
+      card.dataset.state =
+        state === 'p' ? 'portfolio' : state === 'w' ? 'wishlist' : 'none';
+    });
+
+    document.querySelectorAll<HTMLElement>('[data-collection-actions]').forEach(updatePanel);
+  }
+
+  function syncFromUser() {
+    collections = readCollections(clerk?.user);
+  }
+
+  async function handleAction(button: HTMLButtonElement) {
+    const panel = button.closest<HTMLElement>('[data-collection-actions]');
+    const slug = panel?.dataset.slug;
+    const next = button.dataset.next as CollectionState | 'none' | undefined;
+    const user = clerk?.user;
+
+    if (!slug || !next || !user) return;
+
+    const previous = collections;
+    const nextCollections: CollectionsMap = { ...collections };
+
+    if (next === 'none') {
+      delete nextCollections[slug];
+    } else {
+      nextCollections[slug] = next;
+    }
+
+    collections = nextCollections;
+    render();
+
+    try {
+      await saveCollections(user, nextCollections);
+    } catch (error) {
+      collections = previous;
+      render();
+
+      const errorEl = document.querySelector<HTMLElement>(
+        `[data-collection-actions][data-slug="${CSS.escape(slug)}"] [data-collection-error]`,
+      );
+
+      if (errorEl) {
+        errorEl.hidden = false;
+        errorEl.textContent = 'Nu am putut salva modificarea. Încearcă din nou.';
+      }
+
+      console.error('[Crystalica] Nu am putut salva colecțiile.', error);
+    }
+  }
+
+  document.addEventListener('click', (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>(
+      '[data-collection-action]',
+    );
+
+    if (!button) return;
+
+    event.preventDefault();
+    void handleAction(button);
+  });
+
+  document.addEventListener('crystalica:collections', (event) => {
+    const detail = (event as CustomEvent<CollectionsMap>).detail;
+    if (!detail) return;
+
+    collections = detail;
+    render();
+  });
+
+  async function init() {
+    if (!clerk) {
+      document.documentElement.dataset.auth = 'disabled';
+      return;
+    }
+
+    await clerkReady;
+    syncFromUser();
+    render();
+
+    let lastUserId = clerk.user?.id ?? null;
+
+    clerk.addListener(() => {
+      const userId = clerk.user?.id ?? null;
+      if (userId === lastUserId) return;
+
+      lastUserId = userId;
+      syncFromUser();
+      render();
+    });
+  }
+
+  void init();
+</script>

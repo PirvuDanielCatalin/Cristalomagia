@@ -128,39 +128,68 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
   }
   
   .search-header .search-results {
+    /* Match the search bar width exactly */
+    left: 0;
     right: 0;
-    left: auto;
-    min-width: 280px;
+    min-width: 0;
+    /* Exactly 5 results visible (48px each), scroll for the rest */
+    max-height: calc(5 * 48px);
+    overscroll-behavior: contain;
   }
   
-  .search-result-item {
-    display: block;
-    padding: var(--space-3) var(--space-4);
-    text-decoration: none;
+  .search-header .search-field {
+    font-size: var(--text-base);
+  }
+  
+  /* Result rows are injected via JS, so they must be styled globally:
+     Astro scoped styles do not apply to innerHTML content. */
+  :global(.search-results-inner) {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  :global(.search-result-item) {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 48px;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-lg);
+    font-weight: 500;
+    line-height: 1.3;
     color: var(--color-text);
+    text-decoration: none;
     border-bottom: 1px solid var(--color-border);
-    transition: background var(--transition-fast);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      padding-left var(--transition-fast);
   }
   
-  .search-result-item:last-child {
+  :global(.search-result-item:last-child) {
     border-bottom: none;
   }
   
-  .search-result-item:hover,
-  .search-result-item.active {
-    background: rgba(61, 155, 145, 0.05);
+  :global(.search-result-item:hover),
+  :global(.search-result-item.active) {
+    background: var(--color-bg-hover);
+    color: var(--color-crystal-teal);
+    padding-left: calc(var(--space-4) + var(--space-1));
   }
   
-  .search-result-name {
-    font-weight: 600;
-    font-size: var(--text-sm);
-    color: var(--color-zinc-900);
+  :global(.search-result-name) {
+    display: block;
+    width: 100%;
+    font-weight: 500;
+    font-size: inherit;
+    color: inherit;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   
-  .search-no-results {
+  :global(.search-no-results) {
     padding: var(--space-4);
     text-align: center;
     color: var(--color-text-muted);
@@ -169,146 +198,146 @@ const { placeholder = 'Caută cristale...', variant = 'header' } = Astro.props;
 </style>
 
 <script>
-  const container = document.querySelector('[data-crystals]');
-  if (!container) {
-    console.error('SearchBar: container not found');
-  }
+  // Handle multiple SearchBar instances on the same page
+  const allContainers = document.querySelectorAll('[data-crystals]');
   
-  let crystalData = [];
-  try {
-    crystalData = JSON.parse(container?.dataset.crystals || '[]');
-  } catch (e) {
-    console.error('SearchBar: invalid crystal data', e);
-  }
-  
-  const variant = container?.dataset.variant || 'header';
-  const input = container?.querySelector('.search-field');
-  const results = container?.querySelector('.search-results');
-  const resultsInner = container?.querySelector('.search-results-inner');
-  const clearBtn = container?.querySelector('.search-clear');
-
-  if (!input || !results || !resultsInner || !clearBtn) {
-    console.error('SearchBar: missing elements');
-  }
-
-  let activeIndex = -1;
-
-  // Header variant: show dropdown with names only
-  function renderDropdown(items) {
-    if (!resultsInner) return;
-    
-    if (items.length === 0) {
-      resultsInner.innerHTML = '<div class="search-no-results">Niciun cristal găsit</div>';
-      if (results) results.hidden = false;
+  function initSearchBar(container) {
+    let crystalData = [];
+    try {
+      crystalData = JSON.parse(container.dataset.crystals || '[]');
+    } catch (e) {
+      console.error('SearchBar: invalid crystal data', e);
       return;
     }
-
-    resultsInner.innerHTML = items.map((item, i) => `
-      <a href="/cristale/${item.slug}" class="search-result-item" data-index="${i}">
-        <span class="search-result-name">${item.name}</span>
-      </a>
-    `).join('');
-
-    if (results) results.hidden = false;
-  }
-
-  // Page variant: filter crystal cards
-  function filterCards(query) {
-    const q = query.toLowerCase().trim();
-    const cards = document.querySelectorAll('.az-card');
-    let visibleCount = 0;
     
-    cards.forEach(card => {
-      const name = card.getAttribute('aria-label') || '';
-      const matches = !q || name.toLowerCase().includes(q);
-      card.closest('.az-group')?.classList.toggle('hidden', false);
-      card.style.display = matches ? '' : 'none';
-      if (matches) visibleCount++;
-    });
+    const variant = container.dataset.variant || 'header';
+    const input = container.querySelector('.search-field');
+    const results = container.querySelector('.search-results');
+    const resultsInner = container.querySelector('.search-results-inner');
+    const clearBtn = container.querySelector('.search-clear');
 
-    // Hide empty groups
-    document.querySelectorAll('.az-group').forEach(group => {
-      const hasVisible = group.querySelectorAll('.az-card:not([style*="display: none"])').length > 0;
-      group.style.display = hasVisible ? '' : 'none';
-    });
+    if (!input || !clearBtn) return;
 
-    // Update count text
-    const countEl = document.querySelector('.section header p');
-    if (countEl) {
-      countEl.textContent = q ? `${visibleCount} cristale găsite` : `${crystalData.length} cristale, organizate alfabetic.`;
-    }
-  }
+    let activeIndex = -1;
 
-  function handleInput(value) {
-    const q = value.toLowerCase().trim();
-    
-    if (!q) {
-      if (results) results.hidden = true;
-      if (clearBtn) clearBtn.hidden = true;
-      if (variant === 'page') {
-        filterCards('');
+    // Header variant: show dropdown with names only
+    function renderDropdown(items) {
+      if (!resultsInner || !results) return;
+      
+      if (items.length === 0) {
+        resultsInner.innerHTML = '<div class="search-no-results">Niciun cristal găsit</div>';
+        results.hidden = false;
+        return;
       }
-      return;
+
+      resultsInner.innerHTML = items.map((item, i) => `
+        <a href="/cristale/${item.slug}" class="search-result-item" data-index="${i}">
+          <span class="search-result-name">${item.name}</span>
+        </a>
+      `).join('');
+
+      results.hidden = false;
     }
 
-    if (variant === 'page') {
-      if (results) results.hidden = true;
-      filterCards(value);
-    } else {
-      const filtered = crystalData.filter(c => 
-        c.name.toLowerCase().includes(q) || 
-        c.formula.toLowerCase().includes(q)
-      );
-      renderDropdown(filtered);
+    // Page variant: filter crystal cards
+    function filterCards(query) {
+      const q = query.toLowerCase().trim();
+      const cards = document.querySelectorAll<HTMLElement>('[data-crystal-card]');
+      let visibleCount = 0;
+      
+      cards.forEach(card => {
+        const name = (card.dataset.name || '').toLowerCase();
+        const matches = !q || name.includes(q);
+        card.style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      // Hide/show empty letter groups
+      document.querySelectorAll('.az-group').forEach(group => {
+        const hasVisible = [...group.querySelectorAll<HTMLElement>('[data-crystal-card]')].some(c => c.style.display !== 'none');
+        group.style.display = hasVisible ? '' : 'none';
+      });
+
+      // Update count text
+      const countEl = document.querySelector('.section header p');
+      if (countEl) {
+        countEl.textContent = q ? `${visibleCount} cristale găsite` : `${crystalData.length} cristale, organizate alfabetic.`;
+      }
     }
-    
-    if (clearBtn) clearBtn.hidden = value.length === 0;
-    activeIndex = -1;
+
+    function handleInput(value) {
+      const q = value.toLowerCase().trim();
+      
+      if (!q) {
+        if (results) results.hidden = true;
+        clearBtn.hidden = true;
+        if (variant === 'page') {
+          filterCards('');
+        }
+        return;
+      }
+
+      if (variant === 'page') {
+        if (results) results.hidden = true;
+        filterCards(value);
+      } else {
+        const filtered = crystalData.filter(c => 
+          c.name.toLowerCase().includes(q) || 
+          c.formula.toLowerCase().includes(q)
+        );
+        renderDropdown(filtered);
+      }
+      
+      clearBtn.hidden = value.length === 0;
+      activeIndex = -1;
+    }
+
+    input.addEventListener('input', (e) => {
+      handleInput(e.target.value);
+    });
+
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      handleInput('');
+      input.focus();
+    });
+
+    // Keyboard navigation (dropdown only)
+    input.addEventListener('keydown', (e) => {
+      if (variant === 'page' || !resultsInner || !results) return;
+      
+      const items = resultsInner.querySelectorAll('.search-result-item');
+      
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeIndex = Math.min(activeIndex + 1, items.length - 1);
+        items.forEach((item, i) => {
+          item.classList.toggle('active', i === activeIndex);
+        });
+        items[activeIndex]?.scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIndex = Math.max(activeIndex - 1, 0);
+        items.forEach((item, i) => {
+          item.classList.toggle('active', i === activeIndex);
+        });
+        items[activeIndex]?.scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter' && activeIndex >= 0) {
+        e.preventDefault();
+        items[activeIndex]?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      } else if (e.key === 'Escape') {
+        results.hidden = true;
+        input.blur();
+      }
+    });
+
+    // Close on outside click
+    document.addEventListener('click', (e) => {
+      if (!container.contains(e.target) && results) {
+        results.hidden = true;
+      }
+    });
   }
 
-  input.addEventListener('input', (e) => {
-    handleInput(e.target.value);
-  });
-
-  clearBtn?.addEventListener('click', () => {
-    input.value = '';
-    handleInput('');
-    input.focus();
-  });
-
-  // Keyboard navigation (dropdown only)
-  input.addEventListener('keydown', (e) => {
-    if (variant === 'page' || !resultsInner || !results) return;
-    
-    const items = resultsInner.querySelectorAll('.search-result-item');
-    
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      activeIndex = Math.min(activeIndex + 1, items.length - 1);
-      items.forEach((item, i) => {
-        item.classList.toggle('active', i === activeIndex);
-      });
-      items[activeIndex]?.scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      activeIndex = Math.max(activeIndex - 1, 0);
-      items.forEach((item, i) => {
-        item.classList.toggle('active', i === activeIndex);
-      });
-      items[activeIndex]?.scrollIntoView({ block: 'nearest' });
-    } else if (e.key === 'Enter' && activeIndex >= 0) {
-      e.preventDefault();
-      items[activeIndex]?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-    } else if (e.key === 'Escape') {
-      results.hidden = true;
-      input.blur();
-    }
-  });
-
-  // Close on outside click
-  document.addEventListener('click', (e) => {
-    if (container && !container.contains(e.target) && results) {
-      results.hidden = true;
-    }
-  });
+  allContainers.forEach(initSearchBar);
 </script>

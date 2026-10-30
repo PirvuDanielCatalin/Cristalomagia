@@ -1,6 +1,7 @@
 ---
 // Header.astro - Navigation header
 import SearchBar from '../SearchBar.astro';
+import AuthControls from '../auth/AuthControls.astro';
 ---
 
 <header class="header">
@@ -14,17 +15,20 @@ import SearchBar from '../SearchBar.astro';
       <!-- Desktop Navigation - empty, search handles discovery -->
       <div class="nav-links"></div>
 
-      <!-- Search + Mobile Menu -->
-      <div class="flex items-center gap-3">
+      <!-- Search + Auth + Mobile Menu -->
+      <div class="header-actions">
         <!-- Search (desktop) -->
         <div class="search-wrapper hidden sm:block">
           <SearchBar variant="header" />
         </div>
 
+        <!-- Auth (desktop) -->
+        <AuthControls variant="desktop" />
+
         <!-- Mobile menu toggle -->
         <button class="menu-toggle lg:hidden" aria-expanded="false" aria-controls="mobile-menu" aria-label="Deschide meniul">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-            <line x1="3" y1="6" x2="21" y1="6"/><line x1="3" y1="12" x2="21" y1="12"/><line x1="3" y1="18" x2="21" y1="18"/>
+            <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
           </svg>
         </button>
       </div>
@@ -38,6 +42,10 @@ import SearchBar from '../SearchBar.astro';
         <svg width="18" height="18" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16 2L22 8v16L16 30L10 24V8L16 2Z"/><path d="M16 8V24"/><path d="M10 16H22"/></svg>
         Cristale
       </a>
+
+      <div class="mobile-menu-auth">
+        <AuthControls variant="mobile" />
+      </div>
     </div>
   </div>
 </header>

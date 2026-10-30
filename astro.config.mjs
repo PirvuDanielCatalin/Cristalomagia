@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://crystalica.com',
+  site: 'https://crystalica.pages.dev',
   output: 'static',
   adapter: cloudflare(),
   integrations: [mdx(), sitemap()],

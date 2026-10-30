@@ -1,0 +1,257 @@
+---
+// src/pages/portofoliu.astro - Personal crystal portfolio (client-rendered from Clerk metadata)
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const crystals = await getCollection('crystals');
+const sorted = [...crystals].sort((a, b) => a.data.name.localeCompare(b.data.name, 'ro'));
+
+const crystalIndex = sorted.map((crystal) => ({
+  name: crystal.data.name,
+  slug: crystal.data.slug,
+  image: crystal.data.image || '',
+  formula: crystal.data.chemicalFormula || '',
+}));
+---
+
+<BaseLayout
+  title="Portofoliul meu — Crystalica"
+  description="Portofoliul tău de cristale și lista de dorințe, sincronizate cu contul tău."
+  noIndex
+>
+  <section class="section portfolio-page">
+    <div class="container">
+      <header class="portfolio-header">
+        <h1>Portofoliul meu</h1>
+        <p>Evidența cristalelor tale, sincronizată cu contul tău.</p>
+      </header>
+
+      <div class="portfolio-gate" data-portfolio-gate hidden>
+        <p>Conectează-te ca să vezi portofoliul și lista de dorințe.</p>
+        <button type="button" class="auth-btn auth-btn-primary" data-portfolio-sign-in>
+          Conectare
+        </button>
+      </div>
+
+      <p class="portfolio-loading" data-portfolio-loading>Se încarcă portofoliul...</p>
+
+      <p class="portfolio-error" data-portfolio-error hidden></p>
+
+      <div data-portfolio-content hidden>
+        <section class="portfolio-section">
+          <div class="portfolio-section-heading">
+            <h2>Portofoliu</h2>
+            <span class="portfolio-count" data-portfolio-count>0</span>
+          </div>
+          <div class="portfolio-grid" data-portfolio-grid></div>
+          <p class="portfolio-empty" data-portfolio-empty hidden>
+            Nu ai încă cristale în portofoliu.
+          </p>
+        </section>
+
+        <section class="portfolio-section">
+          <div class="portfolio-section-heading">
+            <h2>Lista de dorințe</h2>
+            <span class="portfolio-count" data-wishlist-count>0</span>
+          </div>
+          <div class="portfolio-grid" data-wishlist-grid></div>
+          <p class="portfolio-empty" data-wishlist-empty hidden>
+            Nu ai încă cristale în lista de dorințe.
+          </p>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <script is:inline type="application/json" id="crystal-index" set:html={JSON.stringify(crystalIndex)}></script>
+</BaseLayout>
+
+<script>
+  import {
+    clerk,
+    clerkReady,
+    readCollections,
+    saveCollections,
+  } from '../scripts/clerk';
+  import type { CollectionsMap } from '../scripts/clerk';
+
+  interface CrystalIndexItem {
+    name: string;
+    slug: string;
+    image: string;
+    formula: string;
+  }
+
+  const indexElement = document.getElementById('crystal-index');
+  const crystalIndex: CrystalIndexItem[] = indexElement?.textContent
+    ? JSON.parse(indexElement.textContent)
+    : [];
+
+  const loading = document.querySelector<HTMLElement>('[data-portfolio-loading]');
+  const gate = document.querySelector<HTMLElement>('[data-portfolio-gate]');
+  const content = document.querySelector<HTMLElement>('[data-portfolio-content]');
+  const errorBox = document.querySelector<HTMLElement>('[data-portfolio-error]');
+  const portfolioGrid = document.querySelector<HTMLElement>('[data-portfolio-grid]');
+  const wishlistGrid = document.querySelector<HTMLElement>('[data-wishlist-grid]');
+  const portfolioEmpty = document.querySelector<HTMLElement>('[data-portfolio-empty]');
+  const wishlistEmpty = document.querySelector<HTMLElement>('[data-wishlist-empty]');
+  const portfolioCount = document.querySelector<HTMLElement>('[data-portfolio-count]');
+  const wishlistCount = document.querySelector<HTMLElement>('[data-wishlist-count]');
+
+  let collections: CollectionsMap = {};
+
+  function escapeHtml(value: string): string {
+    return value
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function renderItem(item: CrystalIndexItem, state: 'p' | 'w'): string {
+    const image = item.image
+      ? `<img src="${escapeHtml(item.image)}" alt="" loading="lazy" />`
+      : `<div class="portfolio-item-placeholder">
+           <svg width="36" height="36" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+             <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+             <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+             <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+           </svg>
+         </div>`;
+
+    const formula =
+      item.formula && item.formula !== '-'
+        ? `<span class="portfolio-item-formula">${escapeHtml(item.formula)}</span>`
+        : '';
+
+    const moveButton =
+      state === 'w'
+        ? `<button type="button" class="portfolio-action portfolio-action-move" data-portfolio-move="${escapeHtml(item.slug)}">Mută în portofoliu</button>`
+        : '';
+
+    return `<article class="portfolio-item" data-state="${state === 'p' ? 'portfolio' : 'wishlist'}">
+      <a href="/cristale/${escapeHtml(item.slug)}" class="portfolio-item-link">
+        <div class="portfolio-item-img">${image}</div>
+        <div class="portfolio-item-body">
+          <span class="portfolio-item-name">${escapeHtml(item.name)}</span>
+          ${formula}
+        </div>
+      </a>
+      <div class="portfolio-item-actions">
+        ${moveButton}
+        <button type="button" class="portfolio-action portfolio-action-remove" data-portfolio-remove="${escapeHtml(item.slug)}">Elimină</button>
+      </div>
+    </article>`;
+  }
+
+  function render() {
+    if (!clerk) {
+      if (loading) loading.textContent = 'Autentificarea nu este configurată.';
+      return;
+    }
+
+    const signedIn = Boolean(clerk.user);
+
+    if (loading) loading.hidden = true;
+    if (gate) gate.hidden = signedIn;
+    if (content) content.hidden = !signedIn;
+
+    if (!signedIn) return;
+
+    const portfolio = crystalIndex.filter((item) => collections[item.slug] === 'p');
+    const wishlist = crystalIndex.filter((item) => collections[item.slug] === 'w');
+
+    if (portfolioGrid) {
+      portfolioGrid.innerHTML = portfolio.map((item) => renderItem(item, 'p')).join('');
+    }
+    if (wishlistGrid) {
+      wishlistGrid.innerHTML = wishlist.map((item) => renderItem(item, 'w')).join('');
+    }
+
+    if (portfolioEmpty) portfolioEmpty.hidden = portfolio.length > 0;
+    if (wishlistEmpty) wishlistEmpty.hidden = wishlist.length > 0;
+    if (portfolioCount) portfolioCount.textContent = String(portfolio.length);
+    if (wishlistCount) wishlistCount.textContent = String(wishlist.length);
+    if (errorBox) errorBox.hidden = true;
+  }
+
+  function syncFromUser() {
+    collections = readCollections(clerk?.user);
+  }
+
+  document.addEventListener('click', async (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLElement>(
+      '[data-portfolio-move], [data-portfolio-remove]',
+    );
+
+    if (!button || !clerk?.user) return;
+
+    const slug = button.dataset.portfolioMove || button.dataset.portfolioRemove;
+    if (!slug) return;
+
+    const previous = collections;
+    const nextCollections: CollectionsMap = { ...collections };
+
+    if (button.dataset.portfolioRemove) {
+      delete nextCollections[slug];
+    } else {
+      nextCollections[slug] = 'p';
+    }
+
+    collections = nextCollections;
+    render();
+
+    try {
+      await saveCollections(clerk.user, nextCollections);
+    } catch (error) {
+      collections = previous;
+      render();
+
+      if (errorBox) {
+        errorBox.hidden = false;
+        errorBox.textContent = 'Nu am putut salva modificarea. Încearcă din nou.';
+      }
+
+      console.error('[Crystalica] Nu am putut salva portofoliul.', error);
+    }
+  });
+
+  document
+    .querySelector<HTMLButtonElement>('[data-portfolio-sign-in]')
+    ?.addEventListener('click', () => {
+      if (clerk) void clerk.openSignIn();
+    });
+
+  document.addEventListener('crystalica:collections', (event) => {
+    const detail = (event as CustomEvent<CollectionsMap>).detail;
+    if (!detail) return;
+
+    collections = detail;
+    render();
+  });
+
+  async function init() {
+    if (!clerk) {
+      if (loading) loading.textContent = 'Autentificarea nu este configurată.';
+      return;
+    }
+
+    await clerkReady;
+    syncFromUser();
+    render();
+
+    let lastUserId = clerk.user?.id ?? null;
+
+    clerk.addListener(() => {
+      const userId = clerk.user?.id ?? null;
+      if (userId === lastUserId) return;
+
+      lastUserId = userId;
+      syncFromUser();
+      render();
+    });
+  }
+
+  void init();
+</script>
