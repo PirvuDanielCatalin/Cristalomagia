@@ -1644,6 +1644,13 @@ img {
   transform: translateY(1px);
 }
 
+.auth-btn:disabled,
+.auth-btn.is-busy {
+  opacity: 0.6;
+  cursor: progress;
+  pointer-events: none;
+}
+
 .auth-btn-ghost {
   color: var(--color-text);
   background: transparent;

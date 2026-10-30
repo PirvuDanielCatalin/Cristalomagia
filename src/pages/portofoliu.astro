@@ -70,6 +70,8 @@ const crystalIndex = sorted.map((crystal) => ({
   import {
     clerk,
     clerkReady,
+    getClerkStatus,
+    openSignIn,
     readCollections,
     saveCollections,
   } from '../scripts/clerk';
@@ -217,11 +219,14 @@ const crystalIndex = sorted.map((crystal) => ({
     }
   });
 
-  document
-    .querySelector<HTMLButtonElement>('[data-portfolio-sign-in]')
-    ?.addEventListener('click', () => {
-      if (clerk) void clerk.openSignIn();
+  const signInButton = document.querySelector<HTMLButtonElement>('[data-portfolio-sign-in]');
+
+  signInButton?.addEventListener('click', () => {
+    signInButton.disabled = true;
+    void openSignIn().finally(() => {
+      signInButton.disabled = false;
     });
+  });
 
   document.addEventListener('crystalica:collections', (event) => {
     const detail = (event as CustomEvent<CollectionsMap>).detail;
@@ -238,6 +243,16 @@ const crystalIndex = sorted.map((crystal) => ({
     }
 
     await clerkReady;
+
+    if (getClerkStatus() !== 'ready') {
+      if (loading) loading.hidden = true;
+      if (errorBox) {
+        errorBox.hidden = false;
+        errorBox.textContent = 'Autentificarea nu este disponibilă momentan. Reîncarcă pagina.';
+      }
+      return;
+    }
+
     syncFromUser();
     render();
 

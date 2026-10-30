@@ -31,14 +31,24 @@ const { variant = 'desktop' } = Astro.props;
 </div>
 
 <script>
-  import { clerk, clerkReady } from '../../scripts/clerk';
+  // Wait for Clerk to be available from CDN before initializing
+  function waitForClerk(timeout = 10000): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const start = Date.now();
+      const check = () => {
+        if (window.__crystalicaClerk) {
+          resolve();
+        } else if (Date.now() - start > timeout) {
+          reject(new Error('Clerk did not load within timeout'));
+        } else {
+          setTimeout(check, 100);
+        }
+      };
+      check();
+    });
+  }
 
   function initAuthControls(root: HTMLElement) {
-    if (!clerk) {
-      root.hidden = true;
-      return;
-    }
-
     const loading = root.querySelector<HTMLElement>('[data-auth-loading]');
     const guest = root.querySelector<HTMLElement>('[data-auth-guest]');
     const userBox = root.querySelector<HTMLElement>('[data-auth-user]');
@@ -46,6 +56,9 @@ const { variant = 'desktop' } = Astro.props;
     let mountedUserId: string | null = null;
 
     const render = () => {
+      const clerk = window.__crystalicaClerk;
+      if (!clerk) return;
+
       const user = clerk.user;
       const signedIn = Boolean(user);
 
@@ -65,28 +78,76 @@ const { variant = 'desktop' } = Astro.props;
       }
     };
 
-    // Wait for Clerk to finish loading before enabling buttons or showing UI
-    void clerkReady.then(() => {
-      if (loading) loading.hidden = true;
-      render();
-    }).catch(() => {
-      // Initialization failed – hide everything
-      if (loading) loading.hidden = true;
-      root.hidden = true;
-    });
+    // Wait for Clerk to fully initialize (load() completed) then show controls
+    (window.__crystalicaClerkReady || Promise.resolve())
+      .then(() => {
+        if (loading) loading.hidden = true;
+        root.hidden = false;
+        render();
+      })
+      .catch(() => {
+        console.error('[Crystalica] Failed to initialize auth controls');
+        root.hidden = true;
+      });
 
-    root.querySelector<HTMLButtonElement>('[data-auth-sign-in]')?.addEventListener('click', async () => {
-      await clerkReady;
-      if (clerk) void clerk.openSignIn();
-    });
+    const showBusy = (button: HTMLButtonElement, busy: boolean) => {
+      button.disabled = busy;
+      button.classList.toggle('is-busy', busy);
+    };
 
-    root.querySelector<HTMLButtonElement>('[data-auth-sign-up]')?.addEventListener('click', async () => {
-      await clerkReady;
-      if (clerk) void clerk.openSignUp();
-    });
+    const bindOpener = (selector: string, action: 'signIn' | 'signUp') => {
+      const button = root.querySelector<HTMLButtonElement>(selector);
+      if (!button) return;
 
-    clerk.addListener(render);
+      button.addEventListener('click', () => {
+        const clerk = window.__crystalicaClerk;
+        if (!clerk) return;
+        
+        showBusy(button, true);
+        try {
+          if (action === 'signIn') {
+            clerk.openSignIn();
+          } else {
+            clerk.openSignUp();
+          }
+        } catch (err) {
+          const msg = (err as Error)?.message || '';
+          if (msg.includes('Ui components') || msg.includes('UI components')) {
+            console.log('[Crystalica] UI not ready, retrying...');
+            requestAnimationFrame(() => {
+              try {
+                if (action === 'signIn') clerk.openSignIn();
+                else clerk.openSignUp();
+              } catch (e) {
+                console.error('[Crystalica] Failed to open modal:', e);
+              } finally {
+                showBusy(button, false);
+              }
+            });
+            return;
+          }
+          console.error('[Crystalica] Failed to open modal:', err);
+        } finally {
+          showBusy(button, false);
+        }
+      });
+    };
+
+    bindOpener('[data-auth-sign-in]', 'signIn');
+    bindOpener('[data-auth-sign-up]', 'signUp');
+
+    // Listen for Clerk updates
+    waitForClerk().then(() => {
+      window.__crystalicaClerk?.addListener(render);
+    });
   }
 
-  document.querySelectorAll<HTMLElement>('[data-auth-controls]').forEach(initAuthControls);
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll<HTMLElement>('[data-auth-controls]').forEach(initAuthControls);
+    });
+  } else {
+    document.querySelectorAll<HTMLElement>('[data-auth-controls]').forEach(initAuthControls);
+  }
 </script>

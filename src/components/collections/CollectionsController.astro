@@ -6,6 +6,7 @@
   import {
     clerk,
     clerkReady,
+    getClerkStatus,
     readCollections,
     saveCollections,
   } from '../../scripts/clerk';
@@ -167,6 +168,12 @@
     }
 
     await clerkReady;
+
+    if (getClerkStatus() !== 'ready') {
+      document.documentElement.dataset.auth = 'disabled';
+      return;
+    }
+
     syncFromUser();
     render();
 
