@@ -1345,7 +1345,6 @@ img {
 
 /* ===== A-Z Navigation ===== */
 .az-nav {
-  position: sticky;
   top: 65px;
   z-index: var(--z-sticky);
   background: var(--color-bg);
