@@ -193,15 +193,7 @@
           window.location.href = '/portofoliu';
         });
 
-        const logout = document.createElement('button');
-        logout.type = 'button';
-        logout.className = 'secondary-logout-btn';
-        logout.textContent = 'Deconectare';
-        logout.addEventListener('click', () => {
-          clerk.signOut().catch(console.error);
-        });
-
-        secondaryAuth.append(name, logout);
+        secondaryAuth.append(name);
       } else {
         const signIn = document.createElement('button');
         signIn.type = 'button';
