@@ -435,9 +435,9 @@ const crystalIndex = sorted.map((crystal) => ({
     const clerk = window.__crystalicaClerk;
     if (!clerk) return;
     try {
-      clerk.openSignUp({ initialScreen: 'password' });
+      clerk.openUserProfile();
     } catch (error) {
-      console.error('[Crystalica] Failed to open password screen:', error);
+      console.error('[Crystalica] Failed to open profile:', error);
     }
   });
 
@@ -494,6 +494,15 @@ const crystalIndex = sorted.map((crystal) => ({
     justify-content: center;
     min-height: 60vh;
     padding: var(--space-8);
+    border: none !important;
+    background: transparent !important;
+  }
+
+  .portfolio-gate-inner {
+    text-align: center;
+    max-width: 400px;
+    border: none !important;
+    background: transparent !important;
   }
 
   .portfolio-gate[hidden] {
@@ -946,6 +955,11 @@ const crystalIndex = sorted.map((crystal) => ({
     cursor: pointer;
     transition: all var(--transition-fast);
     text-align: left;
+    margin-bottom: var(--space-3);
+  }
+
+  .portfolio-settings-btn:last-child {
+    margin-bottom: 0;
   }
 
   .portfolio-settings-btn:hover {
@@ -964,8 +978,9 @@ const crystalIndex = sorted.map((crystal) => ({
   }
 
   .portfolio-settings-btn-danger:hover {
-    background: var(--color-crystal-red);
-    color: #fff;
-    border-color: var(--color-crystal-red);
+    border-color: var(--color-crystal-teal);
+    color: var(--color-crystal-teal);
+    transform: translateX(4px);
+    background: transparent;
   }
 </style>
