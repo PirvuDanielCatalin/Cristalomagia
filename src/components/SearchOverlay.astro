@@ -1,12 +1,12 @@
 ---
 // SearchOverlay.astro — Full-screen search overlay
-// Triggered by custom event 'crystalica:open-search'
+// Opens via window.__crystalicaOpenSearch() or the 'crystalica:open-search' event.
 import { getCollection } from 'astro:content';
 
 const crystals = await getCollection('crystals');
 const sorted = [...crystals].sort((a, b) => a.data.name.localeCompare(b.data.name, 'ro'));
 
-const crystalData = sorted.map(c => ({
+const crystalData = sorted.map((c) => ({
   name: c.data.name,
   slug: c.data.slug,
   image: c.data.image || '',
@@ -15,7 +15,7 @@ const crystalData = sorted.map(c => ({
 ---
 
 <div class="search-overlay" data-search-overlay hidden>
-  <div class="search-overlay-backdrop"></div>
+  <div class="search-overlay-backdrop" data-search-overlay-backdrop></div>
   <div class="search-overlay-container">
     <div class="search-overlay-header">
       <div class="search-overlay-input-wrap">
@@ -30,7 +30,7 @@ const crystalData = sorted.map(c => ({
           autocomplete="off"
           data-search-overlay-input
         />
-        <button class="search-overlay-close" aria-label="Închide" type="button">
+        <button class="search-overlay-close" data-search-overlay-close aria-label="Închide" type="button">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
@@ -38,20 +38,41 @@ const crystalData = sorted.map(c => ({
       </div>
     </div>
     <div class="search-overlay-results" data-search-overlay-results>
-      <div class="search-overlay-results-inner" data-search-overlay-inner></div>
+      <div class="az-grid" data-search-overlay-inner></div>
     </div>
   </div>
 </div>
+
+<script is:inline type="application/json" id="crystal-search-index" set:html={JSON.stringify(crystalData)}></script>
 
 <script is:inline>
   (function initSearchOverlay() {
     const overlay = document.querySelector('[data-search-overlay]');
     const input = document.querySelector('[data-search-overlay-input]');
     const inner = document.querySelector('[data-search-overlay-inner]');
+    const resultsPanel = document.querySelector('[data-search-overlay-results]');
     const closeBtn = document.querySelector('[data-search-overlay-close]');
+    const backdrop = document.querySelector('[data-search-overlay-backdrop]');
+    const indexEl = document.getElementById('crystal-search-index');
+
     if (!overlay || !input || !inner) return;
 
-    const crystalData = JSON.parse(document.currentScript.dataset.crystals || '[]');
+    const crystalData = indexEl?.textContent ? JSON.parse(indexEl.textContent) : [];
+
+    const normalize = (value) =>
+      String(value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim();
+
+    const escapeHtml = (value) =>
+      String(value || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
 
     function open() {
       overlay.hidden = false;
@@ -64,75 +85,90 @@ const crystalData = sorted.map(c => ({
 
     function close() {
       overlay.classList.remove('open');
+      document.body.style.overflow = '';
+      input.value = '';
+      inner.innerHTML = '';
+      resultsPanel?.classList.remove('has-results');
+
       setTimeout(() => {
         overlay.hidden = true;
-        document.body.style.overflow = '';
-        input.value = '';
-        inner.innerHTML = '';
-      }, 300);
+      }, 200);
     }
 
     function renderResults(items) {
       if (items.length === 0) {
         inner.innerHTML = '';
+        resultsPanel?.classList.remove('has-results');
         return;
       }
-      inner.innerHTML = items.map(item => `
-        <a href="/cristale/${item.slug}" class="overlay-result-item">
-          <div class="overlay-result-img">
-            ${item.image
-              ? `<img src="${item.image}" alt="" loading="lazy" />`
-              : `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+
+      resultsPanel?.classList.add('has-results');
+
+      inner.innerHTML = items
+        .map((item) => {
+          const media = item.image
+            ? `<img src="${escapeHtml(item.image)}" alt="" loading="lazy" class="az-card-img-inner" />`
+            : `<div class="az-card-placeholder">
+                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
                    <path d="M16 2L22 8v16L16 30L10 24V8L16 2Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
                    <path d="M16 8V24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                    <path d="M10 16H22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                 </svg>`}
-          </div>
-          <div class="overlay-result-info">
-            <span class="overlay-result-name">${item.name}</span>
-            ${item.formula ? `<span class="overlay-result-formula">${item.formula}</span>` : ''}
-          </div>
-        </a>
-      `).join('');
+                 </svg>
+               </div>`;
+
+          return `<a href="/cristale/${escapeHtml(item.slug)}" class="az-card">
+                    <div class="az-card-img">${media}</div>
+                    <div class="az-card-body">
+                      <span class="az-card-name">${escapeHtml(item.name)}</span>
+                    </div>
+                  </a>`;
+        })
+        .join('');
     }
 
-    input.addEventListener('input', (e) => {
-      const q = e.target.value.toLowerCase().trim();
-      if (!q) {
+    input.addEventListener('input', (event) => {
+      const query = normalize(event.target.value);
+
+      if (!query) {
         inner.innerHTML = '';
+        resultsPanel?.classList.remove('has-results');
         return;
       }
-      const filtered = crystalData.filter(c =>
-        c.name.toLowerCase().includes(q) ||
-        c.formula.toLowerCase().includes(q)
+
+      const filtered = crystalData.filter(
+        (item) => normalize(item.name).includes(query) || normalize(item.formula).includes(query),
       );
+
       renderResults(filtered);
     });
 
-    closeBtn.addEventListener('click', close);
-    overlay.querySelector('[data-search-overlay-backdrop]')?.addEventListener('click', close);
+    closeBtn?.addEventListener('click', close);
+    backdrop?.addEventListener('click', close);
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !overlay.hidden) close();
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !overlay.hidden) {
+        close();
+        return;
+      }
+
+      const isTyping =
+        document.activeElement?.tagName === 'INPUT' ||
+        document.activeElement?.tagName === 'TEXTAREA' ||
+        document.activeElement?.isContentEditable;
+
+      if (
+        !isTyping &&
+        (event.key === '/' || ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k'))
+      ) {
+        event.preventDefault();
+        open();
+      }
     });
 
-    // Listen for open event
     document.addEventListener('crystalica:open-search', open);
 
-    // Keyboard shortcut: "/" to open search
-    document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && !overlay && document.activeElement?.tagName !== 'INPUT') {
-        e.preventDefault();
-        open();
-      }
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === '/' && !overlay.hidden) return;
-      if (e.key === '/' && overlay.hidden && document.activeElement?.tagName !== 'INPUT') {
-        e.preventDefault();
-        open();
-      }
-    });
+    // Expose so header triggers work regardless of script order.
+    window.__crystalicaOpenSearch = open;
   })();
 </script>
 
@@ -144,7 +180,7 @@ const crystalData = sorted.map(c => ({
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: clamp(80px, 12vh, 140px);
+    padding: clamp(72px, 10vh, 120px) var(--space-4) var(--space-6);
   }
 
   .search-overlay[hidden] {
@@ -157,7 +193,7 @@ const crystalData = sorted.map(c => ({
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.2s ease;
   }
 
   .search-overlay.open .search-overlay-backdrop {
@@ -167,15 +203,17 @@ const crystalData = sorted.map(c => ({
   .search-overlay-container {
     position: relative;
     width: 100%;
-    max-width: 720px;
-    max-height: calc(100vh - 120px);
+    max-width: 1040px;
+    max-height: 100%;
     display: flex;
     flex-direction: column;
     z-index: 1;
   }
 
   .search-overlay-header {
-    margin-bottom: var(--space-4);
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto var(--space-4);
   }
 
   .search-overlay-input-wrap {
@@ -186,6 +224,7 @@ const crystalData = sorted.map(c => ({
     border: 2px solid var(--color-border-strong);
     border-radius: var(--radius-xl);
     padding: var(--space-3) var(--space-4);
+    box-shadow: var(--shadow-xl);
     transition: border-color var(--transition-fast);
   }
 
@@ -233,73 +272,41 @@ const crystalData = sorted.map(c => ({
   }
 
   .search-overlay-results {
-    background: var(--color-bg-elevated);
+    overflow-y: auto;
+    min-height: 0;
+  }
+
+  /* White panel appears only while there are results */
+  .search-overlay-results.has-results {
+    padding: var(--space-4);
+    background: #fff;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
-    overflow-y: auto;
-    max-height: calc(100% - 100px);
   }
 
-  .search-overlay-results-inner {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .overlay-result-item {
-    display: flex;
-    align-items: center;
+  .search-overlay-results .az-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: var(--space-4);
-    padding: var(--space-4) var(--space-5);
-    text-decoration: none;
-    color: var(--color-text);
-    border-bottom: 1px solid var(--color-border);
-    transition: background var(--transition-fast);
   }
 
-  .overlay-result-item:last-child {
-    border-bottom: none;
+  /* Keep the /cristale card look readable on the white panel */
+  .search-overlay-results .az-card {
+    background: #fff;
   }
 
-  .overlay-result-item:hover {
-    background: var(--color-bg-hover);
-  }
+  @media (max-width: 639px) {
+    .search-overlay-results.has-results {
+      padding: var(--space-3);
+    }
 
-  .overlay-result-img {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    flex-shrink: 0;
-    background: var(--color-zinc-100);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-muted);
-  }
+    .search-overlay-results .az-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
 
-  .overlay-result-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .overlay-result-info {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .overlay-result-name {
-    display: block;
-    font-size: var(--text-lg);
-    font-weight: 500;
-    color: var(--color-text);
-  }
-
-  .overlay-result-formula {
-    display: block;
-    font-size: var(--text-sm);
-    color: var(--color-text-muted);
-    margin-top: 2px;
+    .search-overlay-input {
+      font-size: var(--text-lg);
+    }
   }
 </style>

@@ -1,8 +1,7 @@
 ---
 // Header.astro - Two-navbar layout inspired by Fragrantica
-// Primary nav: always visible (logo, Cristale link, search/profile icons)
+// Primary nav: always visible (logo, Cristale link, search/profile)
 // Secondary nav: scroll-aware (large search bar, auth controls)
-import AuthControls from '../auth/AuthControls.astro';
 ---
 
 <!-- Primary navbar (thin, always visible) -->
@@ -32,18 +31,15 @@ import AuthControls from '../auth/AuthControls.astro';
         </svg>
       </button>
 
-      <!-- Profile icon (desktop) -->
-      <div class="profile-icon-wrap" data-profile-icon hidden>
-        <AuthControls variant="icon" />
-      </div>
-
-      <!-- Mobile menu toggle -->
-      <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu" aria-label="Deschide meniul">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
+      <!-- Profile / account button (guest → sign-in modal, signed in → portfolio) -->
+      <button type="button" class="profile-menu-btn" data-profile-trigger aria-label="Conectare">
+        <span class="profile-menu-guest" data-profile-guest aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </span>
+        <img class="profile-menu-avatar" data-profile-avatar alt="" hidden />
       </button>
     </div>
   </div>
@@ -60,29 +56,17 @@ import AuthControls from '../auth/AuthControls.astro';
       <input type="text" class="secondary-search-input" placeholder="Caută cristale..." aria-label="Caută cristale" data-secondary-search-input readonly />
     </div>
 
-    <!-- Auth controls (desktop) -->
-    <div class="header-secondary-auth" data-secondary-auth>
-      <!-- Will be populated by JS -->
-    </div>
-  </div>
-</div>
-
-<!-- Mobile menu -->
-<div id="mobile-menu" class="mobile-menu">
-  <div class="mobile-menu-inner">
-    <a href="/cristale" class="mobile-nav-link">
-      <svg width="18" height="18" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M16 2L22 8v16L16 30L10 24V8L16 2Z"/><path d="M16 8V24"/><path d="M10 16H22"/></svg>
-      Cristale
-    </a>
-    <div class="mobile-menu-auth" data-mobile-auth></div>
+    <!-- Auth controls, right aligned -->
+    <div class="header-secondary-auth" data-secondary-auth></div>
   </div>
 </div>
 
 <script is:inline>
   // ===== Scroll-aware secondary navbar =====
   (function initScrollNav() {
-    const primary = document.querySelector('[data-header-primary]');
     const secondary = document.querySelector('[data-header-secondary]');
+    if (!secondary) return;
+
     let lastScroll = 0;
     let ticking = false;
 
@@ -91,15 +75,14 @@ import AuthControls from '../auth/AuthControls.astro';
       const offset = 60; // Height of primary nav
 
       if (current < offset) {
-        // At top: show secondary
         secondary.hidden = false;
         secondary.classList.add('visible');
       } else if (current > lastScroll) {
-        // Scrolling down: hide secondary
         secondary.classList.remove('visible');
-        setTimeout(() => { if (!secondary.classList.contains('visible')) secondary.hidden = true; }, 300);
+        setTimeout(() => {
+          if (!secondary.classList.contains('visible')) secondary.hidden = true;
+        }, 300);
       } else {
-        // Scrolling up: show secondary
         secondary.hidden = false;
         secondary.classList.add('visible');
       }
@@ -114,107 +97,166 @@ import AuthControls from '../auth/AuthControls.astro';
       }
     });
 
-    // Initial state
     update();
   })();
 
-  // ===== Secondary search click → open overlay =====
-  document.querySelector('[data-secondary-search]')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('crystalica:open-search'));
-  });
-  document.querySelector('[data-search-trigger]')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('crystalica:open-search'));
-  });
-  document.querySelector('[data-secondary-search-input]')?.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('crystalica:open-search'));
-  });
-
-  // ===== Profile icon behavior =====
-  (function initProfileIcon() {
-    const wrap = document.querySelector('[data-profile-icon]');
-    const btn = document.querySelector('[data-profile-trigger]');
-    if (!wrap || !btn) return;
-
-    function updateVisibility() {
-      const clerk = window.__crystalicaClerk;
-      if (!clerk) return;
-      const loggedIn = Boolean(clerk.user);
-      wrap.hidden = !loggedIn;
-      if (loggedIn) {
-        btn.addEventListener('click', () => {
-          window.location.href = '/portofoliu';
-        });
+  // ===== Search triggers → open overlay =====
+  (function initSearchTriggers() {
+    function openSearch() {
+      if (typeof window.__crystalicaOpenSearch === 'function') {
+        window.__crystalicaOpenSearch();
+        return;
       }
+      document.dispatchEvent(new CustomEvent('crystalica:open-search'));
     }
 
-    window.__crystalicaClerkReady?.then(updateVisibility);
-    window.__crystalicaClerk?.addListener(updateVisibility);
+    document.querySelectorAll('[data-search-trigger], [data-secondary-search]').forEach((el) => {
+      el.addEventListener('click', (event) => {
+        event.preventDefault();
+        openSearch();
+      });
+    });
   })();
 
-  // ===== Mobile menu =====
-  const menuBtn = document.querySelector('.menu-toggle');
-  const mobileMenu = document.getElementById('mobile-menu');
-  if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener('click', () => {
-      const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-      menuBtn.setAttribute('aria-expanded', String(!expanded));
-      mobileMenu.classList.toggle('open');
-    });
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-        menuBtn.setAttribute('aria-expanded', 'false');
-        mobileMenu.classList.remove('open');
+  // ===== Profile button + secondary auth =====
+  (function initAccountControls() {
+    const profileBtn = document.querySelector('[data-profile-trigger]');
+    const avatar = document.querySelector('[data-profile-avatar]');
+    const guestIcon = document.querySelector('[data-profile-guest]');
+    const secondaryAuth = document.querySelector('[data-secondary-auth]');
+    if (!profileBtn) return;
+
+    function displayName(user) {
+      return (
+        user.fullName ||
+        user.firstName ||
+        user.emailAddresses?.[0]?.emailAddress?.split('@')[0] ||
+        'Utilizator'
+      );
+    }
+
+    // Clerk can throw synchronously if the UI bundle is still attaching.
+    function openModal(clerk, kind) {
+      const method = kind === 'signUp' ? 'openSignUp' : 'openSignIn';
+      try {
+        clerk[method]();
+      } catch (error) {
+        const message = error?.message || '';
+        if (message.includes('Ui components') || message.includes('UI components')) {
+          requestAnimationFrame(() => {
+            try {
+              clerk[method]();
+            } catch (retryError) {
+              console.error('[Crystalica] Failed to open auth modal:', retryError);
+            }
+          });
+          return;
+        }
+        console.error('[Crystalica] Failed to open auth modal:', error);
+      }
+    }
+
+    function renderProfile(clerk) {
+      const user = clerk.user;
+
+      if (user) {
+        if (user.imageUrl && avatar) {
+          avatar.src = user.imageUrl;
+          avatar.hidden = false;
+        } else if (avatar) {
+          avatar.hidden = true;
+        }
+        if (guestIcon) guestIcon.hidden = true;
+        profileBtn.setAttribute('aria-label', 'Portofoliul meu');
+      } else {
+        if (avatar) {
+          avatar.hidden = true;
+          avatar.removeAttribute('src');
+        }
+        if (guestIcon) guestIcon.hidden = false;
+        profileBtn.setAttribute('aria-label', 'Conectare');
+      }
+    }
+
+    function renderSecondaryAuth(clerk) {
+      if (!secondaryAuth) return;
+
+      const user = clerk.user;
+      secondaryAuth.replaceChildren();
+
+      if (user) {
+        const name = document.createElement('button');
+        name.type = 'button';
+        name.className = 'secondary-user-name';
+        name.textContent = displayName(user);
+        name.addEventListener('click', () => {
+          window.location.href = '/portofoliu';
+        });
+
+        const logout = document.createElement('button');
+        logout.type = 'button';
+        logout.className = 'secondary-logout-btn';
+        logout.textContent = 'Deconectare';
+        logout.addEventListener('click', () => {
+          clerk.signOut().catch(console.error);
+        });
+
+        secondaryAuth.append(name, logout);
+      } else {
+        const signIn = document.createElement('button');
+        signIn.type = 'button';
+        signIn.className = 'secondary-auth-btn secondary-auth-signin';
+        signIn.textContent = 'Conectare';
+        signIn.addEventListener('click', () => openModal(clerk, 'signIn'));
+
+        const signUp = document.createElement('button');
+        signUp.type = 'button';
+        signUp.className = 'secondary-auth-btn secondary-auth-signup';
+        signUp.textContent = 'Cont nou';
+        signUp.addEventListener('click', () => openModal(clerk, 'signUp'));
+
+        secondaryAuth.append(signIn, signUp);
+      }
+    }
+
+    function whenClerkReady(callback) {
+      let done = false;
+      const tryRun = () => {
+        const clerk = window.__crystalicaClerk;
+        if (!clerk || window.__crystalicaClerkStatus !== 'ready') return false;
+        done = true;
+        callback(clerk);
+        return true;
+      };
+
+      if (tryRun()) return;
+
+      const interval = setInterval(() => {
+        if (tryRun()) clearInterval(interval);
+      }, 100);
+
+      setTimeout(() => clearInterval(interval), 20000);
+    }
+
+    profileBtn.addEventListener('click', () => {
+      const clerk = window.__crystalicaClerk;
+      if (!clerk) return;
+
+      if (clerk.user) {
+        window.location.href = '/portofoliu';
+      } else {
+        openModal(clerk, 'signIn');
       }
     });
-  }
 
-  // ===== Populate secondary auth area =====
-  function populateSecondaryAuth() {
-    const container = document.querySelector('[data-secondary-auth]');
-    if (!container) return;
-    const clerk = window.__crystalicaClerk;
-    if (!clerk) return;
+    whenClerkReady((clerk) => {
+      renderProfile(clerk);
+      renderSecondaryAuth(clerk);
 
-    const user = clerk.user;
-    container.innerHTML = '';
-
-    if (user) {
-      const name = user.fullName || user.firstName || user.emailAddresses?.[0]?.emailAddress?.split('@')[0] || 'Utilizator';
-      const userNameEl = document.createElement('span');
-      userNameEl.className = 'secondary-user-name';
-      userNameEl.textContent = name;
-      userNameEl.addEventListener('click', () => { window.location.href = '/portofoliu'; });
-      userNameEl.style.cursor = 'pointer';
-      container.appendChild(userNameEl);
-
-      const logoutBtn = document.createElement('button');
-      logoutBtn.type = 'button';
-      logoutBtn.className = 'secondary-logout-btn';
-      logoutBtn.textContent = 'Deconectare';
-      logoutBtn.addEventListener('click', () => {
-        clerk.signOut().catch(console.error);
+      clerk.addListener(() => {
+        renderProfile(clerk);
+        renderSecondaryAuth(clerk);
       });
-      container.appendChild(logoutBtn);
-    } else {
-      const signInBtn = document.createElement('button');
-      signInBtn.type = 'button';
-      signInBtn.className = 'secondary-auth-btn secondary-auth-signin';
-      signInBtn.textContent = 'Conectare';
-      signInBtn.addEventListener('click', () => clerk.openSignIn());
-
-      const signUpBtn = document.createElement('button');
-      signUpBtn.type = 'button';
-      signUpBtn.className = 'secondary-auth-btn secondary-auth-signup';
-      signUpBtn.textContent = 'Cont nou';
-      signUpBtn.addEventListener('click', () => clerk.openSignUp());
-
-      container.appendChild(signInBtn);
-      container.appendChild(signUpBtn);
-    }
-  }
-
-  // Populate after Clerk loads
-  window.__crystalicaClerkReady?.then(populateSecondaryAuth);
-  window.__crystalicaClerk?.addListener(populateSecondaryAuth);
-  setTimeout(populateSecondaryAuth, 3000);
+    });
+  })();
 </script>

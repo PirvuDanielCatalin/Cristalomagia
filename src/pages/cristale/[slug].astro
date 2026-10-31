@@ -58,7 +58,7 @@ const ogImage = data.image || '/images/og-default.jpg';
       <!-- Main layout: 1/3 image left, 2/3 text right -->
       <div class="crystal-main">
         <!-- Left: Image panel -->
-        <div class="crystal-image-panel">
+        <div class="crystal-image-panel" data-state="none">
           {data.image ? (
             <img src={data.image} alt={data.name} class="crystal-image" loading="eager" />
           ) : (

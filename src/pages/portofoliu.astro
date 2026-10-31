@@ -176,10 +176,13 @@ const crystalIndex = sorted.map((crystal) => ({
            </svg>
          </div>`;
 
+    // Always two actions, based on the crystal's current state:
+    // portfolio → move to wishlist + remove
+    // wishlist → move to portfolio + remove
     const moveButton =
       state === 'w'
-        ? `<button type="button" class="portfolio-action portfolio-action-move" data-portfolio-move="${escapeHtml(item.slug)}">Mută în portofoliu</button>`
-        : '';
+        ? `<button type="button" class="portfolio-action portfolio-action-move" data-portfolio-move="${escapeHtml(item.slug)}" data-next="p">Mută în portofoliu</button>`
+        : `<button type="button" class="portfolio-action portfolio-action-move portfolio-action-move-w" data-portfolio-move="${escapeHtml(item.slug)}" data-next="w">Mută în lista de dorințe</button>`;
 
     return `<article class="portfolio-item" data-state="${state === 'p' ? 'portfolio' : 'wishlist'}">
       <a href="/cristale/${escapeHtml(item.slug)}" class="portfolio-item-link">
@@ -244,13 +247,16 @@ const crystalIndex = sorted.map((crystal) => ({
     const slug = button.dataset.portfolioMove || button.dataset.portfolioRemove;
     if (!slug) return;
 
+    const next = button.dataset.next;
+    if (!button.dataset.portfolioRemove && next !== 'p' && next !== 'w') return;
+
     const previous = collections;
     const nextCollections: CollectionsMap = { ...collections };
 
     if (button.dataset.portfolioRemove) {
       delete nextCollections[slug];
     } else {
-      nextCollections[slug] = 'p';
+      nextCollections[slug] = next as CollectionState;
     }
 
     collections = nextCollections;

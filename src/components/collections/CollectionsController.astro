@@ -19,7 +19,9 @@
     const slug = panel.dataset.slug || '';
     const state = collections[slug] as CollectionState | undefined;
     const isDetail = panel.dataset.variant === 'detail';
+    const stateKey = state === 'p' ? 'portfolio' : state === 'w' ? 'wishlist' : 'none';
 
+    // Button visibility + labels depend on the current collection state.
     const portfolioBtn = panel.querySelector<HTMLButtonElement>(
       '[data-collection-action][data-next="p"]',
     );
@@ -33,61 +35,46 @@
     const portfolioLabel = panel.querySelector<HTMLElement>('[data-label-p]');
     const wishlistLabel = panel.querySelector<HTMLElement>('[data-label-w]');
     const removeLabel = panel.querySelector<HTMLElement>('[data-label-remove]');
-    const status = panel.querySelector<HTMLElement>('[data-collection-status]');
     const error = panel.querySelector<HTMLElement>('[data-collection-error]');
+
+    panel.dataset.state = stateKey;
+
+    if (isDetail) {
+      const imagePanel = panel.closest<HTMLElement>('.crystal-image-panel');
+      if (imagePanel) imagePanel.dataset.state = stateKey;
+    }
 
     panel.hidden = !signedIn;
     if (!signedIn) return;
 
+    // Exactly two actions per state:
+    // none → add to portfolio + add to wishlist
+    // portfolio → move to wishlist + remove
+    // wishlist → move to portfolio + remove
     if (portfolioBtn) portfolioBtn.hidden = state === 'p';
     if (wishlistBtn) wishlistBtn.hidden = state === 'w';
     if (removeBtn) removeBtn.hidden = !state;
 
     if (portfolioLabel) {
       portfolioLabel.textContent =
-        state === 'w'
-          ? 'Mută în lista de dorințe'
-          : 'Adaugă în portofoliu';
+        state === 'w' ? 'Mută în portofoliu' : 'Adaugă în portofoliu';
     }
 
     if (wishlistLabel) {
       wishlistLabel.textContent =
-        state === 'p'
-          ? 'Mută în portofoliu'
-          : 'Adaugă în lista de dorințe';
+        state === 'p' ? 'Mută în lista de dorințe' : 'Adaugă în lista de dorințe';
     }
 
     if (removeLabel) {
       removeLabel.textContent =
         state === 'p'
-          ? 'Elimina din portofoliu'
+          ? 'Elimină din portofoliu'
           : state === 'w'
-            ? 'Elimina din lista de dorințe'
-            : 'Elimina';
-    }
-
-    if (status) {
-      status.hidden = !isDetail;
-      status.dataset.state = state ?? 'none';
-      status.textContent =
-        state === 'p'
-          ? 'În portofoliu'
-          : state === 'w'
-            ? 'În lista de dorințe'
-            : 'Nu este în colecțiile tale';
+            ? 'Elimină din lista de dorințe'
+            : 'Elimină';
     }
 
     if (error) error.hidden = true;
-  }
-
-  // Update image panel border state (detail page)
-  function updateImagePanel(slug: string, state: CollectionState | undefined) {
-    const imagePanel = document.querySelector<HTMLElement>(
-      `[data-collection-actions][data-slug="${CSS.escape(slug)}"][data-variant="detail"]`
-    )?.closest('.crystal-image-panel');
-    if (imagePanel) {
-      imagePanel.dataset.state = state === 'p' ? 'portfolio' : state === 'w' ? 'wishlist' : 'none';
-    }
   }
 
   function render() {
@@ -114,11 +101,6 @@
   function syncFromUser() {
     const clerk = window.__crystalicaClerk;
     collections = readCollections(clerk?.user);
-    
-    // Sync initial image panel states
-    Object.entries(collections).forEach(([slug, state]) => {
-      updateImagePanel(slug, state);
-    });
   }
 
   async function handleAction(button: HTMLButtonElement) {
@@ -141,7 +123,6 @@
 
     collections = nextCollections;
     render();
-    if (slug) updateImagePanel(slug, next);
 
     try {
       await saveCollections(user, nextCollections);
